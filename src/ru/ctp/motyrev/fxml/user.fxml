@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="364.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ctp.motyrev.controllers.UserController">
+   <children>
+      <TextField fx:id="txtTabel" layoutX="107.0" layoutY="14.0" prefHeight="25.0" prefWidth="90.0" promptText="XXXX" />
+      <TextField fx:id="txtSurname" layoutX="107.0" layoutY="55.0" prefHeight="25.0" prefWidth="172.0" />
+      <TextField fx:id="txtName" layoutX="107.0" layoutY="93.0" prefHeight="25.0" prefWidth="172.0" />
+      <TextField fx:id="txtMidname" layoutX="107.0" layoutY="132.0" prefHeight="25.0" prefWidth="172.0" />
+      <TextField fx:id="txtTel" layoutX="384.0" layoutY="55.0" prefHeight="25.0" prefWidth="172.0" />
+      <TextField fx:id="txtAdress" layoutX="383.0" layoutY="93.0" prefHeight="25.0" prefWidth="172.0" />
+      <TextField fx:id="txtEmail" layoutX="383.0" layoutY="132.0" prefHeight="25.0" prefWidth="172.0" />
+      <Label layoutX="17.0" layoutY="58.0" text="Фамилия" textFill="RED" />
+      <Label layoutX="18.0" layoutY="96.0" text="Имя" />
+      <Label layoutX="18.0" layoutY="135.0" text="Отчество" />
+      <Label layoutX="17.0" layoutY="18.0" text="Таб. номер" textFill="RED" />
+      <Separator layoutX="20.0" layoutY="172.0" prefHeight="3.0" prefWidth="536.0" />
+      <Label layoutX="313.0" layoutY="58.0" text="Телефон" />
+      <Label layoutX="312.0" layoutY="97.0" text="Адрес" />
+      <Label layoutX="312.0" layoutY="136.0" text="Email" />
+      <Button fx:id="btnSave" layoutX="131.0" layoutY="325.0" mnemonicParsing="false" onAction="#saveData" prefHeight="25.0" prefWidth="124.0" text="Сохранить" />
+      <Button fx:id="btnCancel" layoutX="337.0" layoutY="325.0" mnemonicParsing="false" onAction="#actionClose" prefHeight="25.0" prefWidth="124.0" text="Отмена" />
+      <ComboBox fx:id="roleBox" layoutX="383.0" layoutY="224.0" prefHeight="25.0" prefWidth="172.0" />
+      <Label layoutX="314.0" layoutY="228.0" text="Роль" textFill="RED" />
+      <Separator layoutX="20.0" layoutY="304.0" prefHeight="3.0" prefWidth="536.0" />
+      <TextField fx:id="txtLogin" layoutX="107.0" layoutY="187.0" prefHeight="25.0" prefWidth="172.0" />
+      <TextField fx:id="txtPassword" layoutX="383.0" layoutY="187.0" prefHeight="25.0" prefWidth="172.0" />
+      <Label layoutX="20.0" layoutY="191.0" text="Login" textAlignment="RIGHT" textFill="RED" />
+      <Label layoutX="313.0" layoutY="191.0" text="Password" textAlignment="RIGHT" textFill="RED" />
+      <Label layoutX="19.0" layoutY="228.0" text="Площадка" textAlignment="RIGHT" textFill="RED" />
+      <ComboBox fx:id="siteBox" layoutX="107.0" layoutY="224.0" prefHeight="25.0" prefWidth="172.0" />
+      <ComboBox fx:id="statusBox" layoutX="383.0" layoutY="261.0" prefHeight="25.0" prefWidth="172.0" />
+      <Label layoutX="316.0" layoutY="265.0" text="Статус" textFill="RED" />
+   </children>
+</AnchorPane>

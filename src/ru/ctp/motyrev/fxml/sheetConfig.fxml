@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.controlsfx.glyphfont.*?>
+<?import org.controlsfx.control.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="600.0" minWidth="1200.0" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ctp.motyrev.controllers.SheetController">
+   <children>
+      <TableView fx:id="worksView" layoutX="30.0" layoutY="27.0" prefHeight="540.0" prefWidth="1010.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="30.0" />
+      <Button fx:id="btnClose" layoutX="1077.0" layoutY="171.0" mnemonicParsing="false" onAction="#actionClose" prefHeight="25.0" prefWidth="122.0" text="Закрыть" AnchorPane.rightAnchor="19.0" />
+      <Label fx:id="lblSn" layoutX="30.0" layoutY="6.0" />
+      <Button fx:id="btnApprove" layoutX="1077.0" layoutY="30.0" mnemonicParsing="false" onAction="#actionSave" prefHeight="25.0" prefWidth="122.0" text="Принять лист" AnchorPane.rightAnchor="19.0" />
+      <Button fx:id="btnDecline" layoutX="1077.0" layoutY="65.0" mnemonicParsing="false" onAction="#actionDecline" prefHeight="25.0" prefWidth="122.0" text="Отклонить лист" AnchorPane.rightAnchor="19.0" />
+      <Button fx:id="btnValidate" layoutX="1059.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Валидировать лист" AnchorPane.rightAnchor="19.0" />
+      <Button fx:id="btnCreateWork" disable="true" layoutX="1077.0" layoutY="135.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="Создать работу" AnchorPane.rightAnchor="19.0" />
+   </children>
+</AnchorPane>

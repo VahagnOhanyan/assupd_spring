@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="file://C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib" />
+      <root url="file://C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/ooxml-lib" />
+      <root url="jar://C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-3.17.jar!/" />
+      <root url="jar://C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-ooxml-3.17.jar!/" />
+      <root url="jar://C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-ooxml-schemas-3.17.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib" recursive="false" />
+    <jarDirectory url="file://C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/ooxml-lib" recursive="false" />
+  </library>
+</component>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.controlsfx.control.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="136.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ctp.motyrev.controllers.PeriodReportController">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Заказчик" textFill="RED" />
+      <Label layoutX="14.0" layoutY="45.0" text="Контракт" textFill="RED" />
+      <ToggleSwitch fx:id="periodSwitch" disable="true" layoutX="81.0" layoutY="105.0" text="квартал" />
+      <ComboBox fx:id="customerBox" layoutX="81.0" layoutY="10.0" prefHeight="25.0" prefWidth="209.0" />
+      <ComboBox fx:id="contractBox" disable="true" layoutX="81.0" layoutY="41.0" prefHeight="25.0" prefWidth="209.0" />
+      <ComboBox fx:id="periodBox" disable="true" layoutX="186.0" layoutY="102.0" prefHeight="25.0" prefWidth="105.0" />
+      <Button fx:id="btnGenerate" disable="true" layoutX="306.0" layoutY="24.0" mnemonicParsing="false" onAction="#generatePeriodReport2" prefHeight="25.0" prefWidth="95.0" text="Генерировать" />
+      <Button fx:id="btnCanc" layoutX="306.0" layoutY="59.0" mnemonicParsing="false" onAction="#actionClose" prefHeight="25.0" prefWidth="95.0" text="Отмена" />
+      <ToggleSwitch fx:id="reportSwitch" layoutX="14.0" layoutY="75.0" text="Период/Состояние на момент времени" />
+   </children>
+</AnchorPane>

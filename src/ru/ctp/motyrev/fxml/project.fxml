@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="178.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ctp.motyrev.controllers.ProjectController">
+   <children>
+      <TextField fx:id="txtProject" disable="true" layoutX="147.0" layoutY="87.0" prefHeight="25.0" prefWidth="259.0" promptText="впишите название" />
+      <ComboBox fx:id="contractBox" disable="true" layoutX="147.0" layoutY="50.0" prefHeight="25.0" prefWidth="259.0" promptText="выберите контракт" />
+      <Label layoutX="15.0" layoutY="92.0" text="Название проекта" textFill="RED" />
+      <ComboBox fx:id="customerBox" layoutX="147.0" layoutY="13.0" prefHeight="25.0" prefWidth="259.0" promptText="выберите заказчика" />
+      <Label layoutX="16.0" layoutY="18.0" text="Заказчик" textFill="RED" />
+      <Button fx:id="btnSave" disable="true" layoutX="96.0" layoutY="125.0" mnemonicParsing="false" onAction="#saveData" prefHeight="25.0" prefWidth="101.0" text="Сохранить" AnchorPane.bottomAnchor="14.0" />
+      <Button layoutX="219.0" layoutY="125.0" mnemonicParsing="false" onAction="#actionClose" prefHeight="25.0" prefWidth="101.0" text="Отмена" AnchorPane.bottomAnchor="14.0" />
+      <Label layoutX="16.0" layoutY="55.0" text="Контракт" textFill="RED" />
+   </children>
+</AnchorPane>
