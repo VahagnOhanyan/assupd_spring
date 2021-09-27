@@ -30,7 +30,7 @@ public class Main extends Application {
         Parent fxmlMain = fxmlLoader.load();
         MainController mainController = fxmlLoader.getController();
         mainController.setMainStage(primaryStage);
-        primaryStage.setTitle("АСУ ПД v 1.0.2");
+        primaryStage.setTitle("АСУ ПД v 1.0.4");
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(800);
         primaryStage.setScene(new Scene(fxmlMain, 1024, 768));

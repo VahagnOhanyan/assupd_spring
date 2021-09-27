@@ -366,7 +366,7 @@ public class TimeSheetController {
         });
 
         monthBox.getItems().addAll("Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь");
-        yearBox.getItems().addAll("2018", "2019", "2020", "2021");
+        yearBox.getItems().addAll("2018", "2019", "2020", "2021", "2022");
 
     }
 
@@ -1553,7 +1553,7 @@ public class TimeSheetController {
 
             System.out.println("База открыта: " + sdf3.format(new Date()));
 
-            dBconnection.query("SELECT * " +
+            /*dBconnection.query("SELECT * " +
                     "FROM crosstab(" +
                     "'SELECT s.stage_id, t.task_number, st.stage_type_name, stn.stage_note_text, dw.day_num, dw.daily_intensity FROM " +
                     "public.stage s " +
@@ -1567,6 +1567,26 @@ public class TimeSheetController {
                     "AND (stn.stage_note_id = (SELECT max(stage_note_id) FROM public.stage_note stgn WHERE stgn.user_id = u.user_id AND stgn.stage_id = s.stage_id AND stgn.stage_note_date >= ''" + sdf2.format(date.getTime()) + "-01" +"'' AND stgn.stage_note_date <= ''" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + " 23:59:59" +"'') " +
                     "OR NOT EXISTS (SELECT stage_note_id FROM public.stage_note stgn WHERE stgn.stage_note_date >= ''" + sdf2.format(date.getTime()) + "-01" +"'' AND stgn.stage_note_date <= ''" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + " 23:59:59" +"'' " +
                     "AND stgn.stage_id = s.stage_id AND stgn.user_id = u.user_id)) " +
+                    "ORDER BY t.task_number, s.stage_id', " +
+                    "'SELECT d from generate_series(1,31) d') " +
+                    "AS (stage_id integer, task_number text, stage_type_name text, stage_note text, day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +
+                    "day6 numeric, day7 numeric, day8 numeric, day9 numeric, day10 numeric, " +
+                    "day11 numeric, day12 numeric, day13 numeric, day14 numeric, day15 numeric, " +
+                    "day16 numeric, day17 numeric, day18 numeric, day19 numeric, day20 numeric, " +
+                    "day21 numeric, day22 numeric, day23 numeric, day24 numeric, day25 numeric, " +
+                    "day26 numeric, day27 numeric, day28 numeric, day29 numeric, day30 numeric, day31 numeric)");*/
+
+            dBconnection.query("SELECT * " +
+                    "FROM crosstab(" +
+                    "'SELECT s.stage_id, t.task_number, st.stage_type_name, ''Загр. врем. отключена'', dw.day_num, dw.daily_intensity FROM " +
+                    "public.stage s " +
+                    "join public.task t on t.task_id = s.task_id " +
+                    "join public.stage_type st on st.stage_type_id = s.stage_type_id " +
+                    "join public.stage_daily sd on sd.stage_id = s.stage_id " +
+                    "join public.daily_work dw on dw.daily_work_id = sd.daily_work_id " +
+                    "join public.user u on u.user_id = dw.user_id " +
+                    "left join public.stage_note stn on stn.stage_id = s.stage_id " +
+                    "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + "'' AND u.user_id_number = ''"+ user.substring(1, user.indexOf(",")) +"'' " +
                     "ORDER BY t.task_number, s.stage_id', " +
                     "'SELECT d from generate_series(1,31) d') " +
                     "AS (stage_id integer, task_number text, stage_type_name text, stage_note text, day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +
@@ -1602,7 +1622,7 @@ public class TimeSheetController {
 
             System.out.println("Запрос к базе по пользовательским задачам: " + sdf3.format(new Date()));
 
-            dBconnection.query("SELECT * " +
+            /*dBconnection.query("SELECT * " +
                     "FROM crosstab(" +
                     "'SELECT us.user_stage_id, ''Не проектная'', ust.user_stage_type_name, us.user_stage_note, dw.day_num, dw.daily_intensity FROM " +
                     "public.user_stage us " +
@@ -1616,6 +1636,25 @@ public class TimeSheetController {
                     "AND stgn.user_stage_id = us.user_stage_id AND stgn.user_id = u.user_id) " +
                     "OR NOT EXISTS (SELECT user_stage_note_id FROM public.user_stage_note stgn WHERE stgn.user_stage_note_date <= ''" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + " 23:59:59" +"'' " +
                     "AND stgn.user_stage_id = us.user_stage_id AND stgn.user_id = u.user_id)) " +
+                    "ORDER BY us.user_stage_id', " +
+                    "'SELECT d from generate_series(1,31) d') " +
+                    "AS (user_stage_id integer, user_task text, stage_type_name text, stage_note text, day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +
+                    "day6 numeric, day7 numeric, day8 numeric, day9 numeric, day10 numeric, " +
+                    "day11 numeric, day12 numeric, day13 numeric, day14 numeric, day15 numeric, " +
+                    "day16 numeric, day17 numeric, day18 numeric, day19 numeric, day20 numeric, " +
+                    "day21 numeric, day22 numeric, day23 numeric, day24 numeric, day25 numeric, " +
+                    "day26 numeric, day27 numeric, day28 numeric, day29 numeric, day30 numeric, day31 numeric)");*/
+
+            dBconnection.query("SELECT * " +
+                    "FROM crosstab(" +
+                    "'SELECT us.user_stage_id, ''Не проектная'', ust.user_stage_type_name, ''Загр. врем. отключена'', dw.day_num, dw.daily_intensity FROM " +
+                    "public.user_stage us " +
+                    "join public.user_stage_type ust on ust.user_stage_type_id = us.user_stage_type_id " +
+                    "join public.user_stage_daily usd on usd.user_stage_id = us.user_stage_id " +
+                    "join public.daily_work dw on dw.daily_work_id = usd.daily_work_id " +
+                    "join public.user u on u.user_id = dw.user_id " +
+                    "left join public.user_stage_note stn on stn.user_stage_id = us.user_stage_id " +
+                    "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + "'' AND u.user_id_number = ''"+ user.substring(1, user.indexOf(",")) +"'' " +
                     "ORDER BY us.user_stage_id', " +
                     "'SELECT d from generate_series(1,31) d') " +
                     "AS (user_stage_id integer, user_task text, stage_type_name text, stage_note text, day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +

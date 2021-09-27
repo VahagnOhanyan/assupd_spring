@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -26,6 +28,8 @@ public class CommentsController {
         @FXML
         private Label lblStage;
         @FXML
+        private Button copyButton;
+        @FXML
         private TableView commentsView;
 
         private String tableColName;
@@ -37,13 +41,36 @@ public class CommentsController {
         private Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         private Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
 
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+
         DBconnection dBconnection = new DBconnection();
+
+        String exemp = "";
 
         @FXML
         private void initialize() {
 
 
+        }
 
+        public void copyToClip () {
+
+            if (!commentsView.getSelectionModel().isEmpty()) {
+                for (int i = 0; i <= data.size() - 1; i++) {
+                    if (data.get(i) == commentsView.getSelectionModel().getSelectedItem()) {
+                        exemp = (String) data.get(i).get(1);
+                    }
+                }
+
+                content.putString(exemp);
+                clipboard.setContent(content);
+            } else {
+                infoAlert.setTitle("Не выбран комментарий");
+                infoAlert.setHeaderText(null);
+                infoAlert.setContentText("Выберите комментарий и повторите попытку");
+                infoAlert.showAndWait();
+            }
         }
 
         public void addData(String task, String stage, String user) {

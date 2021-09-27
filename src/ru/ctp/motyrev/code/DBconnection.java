@@ -35,8 +35,7 @@ public class DBconnection {
             dbName = props.getProperty("db_name");
 
             Class.forName("org.postgresql.Driver");
-//            c = DriverManager.getConnection("jdbc:postgresql://" + host +":" + port + "/" + dbName ,"postgres", "M6k4V@9$rXuih~!Fer");
-            c = DriverManager.getConnection("jdbc:postgresql://" + host +":" + port + "/" + dbName ,"postgres", "Nwc54321123");
+            c = DriverManager.getConnection("jdbc:postgresql://" + host +":" + port + "/" + dbName ,"postgres", "M6k4V@9$rXuih~!Fer");
             c.setAutoCommit(false);
             stmt = c.createStatement();
             serviceStmt = c.createStatement();

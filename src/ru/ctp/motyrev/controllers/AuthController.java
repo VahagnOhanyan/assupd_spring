@@ -124,13 +124,12 @@ public class AuthController {
             dbName = props.getProperty("db_name");
 
             Class.forName("org.postgresql.Driver");
-//            c = DriverManager.getConnection("jdbc:postgresql://" + host +":" + port + "/" + dbName ,"postgres", "M6k4V@9$rXuih~!Fer");
-            c = DriverManager.getConnection("jdbc:postgresql://" + host +":" + port + "/" + dbName ,"postgres", "Nwc54321123");
+            c = DriverManager.getConnection("jdbc:postgresql://" + host +":" + port + "/" + dbName ,"postgres", "M6k4V@9$rXuih~!Fer");
             c.setAutoCommit(false);
             PreparedStatement versionCheck = c.prepareStatement("SELECT system_build_version FROM public.system_build " +
                     "WHERE system_build_version = ?");
 
-            versionCheck.setString(1, "1.0.2");
+            versionCheck.setString(1, "1.0.4");
             ResultSet versionSet = versionCheck.executeQuery();
             if (versionSet.next()) {
                 PreparedStatement authCheck = c.prepareStatement("SELECT ur.user_role_name, u.user_fullname FROM public.user_role ur " +

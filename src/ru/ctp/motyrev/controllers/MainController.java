@@ -143,6 +143,7 @@ public class MainController {
     private Parent fxmlRequestView;
     private Parent fxmlSite;
     private Parent fxmlTaskView;
+    private Parent fxmlEffectivityReport;
     private FXMLLoader fxmlSheetLoader = new FXMLLoader();
     private FXMLLoader fxmlProjectLoader = new FXMLLoader();
     private FXMLLoader fxmlRequestLoader = new FXMLLoader();
@@ -162,6 +163,7 @@ public class MainController {
     private FXMLLoader fxmlRequestViewLoader = new FXMLLoader();
     private FXMLLoader fxmlSiteLoader = new FXMLLoader();
     private FXMLLoader fxmlTaskViewLoader = new FXMLLoader();
+    private FXMLLoader fxmlEffectivityReportLoader = new FXMLLoader();
     private SheetController sheetController;
     private ProjectController projectController;
     private RequestController requestController;
@@ -181,6 +183,7 @@ public class MainController {
     private RequestViewController requestViewController;
     private SiteController siteController;
     private TaskViewController taskViewController;
+    private EffectivityReportController effectivityReportController;
     private Stage sheetStage;
     private Stage projectStage;
     private Stage requestStage;
@@ -200,6 +203,7 @@ public class MainController {
     private Stage requestViewStage;
     private Stage siteStage;
     private Stage taskViewStage;
+    private Stage effectivityReportStage;
 
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
@@ -328,6 +332,10 @@ public class MainController {
             fxmlTaskViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/taskView.fxml"));
             fxmlTaskView = fxmlTaskViewLoader.load();
             taskViewController = fxmlTaskViewLoader.getController();
+
+            fxmlEffectivityReportLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/effectivityReport.fxml"));
+            fxmlEffectivityReport = fxmlEffectivityReportLoader.load();
+            effectivityReportController = fxmlEffectivityReportLoader.getController();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -898,6 +906,16 @@ public class MainController {
                 resourceReportController.addData();
                 resourceReportStage.showAndWait();
                 break;
+            case "menuEffyReport":
+                if (!role.equalsIgnoreCase("сотрудник")) {
+                    effectivityReportDetail();
+                } else {
+                    infoAlert.setTitle("Недостаточный уровень прав");
+                    infoAlert.setHeaderText(null);
+                    infoAlert.setContentText("Ваша роль в системе не позволяет просматривать выбранные данные.");
+                    infoAlert.showAndWait();
+                }
+                break;
             case "menuCustomer":
                 if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user")) {
                     customerStage();
@@ -975,7 +993,7 @@ public class MainController {
     public void actionMenuAbout (ActionEvent actionEvent) {
         infoAlert.setTitle("О программе");
         infoAlert.setHeaderText("АСУ ПД, 2018-2020 г.");
-        infoAlert.setContentText("v 1.0.2");
+        infoAlert.setContentText("v 1.0.4");
         infoAlert.showAndWait();
     }
 
@@ -1073,6 +1091,26 @@ public class MainController {
         customerController.setData(exemp);
         customerStage.showAndWait();
         updateTableView();
+    }
+
+    private void effectivityReportStage() {
+        if (effectivityReportStage == null) {
+            effectivityReportStage = new Stage();
+            effectivityReportStage.setScene(new Scene(fxmlEffectivityReport));
+            effectivityReportStage.setMinHeight(100);
+            effectivityReportStage.setMinWidth(200);
+            effectivityReportStage.setResizable(false);
+            effectivityReportStage.initModality(Modality.WINDOW_MODAL);
+            effectivityReportStage.initOwner(mainStage);
+        }
+    }
+
+    private void effectivityReportDetail() {
+        effectivityReportStage();
+
+        effectivityReportStage.setTitle("Отчет по эффективности");
+        effectivityReportController.addData();
+        effectivityReportStage.showAndWait();
     }
 
     private void siteStage() {
