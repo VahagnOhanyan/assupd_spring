@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import ru.ctp.motyrev.code.CurrentDateCell;
 import ru.ctp.motyrev.code.DBconnection;
 import ru.ctp.motyrev.code.EditCell;
 import ru.ctp.motyrev.code.WeekEndCell;
@@ -26,7 +27,6 @@ import java.io.*;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.*;
 
 import static javafx.scene.control.TableView.UNCONSTRAINED_RESIZE_POLICY;
@@ -88,11 +88,11 @@ public class TimeSheetController {
     private Integer work;
 
     private String taskColWidth = "";
-    private String stageColWidth= "";
-    private String commentColWidth= "";
-    private String procStartColWidth= "";
-    private String dayColWidth= "";
-    private String procEndColWidth= "";
+    private String stageColWidth = "";
+    private String commentColWidth = "";
+    private String procStartColWidth = "";
+    private String dayColWidth = "";
+    private String procEndColWidth = "";
 
     String userprofile = System.getenv("USERPROFILE");
 
@@ -107,7 +107,6 @@ public class TimeSheetController {
     SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy");
     SimpleDateFormat sdf5 = new SimpleDateFormat("MM");
 
-
     DBconnection dBconnection = new DBconnection();
 
     private ObservableList<ObservableList> dataSelect = FXCollections.observableArrayList();
@@ -119,7 +118,6 @@ public class TimeSheetController {
     private Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
     private Alert errorAlert = new Alert(Alert.AlertType.ERROR);
     private Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-
 
     private Parent fxmlComments;
     private FXMLLoader fxmlCommentsLoader = new FXMLLoader();
@@ -135,7 +133,6 @@ public class TimeSheetController {
     private FXMLLoader fxmlTaskPaneLoader = new FXMLLoader();
     private TaskPaneController taskPaneController;
     private Stage taskPaneStage;
-
 
     @FXML
     private void initialize() {
@@ -175,23 +172,26 @@ public class TimeSheetController {
                             "join public.stage_type st on st.stage_type_id = s.stage_type_id " +
                             "WHERE t.task_number = '" + taskBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "' AND " +
                             "st.stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "' AND " +
-                            "u.user_id_number = '"+ user.substring(1, user.indexOf(",")) +"' AND " +
-                            "stn.stage_note_date = (SELECT max(stgn.stage_note_date) FROM public.stage_note stgn WHERE stgn.stage_note_date < '" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + " 23:59:59" +"' AND " +
+                            "u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' AND " +
+                            "stn.stage_note_date = (SELECT max(stgn.stage_note_date) FROM public.stage_note stgn WHERE stgn.stage_note_date < '" +
+                            sdf2.format(date.getTime()) + "-" + checkMaximux() + " 23:59:59" + "' AND " +
                             "stgn.stage_id = s.stage_id AND stgn.user_id = u.user_id)").toString().replace("[", "").replace("]", ""));
                     if (noteTxt.getText().equals("null")) {
                         noteTxt.setText("");
                     }
                 } else if (taskBox.getSelectionModel().getSelectedItem().equals("[Не проектная]")) {
-//                    addBtn.setDisable(false);
+                    //                    addBtn.setDisable(false);
                     noteTxt.clear();
                     noteTxt.setDisable(false);
                     noteTxt.setText(data("SELECT stn.user_stage_note_text FROM public.user_stage_note stn " +
                             "join public.user_stage s on s.user_stage_id = stn.user_stage_id " +
                             "join public.user u on u.user_id = stn.user_id " +
                             "join public.user_stage_type st on st.user_stage_type_id = s.user_stage_type_id " +
-                            "WHERE st.user_stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "' AND " +
-                            "u.user_id_number = '"+ user.substring(1, user.indexOf(",")) +"' AND " +
-                            "stn.user_stage_note_date = (SELECT max(stgn.user_stage_note_date) FROM public.user_stage_note stgn WHERE stgn.user_stage_note_date < '" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + " 23:59:59" +"' AND " +
+                            "WHERE st.user_stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") +
+                            "' AND " +
+                            "u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' AND " +
+                            "stn.user_stage_note_date = (SELECT max(stgn.user_stage_note_date) FROM public.user_stage_note stgn WHERE stgn.user_stage_note_date < '" +
+                            sdf2.format(date.getTime()) + "-" + checkMaximux() + " 23:59:59" + "' AND " +
                             "stgn.user_stage_id = s.user_stage_id AND stgn.user_id = u.user_id)").toString().replace("[", "").replace("]", ""));
 
                     if (noteTxt.getText().equals("null")) {
@@ -219,7 +219,6 @@ public class TimeSheetController {
                         }
                     }
                 }
-
             }
         });
 
@@ -258,19 +257,21 @@ public class TimeSheetController {
         timeSheetView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (!timeSheetView.getSelectionModel().isEmpty()) {
                 for (TimeSheet timeSheet : timeSheetList.getTimesheetlist()) {
-                    if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) & !timeSheet.getWork_num().equals("") & !timeSheet.getWork_num().equals("Готово")) {
+                    if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) & !timeSheet.getWork_num().equals("") &
+                            !timeSheet.getWork_num().equals("Готово")) {
                         btnNotes.setDisable(false);
                         workNum = timeSheet.getWork_num();
                         workStage = timeSheet.getWork_stage();
-                    } else if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) & (timeSheet.getWork_num().equals("") || timeSheet.getWork_num().equals("Готово")
-                    )){
+                    } else if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) &
+                            (timeSheet.getWork_num().equals("") || timeSheet.getWork_num().equals("Готово")
+                            )) {
                         btnNotes.setDisable(true);
                     }
                 }
             }
         });
 
-        checkLE.pressedProperty().addListener(observable ->  {
+        checkLE.pressedProperty().addListener(observable -> {
             confirmAlert.setTitle("Согласование");
             confirmAlert.setHeaderText(null);
             if (checkLE.isSelected()) {
@@ -303,7 +304,7 @@ public class TimeSheetController {
             approveState();
         });
 
-        checkDH.pressedProperty().addListener(observable ->  {
+        checkDH.pressedProperty().addListener(observable -> {
             confirmAlert.setTitle("Согласование");
             confirmAlert.setHeaderText(null);
             if (checkDH.isSelected()) {
@@ -334,7 +335,7 @@ public class TimeSheetController {
             approveState();
         });
 
-        checkPM.pressedProperty().addListener(observable ->  {
+        checkPM.pressedProperty().addListener(observable -> {
             confirmAlert.setTitle("Согласование");
             confirmAlert.setHeaderText(null);
             if (checkPM.isSelected()) {
@@ -367,7 +368,6 @@ public class TimeSheetController {
 
         monthBox.getItems().addAll("Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь");
         yearBox.getItems().addAll("2018", "2019", "2020", "2021", "2022");
-
     }
 
     public void showComments() {
@@ -431,7 +431,7 @@ public class TimeSheetController {
         timeSheetView.setEditable(false);
     }
 
-    public void initTimeSheet (String user) {
+    public void initTimeSheet(String user) {
         formClear();
 
         this.user = user;
@@ -439,15 +439,15 @@ public class TimeSheetController {
         date.set(date2.get(GregorianCalendar.YEAR), date2.get(GregorianCalendar.MONTH), date2.get(GregorianCalendar.DAY_OF_MONTH));
 
         addData(date);
-
     }
 
-    public void changeDate (ActionEvent actionEvent) {
+    public void changeDate(ActionEvent actionEvent) {
 
         if (!monthBox.getSelectionModel().isEmpty() & !yearBox.getSelectionModel().isEmpty()) {
             formClear();
 
-            date.set(Integer.parseInt(yearBox.getSelectionModel().getSelectedItem().toString()), returnMonth(monthBox.getSelectionModel().getSelectedItem().toString()), 1);
+            date.set(Integer.parseInt(yearBox.getSelectionModel().getSelectedItem().toString()),
+                    returnMonth(monthBox.getSelectionModel().getSelectedItem().toString()), 1);
 
             addData(date);
         } else {
@@ -456,10 +456,9 @@ public class TimeSheetController {
             infoAlert.setContentText("Выберите месяц и год");
             infoAlert.showAndWait();
         }
-
     }
 
-    public void actionChangeDate (ActionEvent actionEvent) {
+    public void actionChangeDate(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
         if (!(source instanceof Button)) {
             return;
@@ -471,9 +470,9 @@ public class TimeSheetController {
                 formClear();
 
                 if (date.get(GregorianCalendar.MONTH) == 0) {
-                    date.set(date.get(GregorianCalendar.YEAR)-1, 11, date.get(GregorianCalendar.DAY_OF_MONTH));
+                    date.set(date.get(GregorianCalendar.YEAR) - 1, 11, date.get(GregorianCalendar.DAY_OF_MONTH));
                 } else {
-                    date.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH)-1, date.get(GregorianCalendar.DAY_OF_MONTH));
+                    date.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH) - 1, date.get(GregorianCalendar.DAY_OF_MONTH));
                 }
                 addData(date);
                 break;
@@ -481,16 +480,16 @@ public class TimeSheetController {
                 formClear();
 
                 if (date.get(GregorianCalendar.MONTH) == 11) {
-                    date.set(date.get(GregorianCalendar.YEAR)+1, 0, date.get(GregorianCalendar.DAY_OF_MONTH));
+                    date.set(date.get(GregorianCalendar.YEAR) + 1, 0, date.get(GregorianCalendar.DAY_OF_MONTH));
                 } else {
-                    date.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH)+1, date.get(GregorianCalendar.DAY_OF_MONTH));
+                    date.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH) + 1, date.get(GregorianCalendar.DAY_OF_MONTH));
                 }
                 addData(date);
                 break;
         }
     }
 
-    private void addData (GregorianCalendar date) {
+    private void addData(GregorianCalendar date) {
 
         if (!MainController.role.equals("Сотрудник")) {
             monthBox.setDisable(false);
@@ -501,7 +500,7 @@ public class TimeSheetController {
         }
 
         userLbl.setTextFill(Color.BLUE);
-        userLbl.setText(user.substring(user.indexOf(",")+2, user.lastIndexOf("]")));
+        userLbl.setText(user.substring(user.indexOf(",") + 2, user.lastIndexOf("]")));
 
         dateLbl.setTextFill(Color.RED);
         dateLbl.setText(sdf.format(date.getTime()) + " " + sdf4.format(date.getTime()));
@@ -525,15 +524,17 @@ public class TimeSheetController {
         System.out.println("Табель загружен: " + sdf3.format(new Date()));
     }
 
-    private void approveStatus () {
+    private void approveStatus() {
         checkLE.setSelected(false);
         checkDH.setSelected(false);
         checkPM.setSelected(false);
 
         specData.clear();
-        specData("SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve, ca.lead_fullname, ca.dep_head_fullname, ca.manager_fullname FROM public.current_approve ca " +
-                "join public.user u on u.user_id = ca.user_id " +
-                "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
+        specData(
+                "SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve, ca.lead_fullname, ca.dep_head_fullname, ca.manager_fullname FROM public.current_approve ca " +
+                        "join public.user u on u.user_id = ca.user_id " +
+                        "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                        "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
 
         if (specData.size() > 0) {
             if (specData.get(0).get(0).equals("t")) {
@@ -562,9 +563,11 @@ public class TimeSheetController {
         checkPM.setDisable(true);
 
         specData.clear();
-        specData("SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve, ca.lead_fullname, ca.dep_head_fullname, ca.manager_fullname FROM public.current_approve ca " +
-                "join public.user u on u.user_id = ca.user_id " +
-                "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
+        specData(
+                "SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve, ca.lead_fullname, ca.dep_head_fullname, ca.manager_fullname FROM public.current_approve ca " +
+                        "join public.user u on u.user_id = ca.user_id " +
+                        "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                        "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
 
         if (MainController.role.equalsIgnoreCase("Ведущий специалист") & !checkLE.isSelected()) {
             checkLE.setDisable(false);
@@ -575,10 +578,12 @@ public class TimeSheetController {
             checkDH.setDisable(false);
         } else if ((MainController.role.equalsIgnoreCase("Менеджер проекта") | MainController.role.equalsIgnoreCase("АУП")) & !checkLE.isSelected()) {
             checkLE.setDisable(false);
-        } else if ((MainController.role.equalsIgnoreCase("Менеджер проекта") | MainController.role.equalsIgnoreCase("АУП")) & checkLE.isSelected() & !checkDH.isSelected()) {
+        } else if ((MainController.role.equalsIgnoreCase("Менеджер проекта") | MainController.role.equalsIgnoreCase("АУП")) & checkLE.isSelected() &
+                !checkDH.isSelected()) {
             checkLE.setDisable(false);
             checkDH.setDisable(false);
-        } else if ((MainController.role.equalsIgnoreCase("Менеджер проекта") | MainController.role.equalsIgnoreCase("АУП")) & checkLE.isSelected() & checkDH.isSelected() & !checkPM.isSelected()) {
+        } else if ((MainController.role.equalsIgnoreCase("Менеджер проекта") | MainController.role.equalsIgnoreCase("АУП")) & checkLE.isSelected() &
+                checkDH.isSelected() & !checkPM.isSelected()) {
             checkDH.setDisable(false);
             checkPM.setDisable(false);
         } else if (MainController.role.equalsIgnoreCase("Super_user") & checkPM.isSelected() & checkDH.isSelected() & checkLE.isSelected()) {
@@ -624,37 +629,40 @@ public class TimeSheetController {
                 }
             }
         }
-
     }
 
     private void leadActionAdd() {
         specData.clear();
         specData("SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve FROM public.current_approve ca " +
                 "join public.user u on u.user_id = ca.user_id " +
-                "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
+                "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
 
         dBconnection.openDB();
         try {
             if (specData.size() == 0) {
                 dBconnection.getStmt().execute("INSERT INTO public.current_approve (user_id, sheet_month, sheet_year, lead_approve, lead_fullname) VALUES " +
-                        "((SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "'), '" + sdf5.format(date.getTime()) + "', " +
-                        "'" + sdf4.format(date.getTime()) + "', 'true', '"+ MainController.who +"')");
+                        "((SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "'), '" +
+                        sdf5.format(date.getTime()) + "', " +
+                        "'" + sdf4.format(date.getTime()) + "', 'true', '" + MainController.who + "')");
             } else {
                 dBconnection.getStmt().execute("UPDATE public.current_approve SET lead_approve = 'true' " +
                         "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                         "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
-                dBconnection.getStmt().execute("UPDATE public.current_approve SET lead_fullname = '"+ MainController.who +"' " +
+                dBconnection.getStmt().execute("UPDATE public.current_approve SET lead_fullname = '" + MainController.who + "' " +
                         "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                         "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
             }
             dBconnection.getC().commit();
-            dBconnection.getStmt().execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
-                    "('"+ MainController.who +"', " +
-                    "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Согласовано', " +
-                    "'Ведущий специалист', current_timestamp, " +
-                    "(SELECT ca.current_approve_id FROM public.current_approve ca " +
-                    "join public.user u on u.user_id = ca.user_id " +
-                    "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
+            dBconnection.getStmt()
+                    .execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
+                            "('" + MainController.who + "', " +
+                            "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Согласовано', " +
+                            "'Ведущий специалист', current_timestamp, " +
+                            "(SELECT ca.current_approve_id FROM public.current_approve ca " +
+                            "join public.user u on u.user_id = ca.user_id " +
+                            "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                            "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
             dBconnection.getC().commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -666,20 +674,23 @@ public class TimeSheetController {
         specData.clear();
         specData("SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve FROM public.current_approve ca " +
                 "join public.user u on u.user_id = ca.user_id " +
-                "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
+                "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
 
         dBconnection.openDB();
         try {
             dBconnection.getStmt().execute("UPDATE public.current_approve SET lead_approve = 'false' " +
                     "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                     "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
-            dBconnection.getStmt().execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
-                    "('"+ MainController.who +"', " +
-                    "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Отмена согласования', " +
-                    "'Ведущий специалист', current_timestamp, " +
-                    "(SELECT ca.current_approve_id FROM public.current_approve ca " +
-                    "join public.user u on u.user_id = ca.user_id " +
-                    "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
+            dBconnection.getStmt()
+                    .execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
+                            "('" + MainController.who + "', " +
+                            "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Отмена согласования', " +
+                            "'Ведущий специалист', current_timestamp, " +
+                            "(SELECT ca.current_approve_id FROM public.current_approve ca " +
+                            "join public.user u on u.user_id = ca.user_id " +
+                            "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                            "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
             dBconnection.getC().commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -691,30 +702,35 @@ public class TimeSheetController {
         specData.clear();
         specData("SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve FROM public.current_approve ca " +
                 "join public.user u on u.user_id = ca.user_id " +
-                "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
+                "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
 
         dBconnection.openDB();
         try {
             if (specData.size() == 0) {
-                dBconnection.getStmt().execute("INSERT INTO public.current_approve (user_id, sheet_month, sheet_year, dep_head_approve, dep_head_fullname) VALUES " +
-                        "((SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "'), '" + sdf5.format(date.getTime()) + "', " +
-                        "'" + sdf4.format(date.getTime()) + "', 'true', '"+ MainController.who +"')");
+                dBconnection.getStmt()
+                        .execute("INSERT INTO public.current_approve (user_id, sheet_month, sheet_year, dep_head_approve, dep_head_fullname) VALUES " +
+                                "((SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "'), '" +
+                                sdf5.format(date.getTime()) + "', " +
+                                "'" + sdf4.format(date.getTime()) + "', 'true', '" + MainController.who + "')");
             } else {
                 dBconnection.getStmt().execute("UPDATE public.current_approve SET dep_head_approve = 'true' " +
                         "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                         "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
-                dBconnection.getStmt().execute("UPDATE public.current_approve SET dep_head_fullname = '"+ MainController.who +"' " +
+                dBconnection.getStmt().execute("UPDATE public.current_approve SET dep_head_fullname = '" + MainController.who + "' " +
                         "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                         "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
             }
             dBconnection.getC().commit();
-            dBconnection.getStmt().execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
-                    "('"+ MainController.who +"', " +
-                    "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Согласовано', " +
-                    "'Начальник отдела', current_timestamp, " +
-                    "(SELECT ca.current_approve_id FROM public.current_approve ca " +
-                    "join public.user u on u.user_id = ca.user_id " +
-                    "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
+            dBconnection.getStmt()
+                    .execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
+                            "('" + MainController.who + "', " +
+                            "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Согласовано', " +
+                            "'Начальник отдела', current_timestamp, " +
+                            "(SELECT ca.current_approve_id FROM public.current_approve ca " +
+                            "join public.user u on u.user_id = ca.user_id " +
+                            "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                            "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
             dBconnection.getC().commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -726,20 +742,23 @@ public class TimeSheetController {
         specData.clear();
         specData("SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve FROM public.current_approve ca " +
                 "join public.user u on u.user_id = ca.user_id " +
-                "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
+                "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
 
         dBconnection.openDB();
         try {
             dBconnection.getStmt().execute("UPDATE public.current_approve SET dep_head_approve = 'false' " +
                     "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                     "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
-            dBconnection.getStmt().execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
-                    "('"+ MainController.who +"', " +
-                    "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Отмена согласования', " +
-                    "'Начальник отдела', current_timestamp, " +
-                    "(SELECT ca.current_approve_id FROM public.current_approve ca " +
-                    "join public.user u on u.user_id = ca.user_id " +
-                    "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
+            dBconnection.getStmt()
+                    .execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
+                            "('" + MainController.who + "', " +
+                            "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Отмена согласования', " +
+                            "'Начальник отдела', current_timestamp, " +
+                            "(SELECT ca.current_approve_id FROM public.current_approve ca " +
+                            "join public.user u on u.user_id = ca.user_id " +
+                            "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                            "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
             dBconnection.getC().commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -751,30 +770,35 @@ public class TimeSheetController {
         specData.clear();
         specData("SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve FROM public.current_approve ca " +
                 "join public.user u on u.user_id = ca.user_id " +
-                "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
+                "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
 
         dBconnection.openDB();
         try {
             if (specData.size() == 0) {
-                dBconnection.getStmt().execute("INSERT INTO public.current_approve (user_id, sheet_month, sheet_year, manager_approve, manager_fullname) VALUES " +
-                        "((SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "'), '" + sdf5.format(date.getTime()) + "', " +
-                        "'" + sdf4.format(date.getTime()) + "', 'true', '"+ MainController.who +"')");
+                dBconnection.getStmt()
+                        .execute("INSERT INTO public.current_approve (user_id, sheet_month, sheet_year, manager_approve, manager_fullname) VALUES " +
+                                "((SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "'), '" +
+                                sdf5.format(date.getTime()) + "', " +
+                                "'" + sdf4.format(date.getTime()) + "', 'true', '" + MainController.who + "')");
             } else {
                 dBconnection.getStmt().execute("UPDATE public.current_approve SET manager_approve = 'true' " +
                         "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                         "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
-                dBconnection.getStmt().execute("UPDATE public.current_approve SET manager_fullname = '"+ MainController.who +"' " +
+                dBconnection.getStmt().execute("UPDATE public.current_approve SET manager_fullname = '" + MainController.who + "' " +
                         "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                         "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
             }
             dBconnection.getC().commit();
-            dBconnection.getStmt().execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
-                    "('"+ MainController.who +"', " +
-                    "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Согласовано', " +
-                    "'Менеджер проекта', current_timestamp, " +
-                    "(SELECT ca.current_approve_id FROM public.current_approve ca " +
-                    "join public.user u on u.user_id = ca.user_id " +
-                    "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
+            dBconnection.getStmt()
+                    .execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
+                            "('" + MainController.who + "', " +
+                            "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Согласовано', " +
+                            "'Менеджер проекта', current_timestamp, " +
+                            "(SELECT ca.current_approve_id FROM public.current_approve ca " +
+                            "join public.user u on u.user_id = ca.user_id " +
+                            "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                            "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
             dBconnection.getC().commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -786,20 +810,23 @@ public class TimeSheetController {
         specData.clear();
         specData("SELECT ca.lead_approve, ca.dep_head_approve, ca.manager_approve FROM public.current_approve ca " +
                 "join public.user u on u.user_id = ca.user_id " +
-                "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
+                "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'");
 
         dBconnection.openDB();
         try {
             dBconnection.getStmt().execute("UPDATE public.current_approve SET manager_approve = 'false' " +
                     "WHERE sheet_month = '" + sdf5.format(date.getTime()) + "' AND sheet_year = '" + sdf4.format(date.getTime()) + "' AND " +
                     "user_id = (SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
-            dBconnection.getStmt().execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
-                    "('"+ MainController.who +"', " +
-                    "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Отмена согласования', " +
-                    "'Менеджер проекта', current_timestamp, " +
-                    "(SELECT ca.current_approve_id FROM public.current_approve ca " +
-                    "join public.user u on u.user_id = ca.user_id " +
-                    "WHERE ca.sheet_month = '"+ sdf5.format(date.getTime()) +"' AND ca.sheet_year = '"+ sdf4.format(date.getTime()) +"' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
+            dBconnection.getStmt()
+                    .execute("INSERT INTO public.approve_history (edit_user, user_role_id, decision, approver_role, approve_date, current_approve_id) VALUES " +
+                            "('" + MainController.who + "', " +
+                            "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" + MainController.role + "'), 'Отмена согласования', " +
+                            "'Менеджер проекта', current_timestamp, " +
+                            "(SELECT ca.current_approve_id FROM public.current_approve ca " +
+                            "join public.user u on u.user_id = ca.user_id " +
+                            "WHERE ca.sheet_month = '" + sdf5.format(date.getTime()) + "' AND ca.sheet_year = '" + sdf4.format(date.getTime()) +
+                            "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "'))");
             dBconnection.getC().commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -807,8 +834,8 @@ public class TimeSheetController {
         dBconnection.closeDB();
     }
 
-    private void fillCurrentTimeSheet(){
-        for (int i=0; i<data.size(); i++) {
+    private void fillCurrentTimeSheet() {
+        for (int i = 0; i < data.size(); i++) {
 
             TimeSheet timeSheet = new TimeSheet();
 
@@ -862,7 +889,6 @@ public class TimeSheetController {
         } else {
             return "";
         }
-
     }
 
     private Double checkVal2(String s) {
@@ -871,7 +897,6 @@ public class TimeSheetController {
         } else {
             return 0.0;
         }
-
     }
 
     private Double checkDoubleVal(String s) {
@@ -880,16 +905,15 @@ public class TimeSheetController {
         } else {
             return 0.0;
         }
-
     }
 
     public void allowEdit(ActionEvent actionEvent) throws SQLException {
         if (editBtn.getText().equalsIgnoreCase("редактировать")) {
             dBconnection.openDB();
             dBconnection.query("SELECT tv.timesheet_view_id, tv.edit_user, date_trunc('second', tv.edit_start) FROM public.timesheet_view tv " +
-                        "join public.user u on u.user_id = tv.user_id " +
-                        "WHERE u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' " +
-                        "AND tv.edit_start < current_timestamp AND edit_end > current_timestamp");
+                    "join public.user u on u.user_id = tv.user_id " +
+                    "WHERE u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' " +
+                    "AND tv.edit_start < current_timestamp AND edit_end > current_timestamp");
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
@@ -905,7 +929,7 @@ public class TimeSheetController {
                 dBconnection.openDB();
                 dBconnection.getStmt().execute("INSERT INTO public.timesheet_view (user_id, edit_user, edit_start, edit_end) VALUES " +
                         "((SELECT user_id FROM public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "'), " +
-                        "'"+MainController.who+"', current_timestamp, current_timestamp + interval '3 hours')");
+                        "'" + MainController.who + "', current_timestamp, current_timestamp + interval '3 hours')");
                 dBconnection.getC().commit();
                 dBconnection.closeDB();
 
@@ -926,13 +950,14 @@ public class TimeSheetController {
             } else {
                 infoAlert.setTitle("Табель на редактировании");
                 infoAlert.setHeaderText(null);
-                infoAlert.setContentText("В данный момент табель редактирует " + data3.get(0).get(1).toString() + ", редактирование начато " + data3.get(0).get(2).toString());
+                infoAlert.setContentText(
+                        "В данный момент табель редактирует " + data3.get(0).get(1).toString() + ", редактирование начато " + data3.get(0).get(2).toString());
                 infoAlert.showAndWait();
             }
         } else {
 
             dBconnection.openDB();
-            dBconnection.getStmt().executeUpdate("DELETE FROM public.timesheet_view WHERE edit_user = '"+MainController.who+"'");
+            dBconnection.getStmt().executeUpdate("DELETE FROM public.timesheet_view WHERE edit_user = '" + MainController.who + "'");
             dBconnection.getC().commit();
             dBconnection.closeDB();
 
@@ -956,13 +981,13 @@ public class TimeSheetController {
         data3.clear();
     }
 
-    public void addTimeSheet () {
+    public void addTimeSheet() {
         removeSum();
 
         TimeSheet timeSheet = new TimeSheet();
 
-        timeSheet.setWork_num(taskBox.getSelectionModel().getSelectedItem().toString().replace("[","").replace("]",""));
-        timeSheet.setWork_stage(stageBox.getSelectionModel().getSelectedItem().toString().replace("[","").replace("]",""));
+        timeSheet.setWork_num(taskBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", ""));
+        timeSheet.setWork_stage(stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", ""));
         timeSheet.setWork_note(noteTxt.getText());
 
         dBconnection.openDB();
@@ -976,7 +1001,8 @@ public class TimeSheetController {
                 if (!dBconnection.getRs().next()) {
                     dBconnection.getStmt().execute("INSERT INTO public.user_stage (user_id, user_stage_type_id, user_stage_note) " +
                             "WITH t1 AS (SELECT user_id from public.user WHERE user_id_number = '" + user.substring(1, user.indexOf(",")) + "'), " +
-                            "t2 AS (SELECT user_stage_type_id FROM public.user_stage_type WHERE user_stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "') " +
+                            "t2 AS (SELECT user_stage_type_id FROM public.user_stage_type WHERE user_stage_type_name = '" +
+                            stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "') " +
                             "SELECT t1.user_id, t2.user_stage_type_id, '" + noteTxt.getText() + "' " +
                             "FROM t1, t2");
 
@@ -995,14 +1021,16 @@ public class TimeSheetController {
                         "WHERE u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' AND " +
                         "st.user_stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "')");
 
-                dBconnection.getStmt().execute("INSERT INTO public.user_stage_note (user_stage_note_date, user_stage_note_text, user_stage_id, user_id) VALUES " +
-                        "(current_timestamp, '"+ noteTxt.getText() +"', (SELECT user_stage_id FROM public.user_stage s " +
-                        "join public.user u on u.user_id = s.user_id " +
-                        "join public.user_stage_type st on st.user_stage_type_id = s.user_stage_type_id " +
-                        "WHERE u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' AND " +
-                        "st.user_stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "'), " +
-                        "(SELECT user_id FROM public.user " +
-                        "WHERE user_fullname = '" + MainController.who + "'))");
+                dBconnection.getStmt()
+                        .execute("INSERT INTO public.user_stage_note (user_stage_note_date, user_stage_note_text, user_stage_id, user_id) VALUES " +
+                                "(current_timestamp, '" + noteTxt.getText() + "', (SELECT user_stage_id FROM public.user_stage s " +
+                                "join public.user u on u.user_id = s.user_id " +
+                                "join public.user_stage_type st on st.user_stage_type_id = s.user_stage_type_id " +
+                                "WHERE u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' AND " +
+                                "st.user_stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") +
+                                "'), " +
+                                "(SELECT user_id FROM public.user " +
+                                "WHERE user_fullname = '" + MainController.who + "'))");
 
                 System.out.println("Во второй заход");
 
@@ -1010,7 +1038,6 @@ public class TimeSheetController {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         } else {
             try {
                 dBconnection.query("SELECT stage_id from public.stage s " +
@@ -1020,8 +1047,10 @@ public class TimeSheetController {
                         "AND st.stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "'");
                 if (!dBconnection.getRs().next()) {
                     dBconnection.getStmt().execute("INSERT INTO public.stage (task_id, stage_type_id, stage_note) " +
-                            "WITH t1 AS (SELECT task_id from public.task WHERE task_number = '" + taskBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "'), " +
-                            "t2 AS (SELECT stage_type_id FROM public.stage_type WHERE stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "') " +
+                            "WITH t1 AS (SELECT task_id from public.task WHERE task_number = '" +
+                            taskBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "'), " +
+                            "t2 AS (SELECT stage_type_id FROM public.stage_type WHERE stage_type_name = '" +
+                            stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "') " +
                             "SELECT t1.task_id, t2.stage_type_id, '" + noteTxt.getText() + "' " +
                             "FROM t1, t2");
                     dBconnection.getC().commit();
@@ -1039,7 +1068,7 @@ public class TimeSheetController {
                         "st.stage_type_name = '" + stageBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "')");
 
                 dBconnection.getStmt().execute("INSERT INTO public.stage_note (stage_note_date, stage_note_text, stage_id, user_id) VALUES " +
-                        "(current_timestamp, '"+ noteTxt.getText() +"', (SELECT stage_id FROM public.stage s " +
+                        "(current_timestamp, '" + noteTxt.getText() + "', (SELECT stage_id FROM public.stage s " +
                         "join public.task t on t.task_id = s.task_id " +
                         "join public.stage_type st on st.stage_type_id = s.stage_type_id " +
                         "WHERE t.task_number = '" + taskBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "' AND " +
@@ -1065,9 +1094,9 @@ public class TimeSheetController {
         sumTimeSheet();
     }
 
-    private void sumTimeSheet () {
+    private void sumTimeSheet() {
 
-        if (!timeSheetList.getTimesheetlist().get(timeSheetList.getTimesheetlist().size()-1).getWork_stage().equals("Итого")) {
+        if (!timeSheetList.getTimesheetlist().get(timeSheetList.getTimesheetlist().size() - 1).getWork_stage().equals("Итого")) {
 
             try {
                 dBconnection.openDB();
@@ -1077,7 +1106,8 @@ public class TimeSheetController {
                         "'SELECT ''Итого'', dw.day_num, sum(dw.daily_intensity) FROM " +
                         "public.daily_work dw " +
                         "join public.user u on u.user_id = dw.user_id " +
-                        "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + "'' AND u.user_id_number = ''" + user.substring(1, user.indexOf(",")) + "''" +
+                        "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" +
+                        sdf2.format(date.getTime()) + "-" + checkMaximux() + "'' AND u.user_id_number = ''" + user.substring(1, user.indexOf(",")) + "''" +
                         "GROUP BY dw.day_num', " +
                         "'SELECT d from generate_series(1,31) d') " +
                         "AS (task_number text, day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +
@@ -1172,9 +1202,7 @@ public class TimeSheetController {
                     timeSheetList.add(timeSheet);
 
                     txtAll.setText(total.toString());
-
                 }
-
             } catch (Exception e) {
                 errorAlert.setTitle("Ошибка data");
                 errorAlert.setContentText(e.getMessage());
@@ -1183,7 +1211,6 @@ public class TimeSheetController {
             }
         }
     }
-
 
     private void tableUpdate() {
 
@@ -1211,11 +1238,9 @@ public class TimeSheetController {
             if (props.getProperty("proc_end_col_width") != null) {
                 procEndColWidth = props.getProperty("proc_end_col_width");
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         timeSheetView.getSelectionModel().setCellSelectionEnabled(true);
         timeSheetView.getColumns().clear();
@@ -1296,26 +1321,29 @@ public class TimeSheetController {
 
                             if (editBtn.getText().equals("Готово")) {
                                 for (TimeSheet timeSheet : timeSheetList.getTimesheetlist()) {
-                                    if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) & !timeSheet.getWork_num().equals("") & !timeSheet.getWork_num().equals("Готово") & !timeSheet.getWork_num().equals("Не проектная")) {
+                                    if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) & !timeSheet.getWork_num().equals("") &
+                                            !timeSheet.getWork_num().equals("Готово") & !timeSheet.getWork_num().equals("Не проектная")) {
                                         noteTxt2.setVisible(true);
                                         changeBtn.setVisible(true);
                                         taskBox.setDisable(true);
                                         btnTask.setDisable(true);
                                         stageBox.setDisable(true);
                                         noteTxt2.setText(data("SELECT stn.stage_note_text FROM public.stage_note stn " +
-                                                        "join public.stage s on s.stage_id = stn.stage_id " +
-                                                        "join public.user u on u.user_id = stn.user_id " +
-                                                        "join public.task t on t.task_id = s.task_id " +
-                                                        "join public.stage_type st on st.stage_type_id = s.stage_type_id " +
-                                                        "WHERE t.task_number = '" + timeSheet.getWork_num() + "' AND " +
-                                                        "st.stage_type_name = '" + timeSheet.getWork_stage() + "' AND " +
-                                                        "u.user_id_number = '"+ user.substring(1, user.indexOf(",")) +"' AND " +
-                                                        "stn.stage_note_date = (SELECT max(stgn.stage_note_date) FROM public.stage_note stgn WHERE stgn.stage_note_date < '" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + " 23:59:59" +"' AND " +
-                                                        "stgn.stage_id = s.stage_id AND stgn.user_id = u.user_id)").toString().replace("[", "").replace("]", ""));
+                                                "join public.stage s on s.stage_id = stn.stage_id " +
+                                                "join public.user u on u.user_id = stn.user_id " +
+                                                "join public.task t on t.task_id = s.task_id " +
+                                                "join public.stage_type st on st.stage_type_id = s.stage_type_id " +
+                                                "WHERE t.task_number = '" + timeSheet.getWork_num() + "' AND " +
+                                                "st.stage_type_name = '" + timeSheet.getWork_stage() + "' AND " +
+                                                "u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' AND " +
+                                                "stn.stage_note_date = (SELECT max(stgn.stage_note_date) FROM public.stage_note stgn WHERE stgn.stage_note_date < '" +
+                                                sdf2.format(date.getTime()) + "-" + checkMaximux() + " 23:59:59" + "' AND " +
+                                                "stgn.stage_id = s.stage_id AND stgn.user_id = u.user_id)").toString().replace("[", "").replace("]", ""));
 
                                         workNum = timeSheet.getWork_num();
                                         workStage = timeSheet.getWork_stage();
-                                    } else if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) & timeSheet.getWork_num().equals("Не проектная")) {
+                                    } else if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) &
+                                            timeSheet.getWork_num().equals("Не проектная")) {
                                         noteTxt2.setVisible(true);
                                         changeBtn.setVisible(true);
                                         taskBox.setDisable(true);
@@ -1326,13 +1354,16 @@ public class TimeSheetController {
                                                 "join public.user u on u.user_id = stn.user_id " +
                                                 "join public.user_stage_type st on st.user_stage_type_id = s.user_stage_type_id " +
                                                 "WHERE st.user_stage_type_name = '" + timeSheet.getWork_stage() + "' AND " +
-                                                "u.user_id_number = '"+ user.substring(1, user.indexOf(",")) +"' AND " +
-                                                "stn.user_stage_note_date = (SELECT max(stgn.user_stage_note_date) FROM public.user_stage_note stgn WHERE stgn.user_stage_note_date < '" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + " 23:59:59" +"' AND " +
-                                                "stgn.user_stage_id = s.user_stage_id AND stgn.user_id = u.user_id)").toString().replace("[", "").replace("]", ""));
+                                                "u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' AND " +
+                                                "stn.user_stage_note_date = (SELECT max(stgn.user_stage_note_date) FROM public.user_stage_note stgn WHERE stgn.user_stage_note_date < '" +
+                                                sdf2.format(date.getTime()) + "-" + checkMaximux() + " 23:59:59" + "' AND " +
+                                                "stgn.user_stage_id = s.user_stage_id AND stgn.user_id = u.user_id)").toString().replace("[", "")
+                                                .replace("]", ""));
 
                                         workNum = timeSheet.getWork_num();
                                         workStage = timeSheet.getWork_stage();
-                                    } else if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) & (timeSheet.getWork_num().equals("") | timeSheet.getWork_num().equals("Готово"))) {
+                                    } else if (timeSheet.equals(timeSheetView.getSelectionModel().getSelectedItem()) &
+                                            (timeSheet.getWork_num().equals("") | timeSheet.getWork_num().equals("Готово"))) {
                                         noteTxt2.setVisible(false);
                                         changeBtn.setVisible(false);
                                         taskBox.setDisable(false);
@@ -1340,21 +1371,19 @@ public class TimeSheetController {
                                     }
                                 }
                             }
-
                         } else {
-                           if (timeSheetView.getFocusModel().getFocusedCell().getColumn() != 2) {
-                               noteTxt2.setVisible(false);
-                               changeBtn.setVisible(false);
-                               if (editBtn.getText().equalsIgnoreCase("Готово")) {
-                                   taskBox.setDisable(false);
-                                   btnTask.setDisable(false);
-                               }
-                           }
+                            if (timeSheetView.getFocusModel().getFocusedCell().getColumn() != 2) {
+                                noteTxt2.setVisible(false);
+                                changeBtn.setVisible(false);
+                                if (editBtn.getText().equalsIgnoreCase("Готово")) {
+                                    taskBox.setDisable(false);
+                                    btnTask.setDisable(false);
+                                }
+                            }
                             newText.setFill(Color.BLACK);
                             setGraphic(newText);
                         }
                     }
-
                 };
             }
         });
@@ -1368,56 +1397,55 @@ public class TimeSheetController {
         }
         tableCol4.setCellValueFactory(new PropertyValueFactory<TimeSheet, String>("start_perc"));
         /*tableCol4.setCellFactory(column -> EditCell.createStringEditCell());*/
-        tableCol4.setStyle( "-fx-alignment: CENTER;");
+        tableCol4.setStyle("-fx-alignment: CENTER;");
         tableCol4.setSortable(false);
 
         tableCol4.widthProperty().addListener((observable, oldValue, newValue) -> {
             procStartColWidth = newValue.toString();
         });
 
-
         timeSheetView.getColumns().addAll(tableCol1, tableCol2, tableCol3, tableCol4);
 
-            for (int i = 1; i <= date.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+        for (int i = 1; i <= date.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
 
-                TableColumn tableColumn = new TableColumn("" + i);
-                if (dayColWidth.equals("")) {
-                    tableColumn.setPrefWidth(45);
-                } else {
-                    tableColumn.setPrefWidth(Double.parseDouble(dayColWidth));
-                }
-
-                tableColumn.widthProperty().addListener((observable, oldValue, newValue) -> {
-                    dayColWidth = newValue.toString();
-                });
-
-                tableColumn.setCellValueFactory(new PropertyValueFactory<TimeSheet, String>("day" + i));
-
-                if (checkDate(i)) {
-                    tableColumn.setCellFactory(column -> WeekEndCell.createStringEditCell());
-
-                } else {
-                    tableColumn.setCellFactory(column -> EditCell.createStringEditCell());
-                }
-
-
-                tableColumn.setOnEditCommit(((EventHandler<TableColumn.CellEditEvent<TimeSheet, String>>) event -> {
-                   if (timeSheetList.getTimesheetlist().size()!=0) {
-                       if (!timeSheetList.getTimesheetlist().get(timeSheetView.getSelectionModel().getSelectedIndex()).getWork_stage().equals("Итого") /*& !timeSheetList.getTimesheetlist().get(timeSheetView.getSelectionModel().getSelectedIndex()).getWork_stage().equals("")*/) {
-
-                           removeSum();
-                           editCell(event);
-                           sumTimeSheet();
-                       }
-                       timeSheetView.refresh();
-                   }
-
-                }));
-                tableColumn.setStyle( "-fx-alignment: CENTER;");
-                tableColumn.setSortable(false);
-
-                timeSheetView.getColumns().addAll(tableColumn);
+            TableColumn tableColumn = new TableColumn("" + i);
+            if (dayColWidth.equals("")) {
+                tableColumn.setPrefWidth(45);
+            } else {
+                tableColumn.setPrefWidth(Double.parseDouble(dayColWidth));
             }
+
+            tableColumn.widthProperty().addListener((observable, oldValue, newValue) -> {
+                dayColWidth = newValue.toString();
+            });
+
+            tableColumn.setCellValueFactory(new PropertyValueFactory<TimeSheet, String>("day" + i));
+
+            if (checkDateForCurrent(i)) {
+                tableColumn.setCellFactory(column -> CurrentDateCell.createStringCurrentDateCell());
+            } else if (checkDate(i)) {
+                tableColumn.setCellFactory(column -> WeekEndCell.createStringEditCell());
+            } else {
+                tableColumn.setCellFactory(column -> EditCell.createStringEditCell());
+            }
+
+            tableColumn.setOnEditCommit(((EventHandler<TableColumn.CellEditEvent<TimeSheet, String>>) event -> {
+                if (timeSheetList.getTimesheetlist().size() != 0) {
+                    if (!timeSheetList.getTimesheetlist().get(timeSheetView.getSelectionModel().getSelectedIndex()).getWork_stage()
+                            .equals("Итого") /*& !timeSheetList.getTimesheetlist().get(timeSheetView.getSelectionModel().getSelectedIndex()).getWork_stage().equals("")*/) {
+
+                        removeSum();
+                        editCell(event);
+                        sumTimeSheet();
+                    }
+                    timeSheetView.refresh();
+                }
+            }));
+            tableColumn.setStyle("-fx-alignment: CENTER;");
+            tableColumn.setSortable(false);
+
+            timeSheetView.getColumns().addAll(tableColumn);
+        }
 
         TableColumn tableCol5 = new TableColumn("Итого");
         if (procEndColWidth.equals("")) {
@@ -1427,7 +1455,7 @@ public class TimeSheetController {
         }
         tableCol5.setCellValueFactory(new PropertyValueFactory<TimeSheet, String>("end_perc"));
         tableCol5.setCellFactory(column -> EditCell.createStringEditCell());
-        tableCol5.setStyle( "-fx-alignment: CENTER;");
+        tableCol5.setStyle("-fx-alignment: CENTER;");
         tableCol5.setSortable(false);
 
         tableCol5.widthProperty().addListener((observable, oldValue, newValue) -> {
@@ -1435,17 +1463,17 @@ public class TimeSheetController {
         });
 
         timeSheetView.getColumns().addAll(tableCol5);
-            //Добавление данных в TableView
+        //Добавление данных в TableView
         timeSheetView.setItems(timeSheetList.getTimesheetlist());
     }
 
-    public void savePerspective () {
+    public void savePerspective() {
         File propDir = new File(userprofile + "\\ASUPD\\config");
 
         if (!propDir.exists()) {
             try {
                 propDir.mkdirs();
-            } catch(SecurityException se){
+            } catch (SecurityException se) {
 
             }
         }
@@ -1470,9 +1498,8 @@ public class TimeSheetController {
         }
     }
 
-    public void updateNote () {
+    public void updateNote() {
         if (!noteTxt2.getText().equals("")) {
-
 
             try {
                 dBconnection.openDB();
@@ -1498,16 +1525,17 @@ public class TimeSheetController {
                             "WHERE user_stage_id = (SELECT s.user_stage_id FROM public.user_stage s " +
                             "join public.user u on u.user_id = s.user_id " +
                             "join public.user_stage_type st on st.user_stage_type_id = s.user_stage_type_id " +
-                            "WHERE st.user_stage_type_name = '" + workStage + "' AND u.user_id_number = '"+ user.substring(1, user.indexOf(",")) +"')");
+                            "WHERE st.user_stage_type_name = '" + workStage + "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "')");
 
-                    dBconnection.getStmt().execute("INSERT INTO public.user_stage_note (user_stage_note_date, user_stage_note_text, user_stage_id, user_id) VALUES " +
-                            "(current_timestamp, '" + noteTxt2.getText() + "', (SELECT user_stage_id FROM public.user_stage s " +
-                            "join public.user u on u.user_id = s.user_id " +
-                            "join public.user_stage_type st on st.user_stage_type_id = s.user_stage_type_id " +
-                            "WHERE u.user_id_number = '"+ user.substring(1, user.indexOf(",")) +"' AND " +
-                            "st.user_stage_type_name = '" + workStage + "'), " +
-                            "(SELECT user_id FROM public.user " +
-                            "WHERE user_fullname = '" + MainController.who + "'))");
+                    dBconnection.getStmt()
+                            .execute("INSERT INTO public.user_stage_note (user_stage_note_date, user_stage_note_text, user_stage_id, user_id) VALUES " +
+                                    "(current_timestamp, '" + noteTxt2.getText() + "', (SELECT user_stage_id FROM public.user_stage s " +
+                                    "join public.user u on u.user_id = s.user_id " +
+                                    "join public.user_stage_type st on st.user_stage_type_id = s.user_stage_type_id " +
+                                    "WHERE u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' AND " +
+                                    "st.user_stage_type_name = '" + workStage + "'), " +
+                                    "(SELECT user_id FROM public.user " +
+                                    "WHERE user_fullname = '" + MainController.who + "'))");
                 }
                 dBconnection.getC().commit();
                 dBconnection.closeDB();
@@ -1534,8 +1562,21 @@ public class TimeSheetController {
         Calendar date2 = date;
 
         date2.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH), i);
+         int dayofweeks = GregorianCalendar.DAY_OF_WEEK;
+        if (date2.get(dayofweeks) == GregorianCalendar.SATURDAY
+                || date2.get(dayofweeks) == GregorianCalendar.SUNDAY) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        if (date2.get(GregorianCalendar.DAY_OF_WEEK) == GregorianCalendar.SATURDAY || date2.get(GregorianCalendar.DAY_OF_WEEK) == GregorianCalendar.SUNDAY) {
+    private boolean checkDateForCurrent(int i) {
+        Calendar date3 = date;
+
+        date3.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH), i);
+        GregorianCalendar currentDate = new GregorianCalendar();
+        if (date3.get(GregorianCalendar.DATE) == currentDate.get(GregorianCalendar.DATE)) {
             return true;
         } else {
             return false;
@@ -1544,7 +1585,7 @@ public class TimeSheetController {
 
     private void fillCrossTab() {
         try {
-            Double h=0.0;
+            Double h = 0.0;
 
             System.out.println("Запрос к базе по задачам: " + sdf3.format(new Date()));
 
@@ -1586,7 +1627,8 @@ public class TimeSheetController {
                     "join public.daily_work dw on dw.daily_work_id = sd.daily_work_id " +
                     "join public.user u on u.user_id = dw.user_id " +
                     "left join public.stage_note stn on stn.stage_id = s.stage_id " +
-                    "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + "'' AND u.user_id_number = ''"+ user.substring(1, user.indexOf(",")) +"'' " +
+                    "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" + sdf2.format(date.getTime()) +
+                    "-" + checkMaximux() + "'' AND u.user_id_number = ''" + user.substring(1, user.indexOf(",")) + "'' " +
                     "ORDER BY t.task_number, s.stage_id', " +
                     "'SELECT d from generate_series(1,31) d') " +
                     "AS (stage_id integer, task_number text, stage_type_name text, stage_note text, day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +
@@ -1602,11 +1644,11 @@ public class TimeSheetController {
 
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=dBconnection.getRs().getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     //Перебор колонок
 
-                    if (i>4 & i<=35) {
-                        h+=checkVal2(dBconnection.getRs().getString(i));
+                    if (i > 4 & i <= 35) {
+                        h += checkVal2(dBconnection.getRs().getString(i));
                     }
 
                     row.add(dBconnection.getRs().getString(i));
@@ -1615,7 +1657,7 @@ public class TimeSheetController {
                 row.add(new DecimalFormat("#0.00").format(h));
                 data.add(row);
 
-                h=0.0;
+                h = 0.0;
             }
 
             System.out.println("Заполнение ObservableList выполнено: " + sdf3.format(new Date()));
@@ -1654,7 +1696,8 @@ public class TimeSheetController {
                     "join public.daily_work dw on dw.daily_work_id = usd.daily_work_id " +
                     "join public.user u on u.user_id = dw.user_id " +
                     "left join public.user_stage_note stn on stn.user_stage_id = us.user_stage_id " +
-                    "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" + sdf2.format(date.getTime()) +"-"+ checkMaximux() + "'' AND u.user_id_number = ''"+ user.substring(1, user.indexOf(",")) +"'' " +
+                    "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" + sdf2.format(date.getTime()) +
+                    "-" + checkMaximux() + "'' AND u.user_id_number = ''" + user.substring(1, user.indexOf(",")) + "'' " +
                     "ORDER BY us.user_stage_id', " +
                     "'SELECT d from generate_series(1,31) d') " +
                     "AS (user_stage_id integer, user_task text, stage_type_name text, stage_note text, day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +
@@ -1670,11 +1713,11 @@ public class TimeSheetController {
 
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=dBconnection.getRs().getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     //Перебор колонок
 
-                    if (i>4 & i<35) {
-                        h+=checkVal2(dBconnection.getRs().getString(i));
+                    if (i > 4 & i < 35) {
+                        h += checkVal2(dBconnection.getRs().getString(i));
                     }
 
                     row.add(dBconnection.getRs().getString(i));
@@ -1682,7 +1725,7 @@ public class TimeSheetController {
                 row.add(new DecimalFormat("#0.00").format(h));
                 data.add(row);
 
-                h=0.0;
+                h = 0.0;
             }
 
             System.out.println("Дополнение ObservableList выполнено: " + sdf3.format(new Date()));
@@ -1691,8 +1734,7 @@ public class TimeSheetController {
             dBconnection.closeDB();
 
             System.out.println("Метод завершен, база закрыта: " + sdf3.format(new Date()));
-
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             errorAlert.setTitle("Ошибка базы данных");
             errorAlert.setContentText(e.getMessage());
             errorAlert.showAndWait();
@@ -1707,11 +1749,10 @@ public class TimeSheetController {
         return max_date;
     }
 
-
     public void editCell(TableColumn.CellEditEvent<TimeSheet, String> event) {
         String replace = event.getNewValue().replace(",", ".");
         String column = "";
-        String oldValue ="";
+        String oldValue = "";
 
         if (event.getTablePosition().getColumn() > 3 & event.getTablePosition().getColumn() < timeSheetView.getColumns().size()) {
             try {
@@ -1894,11 +1935,11 @@ public class TimeSheetController {
         }
     }
 
-    private void saveIntensity (String column, String oldValue, String value, TimeSheet timeSheet) {
+    private void saveIntensity(String column, String oldValue, String value, TimeSheet timeSheet) {
 
-        String sheetDate = date.get(GregorianCalendar.YEAR) + "-" + (date.get(GregorianCalendar.MONTH)+1) + "-" + Integer.parseInt(column);
+        String sheetDate = date.get(GregorianCalendar.YEAR) + "-" + (date.get(GregorianCalendar.MONTH) + 1) + "-" + Integer.parseInt(column);
 
-        if (timeSheet.getWork_num().equals("Не проектная")){
+        if (timeSheet.getWork_num().equals("Не проектная")) {
             try {
                 if (oldValue.equals("") & !value.equals("")) {
                     dBconnection.openDB();
@@ -1910,7 +1951,8 @@ public class TimeSheetController {
                             "WITH t1 AS (SELECT us.user_stage_id FROM public.user_stage us " +
                             "join public.user_stage_type ust on ust.user_stage_type_id = us.user_stage_type_id " +
                             "join public.user u on u.user_id = us.user_id " +
-                            "WHERE ust.user_stage_type_name = '" + timeSheet.getWork_stage() + "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "') " +
+                            "WHERE ust.user_stage_type_name = '" + timeSheet.getWork_stage() + "' AND u.user_id_number = '" +
+                            user.substring(1, user.indexOf(",")) + "') " +
                             "SELECT t1.user_stage_id, t2.daily_work_id " +
                             "FROM t1, t2");
                     dBconnection.getC().commit();
@@ -1923,7 +1965,8 @@ public class TimeSheetController {
                             "join public.user_stage us on us.user_stage_id = usd.user_stage_id " +
                             "join public.user u on u.user_id = us.user_id " +
                             "join public.user_stage_type ust on ust.user_stage_type_id = us.user_stage_type_id " +
-                            "WHERE ust.user_stage_type_name = '" + timeSheet.getWork_stage() + "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' " +
+                            "WHERE ust.user_stage_type_name = '" + timeSheet.getWork_stage() + "' AND u.user_id_number = '" +
+                            user.substring(1, user.indexOf(",")) + "' " +
                             "AND dwk.daily_work_date = '" + sheetDate + "')");
                     dBconnection.getC().commit();
                     dBconnection.closeDB();
@@ -1935,7 +1978,8 @@ public class TimeSheetController {
                             "join public.user_stage us on us.user_stage_id = usd.user_stage_id " +
                             "join public.user_stage_type ust on ust.user_stage_type_id = us.user_stage_type_id " +
                             "join public.user u on u.user_id = us.user_id " +
-                            "WHERE ust.user_stage_type_name = '" + timeSheet.getWork_stage() + "' AND u.user_id_number = '" + user.substring(1, user.indexOf(",")) + "' " +
+                            "WHERE ust.user_stage_type_name = '" + timeSheet.getWork_stage() + "' AND u.user_id_number = '" +
+                            user.substring(1, user.indexOf(",")) + "' " +
                             "AND dwk.daily_work_date = '" + sheetDate + "')");
                     dBconnection.getC().commit();
                     dBconnection.closeDB();
@@ -1943,7 +1987,7 @@ public class TimeSheetController {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             try {
                 if (oldValue.equals("") & !value.equals("")) {
                     dBconnection.openDB();
@@ -1994,8 +2038,8 @@ public class TimeSheetController {
     }
 
     private void removeSum() {
-        if (timeSheetList.getTimesheetlist().size()!= 0) {
-            if (timeSheetList.getTimesheetlist().get(timeSheetList.getTimesheetlist().size()-1).getWork_stage().equals("Итого")) {
+        if (timeSheetList.getTimesheetlist().size() != 0) {
+            if (timeSheetList.getTimesheetlist().get(timeSheetList.getTimesheetlist().size() - 1).getWork_stage().equals("Итого")) {
                 timeSheetList.getTimesheetlist().remove(timeSheetList.getTimesheetlist().size() - 2, timeSheetList.getTimesheetlist().size());
             }
         }
@@ -2010,10 +2054,9 @@ public class TimeSheetController {
         noteTxt.setDisable(true);
         stageBox.getItems().setAll(data("SELECT stage_type_name FROM public.stage_type"));
         stageBox.setDisable(false);
-
     }
 
-    public int returnMonth (String month) {
+    public int returnMonth(String month) {
         Integer m = 0;
 
         switch (month) {
@@ -2053,7 +2096,6 @@ public class TimeSheetController {
             case "Декабрь":
                 m = 11;
                 break;
-
         }
         return m;
     }
@@ -2065,7 +2107,7 @@ public class TimeSheetController {
             dBconnection.query(k);
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=dBconnection.getRs().getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     //Перебор колонок
                     row.add(dBconnection.getRs().getString(i));
                 }
@@ -2073,7 +2115,7 @@ public class TimeSheetController {
             }
             dBconnection.queryClose();
             dBconnection.closeDB();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             errorAlert.setTitle("Ошибка data");
             errorAlert.setContentText(e.getMessage());
             errorAlert.showAndWait();
@@ -2089,7 +2131,7 @@ public class TimeSheetController {
             dBconnection.query(k);
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=dBconnection.getRs().getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     //Перебор колонок
                     row.add(dBconnection.getRs().getString(i));
                 }
@@ -2097,7 +2139,7 @@ public class TimeSheetController {
             }
             dBconnection.queryClose();
             dBconnection.closeDB();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             errorAlert.setTitle("Ошибка data");
             errorAlert.setContentText(e.getMessage());
             errorAlert.showAndWait();
@@ -2139,7 +2181,7 @@ public class TimeSheetController {
 
         dBconnection.openDB();
         try {
-            dBconnection.getStmt().executeUpdate("DELETE FROM public.timesheet_view WHERE edit_user = '"+MainController.who+"'");
+            dBconnection.getStmt().executeUpdate("DELETE FROM public.timesheet_view WHERE edit_user = '" + MainController.who + "'");
             dBconnection.getC().commit();
         } catch (SQLException e) {
             e.printStackTrace();
