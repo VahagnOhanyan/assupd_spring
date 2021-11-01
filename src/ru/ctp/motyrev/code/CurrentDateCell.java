@@ -1,23 +1,27 @@
 package ru.ctp.motyrev.code;
 
 import javafx.event.Event;
-import javafx.scene.control.*;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 
-
-public class WeekEndCell<S, T> extends TableCell<S, T> {
+public class CurrentDateCell<S, T> extends TableCell<S, T> {
     // Text field for editing
     // TODO: allow this to be a plugable control.
     private final TextField textField = new TextField();
 
     // Converter for converting the text in the text field to the user type, and vice-versa:
-    private final StringConverter<T> converter ;
+    private final StringConverter<T> converter;
 
-    public WeekEndCell(StringConverter<T> converter) {
-        this.converter = converter ;
+    public CurrentDateCell(StringConverter<T> converter) {
+        this.converter = converter;
 
         itemProperty().addListener((obx, oldItem, newItem) -> {
 
@@ -29,8 +33,7 @@ public class WeekEndCell<S, T> extends TableCell<S, T> {
         });
         setGraphic(textField);
         setContentDisplay(ContentDisplay.TEXT_ONLY);
-        setStyle("-fx-alignment: CENTER;  -fx-background-color:lemonchiffon;");
-
+        setStyle("-fx-alignment: CENTER;  -fx-background-color:#d4ebd7;");
         textField.setOnAction(evt -> {
             commitEdit(this.converter.fromString(textField.getText()));
         });
@@ -77,17 +80,16 @@ public class WeekEndCell<S, T> extends TableCell<S, T> {
         public String fromString(String string) {
             return string;
         }
-
     };
 
     /**
-     * Convenience method for creating an EditCell for a String value.
+     * Convenience method for creating an CurrentDateCell for a String value.
+     *
      * @return
      */
-    public static <S> WeekEndCell<S, String> createStringEditCell() {
-        return new WeekEndCell<S, String>(IDENTITY_CONVERTER);
+    public static <S> CurrentDateCell<S, String> createStringCurrentDateCell() {
+        return new CurrentDateCell<S, String>(IDENTITY_CONVERTER);
     }
-
 
     // set the text of the text field and display the graphic
     @Override
@@ -97,7 +99,6 @@ public class WeekEndCell<S, T> extends TableCell<S, T> {
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         textField.requestFocus();
     }
-
 
     // revert to text display
     @Override
@@ -113,7 +114,7 @@ public class WeekEndCell<S, T> extends TableCell<S, T> {
         // This block is necessary to support commit on losing focus, because the baked-in mechanism
         // sets our editing state to false before we can intercept the loss of focus.
         // The default commitEdit(...) method simply bails if we are not editing...
-        if (! isEditing() && ! item.equals(getItem())) {
+        if (!isEditing() && !item.equals(getItem())) {
             TableView<S> table = getTableView();
             if (table != null) {
                 TableColumn<S, T> column = getTableColumn();
