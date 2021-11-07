@@ -835,45 +835,45 @@ public class TimeSheetController {
     }
 
     private void fillCurrentTimeSheet() {
-        for (int i = 0; i < data.size(); i++) {
+        for (ObservableList datum : data) {
 
             TimeSheet timeSheet = new TimeSheet();
 
-            timeSheet.setWork_num(data.get(i).get(1).toString());
-            timeSheet.setWork_stage(data.get(i).get(2).toString());
-            timeSheet.setWork_note(checkVal((String) data.get(i).get(3)));
-            timeSheet.setDay1(checkVal((String) data.get(i).get(4)));
-            timeSheet.setDay2(checkVal((String) data.get(i).get(5)));
-            timeSheet.setDay3(checkVal((String) data.get(i).get(6)));
-            timeSheet.setDay4(checkVal((String) data.get(i).get(7)));
-            timeSheet.setDay5(checkVal((String) data.get(i).get(8)));
-            timeSheet.setDay6(checkVal((String) data.get(i).get(9)));
-            timeSheet.setDay7(checkVal((String) data.get(i).get(10)));
-            timeSheet.setDay8(checkVal((String) data.get(i).get(11)));
-            timeSheet.setDay9(checkVal((String) data.get(i).get(12)));
-            timeSheet.setDay10(checkVal((String) data.get(i).get(13)));
-            timeSheet.setDay11(checkVal((String) data.get(i).get(14)));
-            timeSheet.setDay12(checkVal((String) data.get(i).get(15)));
-            timeSheet.setDay13(checkVal((String) data.get(i).get(16)));
-            timeSheet.setDay14(checkVal((String) data.get(i).get(17)));
-            timeSheet.setDay15(checkVal((String) data.get(i).get(18)));
-            timeSheet.setDay16(checkVal((String) data.get(i).get(19)));
-            timeSheet.setDay17(checkVal((String) data.get(i).get(20)));
-            timeSheet.setDay18(checkVal((String) data.get(i).get(21)));
-            timeSheet.setDay19(checkVal((String) data.get(i).get(22)));
-            timeSheet.setDay20(checkVal((String) data.get(i).get(23)));
-            timeSheet.setDay21(checkVal((String) data.get(i).get(24)));
-            timeSheet.setDay22(checkVal((String) data.get(i).get(25)));
-            timeSheet.setDay23(checkVal((String) data.get(i).get(26)));
-            timeSheet.setDay24(checkVal((String) data.get(i).get(27)));
-            timeSheet.setDay25(checkVal((String) data.get(i).get(28)));
-            timeSheet.setDay26(checkVal((String) data.get(i).get(29)));
-            timeSheet.setDay27(checkVal((String) data.get(i).get(30)));
-            timeSheet.setDay28(checkVal((String) data.get(i).get(31)));
-            timeSheet.setDay29(checkVal((String) data.get(i).get(32)));
-            timeSheet.setDay30(checkVal((String) data.get(i).get(33)));
-            timeSheet.setDay31(checkVal((String) data.get(i).get(34)));
-            timeSheet.setEnd_perc(checkVal((String) data.get(i).get(35)));
+            timeSheet.setWork_num(datum.get(1).toString());
+            timeSheet.setWork_stage(datum.get(2).toString());
+            timeSheet.setWork_note(checkVal((String) datum.get(3)));
+            timeSheet.setDay1(checkVal((String) datum.get(4)));
+            timeSheet.setDay2(checkVal((String) datum.get(5)));
+            timeSheet.setDay3(checkVal((String) datum.get(6)));
+            timeSheet.setDay4(checkVal((String) datum.get(7)));
+            timeSheet.setDay5(checkVal((String) datum.get(8)));
+            timeSheet.setDay6(checkVal((String) datum.get(9)));
+            timeSheet.setDay7(checkVal((String) datum.get(10)));
+            timeSheet.setDay8(checkVal((String) datum.get(11)));
+            timeSheet.setDay9(checkVal((String) datum.get(12)));
+            timeSheet.setDay10(checkVal((String) datum.get(13)));
+            timeSheet.setDay11(checkVal((String) datum.get(14)));
+            timeSheet.setDay12(checkVal((String) datum.get(15)));
+            timeSheet.setDay13(checkVal((String) datum.get(16)));
+            timeSheet.setDay14(checkVal((String) datum.get(17)));
+            timeSheet.setDay15(checkVal((String) datum.get(18)));
+            timeSheet.setDay16(checkVal((String) datum.get(19)));
+            timeSheet.setDay17(checkVal((String) datum.get(20)));
+            timeSheet.setDay18(checkVal((String) datum.get(21)));
+            timeSheet.setDay19(checkVal((String) datum.get(22)));
+            timeSheet.setDay20(checkVal((String) datum.get(23)));
+            timeSheet.setDay21(checkVal((String) datum.get(24)));
+            timeSheet.setDay22(checkVal((String) datum.get(25)));
+            timeSheet.setDay23(checkVal((String) datum.get(26)));
+            timeSheet.setDay24(checkVal((String) datum.get(27)));
+            timeSheet.setDay25(checkVal((String) datum.get(28)));
+            timeSheet.setDay26(checkVal((String) datum.get(29)));
+            timeSheet.setDay27(checkVal((String) datum.get(30)));
+            timeSheet.setDay28(checkVal((String) datum.get(31)));
+            timeSheet.setDay29(checkVal((String) datum.get(32)));
+            timeSheet.setDay30(checkVal((String) datum.get(33)));
+            timeSheet.setDay31(checkVal((String) datum.get(34)));
+            timeSheet.setEnd_perc(checkVal((String) datum.get(35)));
             timeSheetList.add(timeSheet);
         }
 
