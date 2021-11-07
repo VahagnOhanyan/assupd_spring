@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -144,6 +145,8 @@ public class MainController {
     private Parent fxmlSite;
     private Parent fxmlTaskView;
     private Parent fxmlEffectivityReport;
+    private Parent fileChooserView;
+    private Parent calendarView;
     private FXMLLoader fxmlSheetLoader = new FXMLLoader();
     private FXMLLoader fxmlProjectLoader = new FXMLLoader();
     private FXMLLoader fxmlRequestLoader = new FXMLLoader();
@@ -164,6 +167,8 @@ public class MainController {
     private FXMLLoader fxmlSiteLoader = new FXMLLoader();
     private FXMLLoader fxmlTaskViewLoader = new FXMLLoader();
     private FXMLLoader fxmlEffectivityReportLoader = new FXMLLoader();
+    private FXMLLoader fileChooserViewLoader = new FXMLLoader();
+    private FXMLLoader calendarViewLoader = new FXMLLoader();
     private SheetController sheetController;
     private ProjectController projectController;
     private RequestController requestController;
@@ -184,6 +189,8 @@ public class MainController {
     private SiteController siteController;
     private TaskViewController taskViewController;
     private EffectivityReportController effectivityReportController;
+    private HolidaysController fileChooserController;
+    private CalendarController calendarController;
     private Stage sheetStage;
     private Stage projectStage;
     private Stage requestStage;
@@ -204,6 +211,8 @@ public class MainController {
     private Stage siteStage;
     private Stage taskViewStage;
     private Stage effectivityReportStage;
+    public Stage fileChooserStage;
+    public Stage calendarStage;
 
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
@@ -243,7 +252,8 @@ public class MainController {
         openViewButton.graphicProperty().setValue(new ImageView(viewImage));
         deleteButton.graphicProperty().setValue(new ImageView(deleteImage));
 
-        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                role.equalsIgnoreCase("Менеджер проекта")) {
 
         } else {
             mBtnCreate.setDisable(true);
@@ -337,6 +347,13 @@ public class MainController {
             fxmlEffectivityReport = fxmlEffectivityReportLoader.load();
             effectivityReportController = fxmlEffectivityReportLoader.getController();
 
+            fileChooserViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/holidaysCsvFile.fxml"));
+            fileChooserView = fileChooserViewLoader.load();
+            fileChooserController = fileChooserViewLoader.getController();
+
+            calendarViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/calendar.fxml"));
+            calendarView = calendarViewLoader.load();
+            calendarController = calendarViewLoader.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -351,7 +368,8 @@ public class MainController {
             systemLabel.setTextFill(Color.RED);
             systemLabel.setText("Фильтр не применен");
 
-            if (newValue.getValue().contains("Мои задачи") || newValue.getValue().contains("В работе") || newValue.getValue().contains("Выполнено") || newValue.getValue().contains("Проверено") || newValue.getValue().contains("Утверждено") || newValue.getValue().contains("В ожидании")) {
+            if (newValue.getValue().contains("Мои задачи") || newValue.getValue().contains("В работе") || newValue.getValue().contains("Выполнено") ||
+                    newValue.getValue().contains("Проверено") || newValue.getValue().contains("Утверждено") || newValue.getValue().contains("В ожидании")) {
                 sheetTools.setVisible(true);
 
                 customerFilterBox.getCheckModel().clearChecks();
@@ -389,7 +407,6 @@ public class MainController {
                 for (ObservableList project : projects) {
                     projectFilterBox.getItems().add(project.get(2));
                 }
-
             } else {
                 sheetTools.setVisible(false);
             }
@@ -406,7 +423,8 @@ public class MainController {
                 stateFilterBox.getItems().clear();
 
                 siteFilterBox.getItems().addAll(data("SELECT site_name FROM public.site ORDER BY site_id"));
-                roleFilterBox.getItems().addAll(data("SELECT user_role_name FROM public.user_role WHERE user_role_name != 'Super_user' AND user_role_name != 'Admin' ORDER BY user_role_name"));
+                roleFilterBox.getItems().addAll(data(
+                        "SELECT user_role_name FROM public.user_role WHERE user_role_name != 'Super_user' AND user_role_name != 'Admin' ORDER BY user_role_name"));
                 stateFilterBox.getItems().addAll(data("SELECT user_activity_name FROM public.user_activity ORDER BY user_activity_id"));
 
                 if (newValue.getValue().contains("Табель")) {
@@ -416,7 +434,6 @@ public class MainController {
                     stateFilterBox.setVisible(true);
                     stateLabel.setVisible(true);
                 }
-
             } else {
                 emplTools.setVisible(false);
             }
@@ -466,7 +483,6 @@ public class MainController {
                 for (ObservableList project : projects) {
                     projectFilterBox.getItems().add(project.get(2));
                 }
-
             }
 
             contractFilterBox.autosize();
@@ -497,10 +513,10 @@ public class MainController {
 
         data.addListener((ListChangeListener) c -> lblQty.setText("Количество записей: " + data.size()));
 
-
         dataView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (!dataView.getSelectionModel().isEmpty()) {
-                if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
+                if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") ||
+                        prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
                     for (int i = 0; i <= data.size() - 1; i++) {
                         if (data.get(i) == dataView.getSelectionModel().getSelectedItem()) {
                             workNumber = (String) data.get(i).get(5);
@@ -508,7 +524,9 @@ public class MainController {
                     }
                 }
 
-                if (prevNode.equals("Заказчики") || prevNode.equals("Мои проекты") || prevNode.equals("Сотрудники") || prevNode.equals("Площадки") || prevNode.equals("Контракты") || prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании") || prevNode.equals("Заявки")) {
+                if (prevNode.equals("Заказчики") || prevNode.equals("Мои проекты") || prevNode.equals("Сотрудники") || prevNode.equals("Площадки") ||
+                        prevNode.equals("Контракты") || prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") ||
+                        prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании") || prevNode.equals("Заявки")) {
                     for (int i = 0; i <= data.size() - 1; i++) {
                         if (data.get(i) == dataView.getSelectionModel().getSelectedItem()) {
                             exemp = (String) data.get(i).get(0);
@@ -526,14 +544,13 @@ public class MainController {
 
         dataView.setOnMouseClicked(event -> {
             Object src = event.getSource();
-            if (!(src instanceof TableView))  {
+            if (!(src instanceof TableView)) {
                 return;
             }
 
             if (event.getClickCount() == 2) {
 
                 editObjectLinks();
-
             }
         });
 
@@ -547,7 +564,7 @@ public class MainController {
         });
 
         fldSearch.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)){
+            if (e.getCode().equals(KeyCode.ENTER)) {
                 actionSearch();
             }
         });
@@ -620,7 +637,7 @@ public class MainController {
 
             // Выделяем корневой узел на старте
             treeView.getSelectionModel().select(treeView.getRow(rootItem));
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -628,8 +645,10 @@ public class MainController {
     private void editObjectLinks() {
         if (prevNode.equals("Табель")) {
             timeSheetDetail();
-        } else if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
-            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+        } else if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") ||
+                prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
+            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                    role.equalsIgnoreCase("Менеджер проекта")) {
                 executorDetail();
             } else {
                 infoAlert.setTitle("Ошибка доступа");
@@ -638,7 +657,8 @@ public class MainController {
                 infoAlert.showAndWait();
             }
         } else if (prevNode.equals("Мои проекты")) {
-            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                    role.equalsIgnoreCase("Менеджер проекта")) {
                 projectAccessDetail();
             } else {
                 infoAlert.setTitle("Ошибка доступа");
@@ -647,7 +667,8 @@ public class MainController {
                 infoAlert.showAndWait();
             }
         } else if (prevNode.equals("Сотрудники")) {
-            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                    role.equalsIgnoreCase("Менеджер проекта")) {
                 userAccessDetail();
             } else {
                 infoAlert.setTitle("Ошибка доступа");
@@ -656,7 +677,8 @@ public class MainController {
                 infoAlert.showAndWait();
             }
         } else if (prevNode.equals("Заявки")) {
-            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                    role.equalsIgnoreCase("Менеджер проекта")) {
                 if (!dataView.getSelectionModel().getSelectedItem().toString().contains("Согласовано")) {
                     requestLinkStage();
                 } else {
@@ -679,7 +701,7 @@ public class MainController {
         }
     }
 
-    public void actionButtonPressed (ActionEvent actionEvent) throws SQLException {
+    public void actionButtonPressed(ActionEvent actionEvent) throws SQLException {
         String node = "";
 
         Object source = actionEvent.getSource();
@@ -729,8 +751,10 @@ public class MainController {
                             infoAlert.setContentText("Недостаточно прав для выполнения действия");
                             infoAlert.showAndWait();
                         }
-                    } else if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
-                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+                    } else if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") ||
+                            prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
+                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                                role.equalsIgnoreCase("Менеджер проекта")) {
                             taskDetail();
                         } else {
                             infoAlert.setTitle("Ошибка доступа");
@@ -741,7 +765,8 @@ public class MainController {
                     } else if (prevNode.equalsIgnoreCase("Табель")) {
                         timeSheetDetail();
                     } else if (prevNode.equals("Заявки")) {
-                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                                role.equalsIgnoreCase("Менеджер проекта")) {
                             requestDetail();
                         } else {
                             infoAlert.setTitle("Ошибка доступа");
@@ -750,7 +775,8 @@ public class MainController {
                             infoAlert.showAndWait();
                         }
                     } else if (prevNode.equals("Мои проекты")) {
-                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                                role.equalsIgnoreCase("Менеджер проекта")) {
                             projectDetail();
                         } else {
                             infoAlert.setTitle("Ошибка доступа");
@@ -767,22 +793,24 @@ public class MainController {
                 }
                 break;
             case "btnStatusChange":
-                if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта") || role.equalsIgnoreCase("Начальник отдела")) {
+                if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                        role.equalsIgnoreCase("Менеджер проекта") || role.equalsIgnoreCase("Начальник отдела")) {
                     if (!dataView.getSelectionModel().isEmpty() & !taskStatusBox.getSelectionModel().isEmpty()) {
                         dBconnection.openDB();
                         dBconnection.getStmt().executeUpdate("UPDATE public.task SET status_id = " +
                                 "(SELECT s.status_id FROM public.status s " +
                                 "join public.status_type st on st.status_type_id = s.status_type " +
-                                "WHERE st.status_type_name = 'tasks' AND s.status_name = '"+taskStatusBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]","")+"') " +
-                                "WHERE task_number = '"+workNumber+"'");
+                                "WHERE st.status_type_name = 'tasks' AND s.status_name = '" +
+                                taskStatusBox.getSelectionModel().getSelectedItem().toString().replace("[", "").replace("]", "") + "') " +
+                                "WHERE task_number = '" + workNumber + "'");
                         dBconnection.getC().commit();
                         dBconnection.closeDB();
-                    } else if (taskStatusBox.getSelectionModel().isEmpty() & !dataView.getSelectionModel().isEmpty()){
+                    } else if (taskStatusBox.getSelectionModel().isEmpty() & !dataView.getSelectionModel().isEmpty()) {
                         infoAlert.setTitle("Ошибка выбора");
                         infoAlert.setHeaderText(null);
                         infoAlert.setContentText("Выберите статус");
                         infoAlert.showAndWait();
-                    } else if (dataView.getSelectionModel().isEmpty() & !taskStatusBox.getSelectionModel().isEmpty()){
+                    } else if (dataView.getSelectionModel().isEmpty() & !taskStatusBox.getSelectionModel().isEmpty()) {
                         infoAlert.setTitle("Ошибка выбора");
                         infoAlert.setHeaderText(null);
                         infoAlert.setContentText("Выберите задачу");
@@ -807,27 +835,30 @@ public class MainController {
                 editObjectLinks();
                 break;
             case "openViewButton":
-                    if (!dataView.getSelectionModel().isEmpty()) {
-                        if (prevNode.equals("Заявки")) {
-                            if (role.equalsIgnoreCase("Super_user") || role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("АУП") || role.equalsIgnoreCase("Менеджер проекта")) {
-                                requestView();
-                            }
-                        } else if (prevNode.equals("Табель")) {
-                            timeSheetDetail();
-                        } else if (prevNode.equals("Мои задачи")) {
-                            taskView();
+                if (!dataView.getSelectionModel().isEmpty()) {
+                    if (prevNode.equals("Заявки")) {
+                        if (role.equalsIgnoreCase("Super_user") || role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("АУП") ||
+                                role.equalsIgnoreCase("Менеджер проекта")) {
+                            requestView();
                         }
-                    } else {
-                        infoAlert.setTitle("Ошибка выбора");
-                        infoAlert.setHeaderText(null);
-                        infoAlert.setContentText("Выберите значение в таблице");
-                        infoAlert.showAndWait();
+                    } else if (prevNode.equals("Табель")) {
+                        timeSheetDetail();
+                    } else if (prevNode.equals("Мои задачи")) {
+                        taskView();
                     }
+                } else {
+                    infoAlert.setTitle("Ошибка выбора");
+                    infoAlert.setHeaderText(null);
+                    infoAlert.setContentText("Выберите значение в таблице");
+                    infoAlert.showAndWait();
+                }
                 break;
             case "deleteButton":
                 if (!dataView.getSelectionModel().isEmpty()) {
-                    if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
-                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") || role.equalsIgnoreCase("Менеджер проекта")) {
+                    if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") ||
+                            prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
+                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user") ||
+                                role.equalsIgnoreCase("Менеджер проекта")) {
                             deleteItem(workNumber);
                         } else {
                             infoAlert.setTitle("Ошибка доступа");
@@ -846,7 +877,7 @@ public class MainController {
         }
     }
 
-    public void actionMenuItemPressed (ActionEvent actionEvent) throws SQLException {
+    public void actionMenuItemPressed(ActionEvent actionEvent) throws SQLException {
 
         Object source = actionEvent.getSource();
         if (!(source instanceof MenuItem)) {
@@ -856,6 +887,22 @@ public class MainController {
         MenuItem clickedMenuItem = (MenuItem) source;
 
         switch (clickedMenuItem.getId()) {
+            case "calendar":
+                if (role.equalsIgnoreCase("super_user")) {
+                    setCalendarStage();
+
+                    calendarStage.show();
+                }
+                break;
+            case "calendarImport":
+                if (role.equalsIgnoreCase("super_user")) {
+                    setFileChooserStage();
+                    //FileChooser fileChooser = new FileChooser();
+                    //fileChooser.setTitle("Open file")
+                    // fileChooser.showOpenDialog(mainStage);
+                    fileChooserStage.show();
+                }
+                break;
             case "menuClose":
                 System.exit(0);
                 break;
@@ -987,16 +1034,14 @@ public class MainController {
         }
 
         updateTableView();
-
     }
 
-    public void actionMenuAbout (ActionEvent actionEvent) {
+    public void actionMenuAbout(ActionEvent actionEvent) {
         infoAlert.setTitle("О программе");
         infoAlert.setHeaderText("АСУ ПД, 2018-2020 г.");
         infoAlert.setContentText("v 1.0.4");
         infoAlert.showAndWait();
     }
-
 
     private void sheetDetail() {
         if (sheetStage == null) {
@@ -1105,6 +1150,30 @@ public class MainController {
         }
     }
 
+    private void setFileChooserStage() {
+        if (fileChooserStage == null) {
+            fileChooserStage = new Stage();
+            fileChooserStage.setScene(new Scene(fileChooserView));
+            fileChooserStage.setMinHeight(100);
+            fileChooserStage.setMinWidth(100);
+            fileChooserStage.setResizable(false);
+            fileChooserStage.initModality(Modality.WINDOW_MODAL);
+            fileChooserStage.initOwner(mainStage);
+        }
+    }
+
+    private void setCalendarStage() {
+        if (calendarStage == null) {
+            calendarStage = new Stage();
+            calendarStage.setScene(new Scene(calendarView));
+            calendarStage.setMinHeight(100);
+            calendarStage.setMinWidth(100);
+            calendarStage.setResizable(false);
+            calendarStage.initModality(Modality.WINDOW_MODAL);
+            calendarStage.initOwner(mainStage);
+        }
+    }
+
     private void effectivityReportDetail() {
         effectivityReportStage();
 
@@ -1145,7 +1214,7 @@ public class MainController {
         }
     }
 
-    private void userDetail () {
+    private void userDetail() {
         if (!dataView.getSelectionModel().isEmpty()) {
             userStage();
             userStage.setTitle("Редактировать сотрудника");
@@ -1160,7 +1229,7 @@ public class MainController {
         }
     }
 
-    private void taskStage(){
+    private void taskStage() {
         if (taskStage == null) {
             taskStage = new Stage();
             taskStage.setScene(new Scene(fxmlTask));
@@ -1223,7 +1292,6 @@ public class MainController {
     private void contractDetail() {
         Integer rowIndex = dataView.getSelectionModel().getSelectedIndex();
 
-
         contractStage();
         contractStage.setTitle("Изменить");
         contractController.setData(exemp);
@@ -1231,7 +1299,6 @@ public class MainController {
         updateTableView();
 
         dataView.getSelectionModel().clearAndSelect(rowIndex);
-
     }
 
     private void requestStage() {
@@ -1248,7 +1315,6 @@ public class MainController {
 
     private void requestDetail() {
         Integer rowIndex = dataView.getSelectionModel().getSelectedIndex();
-
 
         requestStage();
         requestStage.setTitle("Изменить");
@@ -1358,7 +1424,7 @@ public class MainController {
         }
     }
 
-    private void requestView(){
+    private void requestView() {
         requestViewStage();
 
         Integer rowIndex = dataView.getSelectionModel().getSelectedIndex();
@@ -1384,7 +1450,7 @@ public class MainController {
         }
     }
 
-    private void taskView(){
+    private void taskView() {
         Integer rowIndex = dataView.getSelectionModel().getSelectedIndex();
 
         taskViewStage();
@@ -1423,8 +1489,6 @@ public class MainController {
         }
     }
 
-
-
     private void tableShowContent(String nodeName) {
 
         if (nodeName != prevNode) {
@@ -1444,66 +1508,72 @@ public class MainController {
                         sql = "";
                         break;
                     case "Мои проекты":
-                            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user")) {
-                                sql = "SELECT p.project_id, cr.customer_name, c.contract_number, p.project_name FROM public.project p " +
-                                        "join public.contract_project cp on cp.project_id = p.project_id " +
-                                        "join public.contract c on c.contract_id = cp.contract_id " +
-                                        "join public.customer cr on cr.customer_id = p.customer_id " +
-                                        "ORDER BY cr.customer_name, c.contract_number, p.project_name";
-                            } else if (role.equalsIgnoreCase("Менеджер проекта")) {
-                                sql = "SELECT p.project_id, cr.customer_name, c.contract_number, p.project_name FROM public.project p " +
-                                        "join public.contract_project cp on cp.project_id = p.project_id " +
-                                        "join public.contract c on c.contract_id = cp.contract_id " +
-                                        "join public.customer cr on cr.customer_id = p.customer_id " +
-                                        "join public.project_manager pm on pm.project_id = p.project_id " +
-                                        "join public.user u on u.user_id = pm.user_id " +
-                                        "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '"+who+"') " +
-                                        "ORDER BY cr.customer_name, c.contract_number, p.project_name";
-                            } else {
-                                sql ="";
-                            }
-                            break;
+                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user")) {
+                            sql = "SELECT p.project_id, cr.customer_name, c.contract_number, p.project_name FROM public.project p " +
+                                    "join public.contract_project cp on cp.project_id = p.project_id " +
+                                    "join public.contract c on c.contract_id = cp.contract_id " +
+                                    "join public.customer cr on cr.customer_id = p.customer_id " +
+                                    "ORDER BY cr.customer_name, c.contract_number, p.project_name";
+                        } else if (role.equalsIgnoreCase("Менеджер проекта")) {
+                            sql = "SELECT p.project_id, cr.customer_name, c.contract_number, p.project_name FROM public.project p " +
+                                    "join public.contract_project cp on cp.project_id = p.project_id " +
+                                    "join public.contract c on c.contract_id = cp.contract_id " +
+                                    "join public.customer cr on cr.customer_id = p.customer_id " +
+                                    "join public.project_manager pm on pm.project_id = p.project_id " +
+                                    "join public.user u on u.user_id = pm.user_id " +
+                                    "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who + "') " +
+                                    "ORDER BY cr.customer_name, c.contract_number, p.project_name";
+                        } else {
+                            sql = "";
+                        }
+                        break;
                     case "Мои задачи":
-                            if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user")) {
-                                sql = "SELECT t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name FROM public.task t " +
-                                        "join public.project p on p.project_id = t.project_id " +
-                                        "left join public.request r on r.request_id = t.request_id " +
-                                        "join public.customer cr on cr.customer_id = p.customer_id " +
-                                        "join public.contract_project cp on cp.project_id = p.project_id " +
-                                        "join public.contract c on c.contract_id = cp.contract_id " +
-                                        "join public.status s on s.status_id = t.status_id " +
-                                        "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
-                                        "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
-                            } else if (role.equalsIgnoreCase("Менеджер проекта")){
-                                sql = "SELECT t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name FROM public.task t " +
-                                        "join public.project p on p.project_id = t.project_id " +
-                                        "left join public.request r on r.request_id = t.request_id " +
-                                        "join public.customer cr on cr.customer_id = p.customer_id " +
-                                        "join public.contract_project cp on cp.project_id = p.project_id " +
-                                        "join public.contract c on c.contract_id = cp.contract_id " +
-                                        "join public.status s on s.status_id = t.status_id " +
-                                        "left join public.project_manager pm on pm.project_id = p.project_id " +
-                                        "left join public.user u on u.user_id = pm.user_id " +
-                                        "left join public.task_executor te on te.task_id = t.task_id " +
-                                        "left join public.user ute on ute.user_id = te.user_id " +
-                                        "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
-                                        "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '"+who+"') OR ute.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '"+who+"') OR ute.user_id IN (SELECT us_su.user_sub_id FROM public.user_subordination us_su join public.user usr on usr.user_id = us_su.user_id WHERE usr.user_fullname = '"+who+"') " +
-                                        "GROUP BY t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name " +
-                                        "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
-                            } else {
-                                sql = "SELECT t.task_id, cr.customer_name, t.task_number, t.task_name, t.task_pa_intensity, tu.task_uom_name, t.task_unit_plan, t.task_income_date, s.status_name FROM public.task t " +
-                                        "join public.project p on p.project_id = t.project_id " +
-                                        "left join public.request r on r.request_id = t.request_id " +
-                                        "join public.customer cr on cr.customer_id = p.customer_id " +
-                                        "join public.contract_project cp on cp.project_id = p.project_id " +
-                                        "join public.contract c on c.contract_id = cp.contract_id " +
-                                        "join public.status s on s.status_id = t.status_id " +
-                                        "join public.task_executor te on te.task_id = t.task_id " +
-                                        "join public.user u on u.user_id = te.user_id " +
-                                        "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
-                                        "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '"+who+"') " +
-                                        "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
-                            }
+                        if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user")) {
+                            sql =
+                                    "SELECT t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name FROM public.task t " +
+                                            "join public.project p on p.project_id = t.project_id " +
+                                            "left join public.request r on r.request_id = t.request_id " +
+                                            "join public.customer cr on cr.customer_id = p.customer_id " +
+                                            "join public.contract_project cp on cp.project_id = p.project_id " +
+                                            "join public.contract c on c.contract_id = cp.contract_id " +
+                                            "join public.status s on s.status_id = t.status_id " +
+                                            "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
+                                            "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
+                        } else if (role.equalsIgnoreCase("Менеджер проекта")) {
+                            sql =
+                                    "SELECT t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name FROM public.task t " +
+                                            "join public.project p on p.project_id = t.project_id " +
+                                            "left join public.request r on r.request_id = t.request_id " +
+                                            "join public.customer cr on cr.customer_id = p.customer_id " +
+                                            "join public.contract_project cp on cp.project_id = p.project_id " +
+                                            "join public.contract c on c.contract_id = cp.contract_id " +
+                                            "join public.status s on s.status_id = t.status_id " +
+                                            "left join public.project_manager pm on pm.project_id = p.project_id " +
+                                            "left join public.user u on u.user_id = pm.user_id " +
+                                            "left join public.task_executor te on te.task_id = t.task_id " +
+                                            "left join public.user ute on ute.user_id = te.user_id " +
+                                            "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
+                                            "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                                            "') OR ute.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                                            "') OR ute.user_id IN (SELECT us_su.user_sub_id FROM public.user_subordination us_su join public.user usr on usr.user_id = us_su.user_id WHERE usr.user_fullname = '" +
+                                            who + "') " +
+                                            "GROUP BY t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name " +
+                                            "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
+                        } else {
+                            sql =
+                                    "SELECT t.task_id, cr.customer_name, t.task_number, t.task_name, t.task_pa_intensity, tu.task_uom_name, t.task_unit_plan, t.task_income_date, s.status_name FROM public.task t " +
+                                            "join public.project p on p.project_id = t.project_id " +
+                                            "left join public.request r on r.request_id = t.request_id " +
+                                            "join public.customer cr on cr.customer_id = p.customer_id " +
+                                            "join public.contract_project cp on cp.project_id = p.project_id " +
+                                            "join public.contract c on c.contract_id = cp.contract_id " +
+                                            "join public.status s on s.status_id = t.status_id " +
+                                            "join public.task_executor te on te.task_id = t.task_id " +
+                                            "join public.user u on u.user_id = te.user_id " +
+                                            "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
+                                            "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who + "') " +
+                                            "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
+                        }
                         break;
                     case "В работе":
                         worksGen("в работе");
@@ -1546,11 +1616,11 @@ public class MainController {
                                     "join public.project p on p.project_id = cp.project_id " +
                                     "join public.project_manager pm on pm.project_id = p.project_id " +
                                     "join public.user u on u.user_id = pm.user_id " +
-                                    "WHERE u.user_fullname = '"+who+"' " +
+                                    "WHERE u.user_fullname = '" + who + "' " +
                                     "GROUP BY ct.contract_id, cr.customer_name, ct.contract_number, ct.contract_name " +
                                     "ORDER BY cr.customer_name, ct.contract_number";
                         } else {
-                            sql="";
+                            sql = "";
                         }
                         break;
                     case "Заявки":
@@ -1612,7 +1682,7 @@ public class MainController {
                                     "GROUP BY r.request_id, cr.customer_name, ct.contract_number, r.request_number, r.request_description, ra.mp_create, ra.aup_approve, ra.customer_approve " +
                                     "ORDER BY cr.customer_name, ct.contract_number, r.request_number";
                         } else {
-                            sql="";
+                            sql = "";
                         }
                         break;
                     case "Компания":
@@ -1620,41 +1690,47 @@ public class MainController {
                         break;
                     case "Сотрудники":
                         if (role.equalsIgnoreCase("Super_user") || role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("АУП")) {
-                            sql = "SELECT u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, s.site_name, ur.user_role_name, ua.user_activity_name FROM public.user u " +
-                                    "join public.user_info ui on ui.user_info_id = u.user_info_id " +
-                                    "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
-                                    "left join public.site s on s.site_id = u.site_id " +
-                                    "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
-                                    "WHERE u.user_fullname != 'super_user' " +
-                                    "ORDER BY u.user_fullname";
+                            sql =
+                                    "SELECT u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, s.site_name, ur.user_role_name, ua.user_activity_name FROM public.user u " +
+                                            "join public.user_info ui on ui.user_info_id = u.user_info_id " +
+                                            "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
+                                            "left join public.site s on s.site_id = u.site_id " +
+                                            "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
+                                            "WHERE u.user_fullname != 'super_user' " +
+                                            "ORDER BY u.user_fullname";
                         } else if (role.equalsIgnoreCase("Менеджер проекта")) {
-                            sql = "SELECT u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, s.site_name, ur.user_role_name, ua.user_activity_name FROM public.user u " +
-                                    "left join public.user_subordination us on us.user_sub_id = u.user_id " +
-                                    "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
-                                    "join public.user_info ui on ui.user_info_id = u.user_info_id " +
-                                    "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
-                                    "left join public.site s on s.site_id = u.site_id " +
-                                    "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +"') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +"')) " +
-                                    "GROUP BY u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, ur.user_role_name, s.site_name, ua.user_activity_name " +
-                                    "ORDER BY u.user_fullname";
+                            sql =
+                                    "SELECT u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, s.site_name, ur.user_role_name, ua.user_activity_name FROM public.user u " +
+                                            "left join public.user_subordination us on us.user_sub_id = u.user_id " +
+                                            "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
+                                            "join public.user_info ui on ui.user_info_id = u.user_info_id " +
+                                            "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
+                                            "left join public.site s on s.site_id = u.site_id " +
+                                            "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                                            "') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who + "')) " +
+                                            "GROUP BY u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, ur.user_role_name, s.site_name, ua.user_activity_name " +
+                                            "ORDER BY u.user_fullname";
                         } else if (role.equalsIgnoreCase("Начальник отдела") || role.equalsIgnoreCase("Ведущий специалист")) {
-                            sql = "SELECT u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, s.site_name, ur.user_role_name, ua.user_activity_name FROM public.user u " +
-                                    "left join public.user_subordination us on us.user_sub_id = u.user_id " +
-                                    "join public.user_info ui on ui.user_info_id = u.user_info_id " +
-                                    "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
-                                    "left join public.site s on s.site_id = u.site_id " +
-                                    "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
-                                    "WHERE us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +"') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +"') " +
-                                    "GROUP BY u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, ur.user_role_name, s.site_name, ua.user_activity_name " +
-                                    "ORDER BY u.user_fullname";
+                            sql =
+                                    "SELECT u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, s.site_name, ur.user_role_name, ua.user_activity_name FROM public.user u " +
+                                            "left join public.user_subordination us on us.user_sub_id = u.user_id " +
+                                            "join public.user_info ui on ui.user_info_id = u.user_info_id " +
+                                            "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
+                                            "left join public.site s on s.site_id = u.site_id " +
+                                            "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
+                                            "WHERE us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                                            "') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who + "') " +
+                                            "GROUP BY u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, ur.user_role_name, s.site_name, ua.user_activity_name " +
+                                            "ORDER BY u.user_fullname";
                         } else {
-                            sql = "SELECT u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, s.site_name, ur.user_role_name, ua.user_activity_name FROM public.user u " +
-                                    "join public.user_info ui on ui.user_info_id = u.user_info_id " +
-                                    "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
-                                    "left join public.site s on s.site_id = u.site_id " +
-                                    "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
-                                    "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +"') " +
-                                    "ORDER BY u.user_fullname";
+                            sql =
+                                    "SELECT u.user_id_number, u.user_fullname, u.user_tel, u.user_adress, u.user_email, s.site_name, ur.user_role_name, ua.user_activity_name FROM public.user u " +
+                                            "join public.user_info ui on ui.user_info_id = u.user_info_id " +
+                                            "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
+                                            "left join public.site s on s.site_id = u.site_id " +
+                                            "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
+                                            "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who + "') " +
+                                            "ORDER BY u.user_fullname";
                         }
                         break;
                     case "Табель":
@@ -1671,7 +1747,7 @@ public class MainController {
                                     "join public.user_info ui on ui.user_info_id = u.user_info_id " +
                                     "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
                                     "left join public.site s on s.site_id = u.site_id " +
-                                    "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +"') " +
+                                    "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who + "') " +
                                     "ORDER BY u.user_fullname";
                         } else {
                             sql = "SELECT u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name FROM public.user u " +
@@ -1680,7 +1756,9 @@ public class MainController {
                                     "join public.user_info ui on ui.user_info_id = u.user_info_id " +
                                     "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
                                     "left join public.site s on s.site_id = u.site_id " +
-                                    "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +"') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +"')) AND (ua.user_activity_name != 'Уволен' OR ua.user_activity_name IS NULL) " +
+                                    "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                                    "') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                                    "')) AND (ua.user_activity_name != 'Уволен' OR ua.user_activity_name IS NULL) " +
                                     "GROUP BY u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name " +
                                     "ORDER BY u.user_fullname";
                         }
@@ -1691,7 +1769,7 @@ public class MainController {
                 }
                 dataView.getItems().clear();
                 if (!sql.equals("")) {
-//                    tableGenerator(sql);
+                    //                    tableGenerator(sql);
                     actionFilter();
                 } else {
                     dataView.getColumns().clear();
@@ -1702,47 +1780,53 @@ public class MainController {
 
     private void worksGen(String status) {
         if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user")) {
-            sql = "SELECT t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name FROM public.task t " +
-                    "join public.project p on p.project_id = t.project_id " +
-                    "left join public.request r on r.request_id = t.request_id " +
-                    "join public.customer cr on cr.customer_id = p.customer_id " +
-                    "join public.contract_project cp on cp.project_id = p.project_id " +
-                    "join public.contract c on c.contract_id = cp.contract_id " +
-                    "join public.status s on s.status_id = t.status_id " +
-                    "join public.status_type st on st.status_type_id = s.status_type " +
-                    "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
-                    "WHERE s.status_name = '"+ status +"' " +
-                    "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
-        } else if (role.equalsIgnoreCase("Менеджер проекта")){
-            sql = "SELECT t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name FROM public.task t " +
-                    "join public.project p on p.project_id = t.project_id " +
-                    "left join public.request r on r.request_id = t.request_id " +
-                    "join public.customer cr on cr.customer_id = p.customer_id " +
-                    "join public.contract_project cp on cp.project_id = p.project_id " +
-                    "join public.contract c on c.contract_id = cp.contract_id " +
-                    "join public.status s on s.status_id = t.status_id " +
-                    "left join public.project_manager pm on pm.project_id = p.project_id " +
-                    "left join public.user u on u.user_id = pm.user_id " +
-                    "left join public.task_executor te on te.task_id = t.task_id " +
-                    "left join public.user ute on ute.user_id = te.user_id " +
-                    "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
-                    "WHERE (u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '"+who+"') OR ute.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '"+who+"') OR ute.user_id IN (SELECT us_su.user_sub_id FROM public.user_subordination us_su join public.user usr on usr.user_id = us_su.user_id WHERE usr.user_fullname = '"+who+"')) AND s.status_name = '"+ status +"' " +
-                    "GROUP BY t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name " +
-                    "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
+            sql =
+                    "SELECT t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name FROM public.task t " +
+                            "join public.project p on p.project_id = t.project_id " +
+                            "left join public.request r on r.request_id = t.request_id " +
+                            "join public.customer cr on cr.customer_id = p.customer_id " +
+                            "join public.contract_project cp on cp.project_id = p.project_id " +
+                            "join public.contract c on c.contract_id = cp.contract_id " +
+                            "join public.status s on s.status_id = t.status_id " +
+                            "join public.status_type st on st.status_type_id = s.status_type " +
+                            "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
+                            "WHERE s.status_name = '" + status + "' " +
+                            "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
+        } else if (role.equalsIgnoreCase("Менеджер проекта")) {
+            sql =
+                    "SELECT t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name FROM public.task t " +
+                            "join public.project p on p.project_id = t.project_id " +
+                            "left join public.request r on r.request_id = t.request_id " +
+                            "join public.customer cr on cr.customer_id = p.customer_id " +
+                            "join public.contract_project cp on cp.project_id = p.project_id " +
+                            "join public.contract c on c.contract_id = cp.contract_id " +
+                            "join public.status s on s.status_id = t.status_id " +
+                            "left join public.project_manager pm on pm.project_id = p.project_id " +
+                            "left join public.user u on u.user_id = pm.user_id " +
+                            "left join public.task_executor te on te.task_id = t.task_id " +
+                            "left join public.user ute on ute.user_id = te.user_id " +
+                            "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
+                            "WHERE (u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                            "') OR ute.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                            "') OR ute.user_id IN (SELECT us_su.user_sub_id FROM public.user_subordination us_su join public.user usr on usr.user_id = us_su.user_id WHERE usr.user_fullname = '" +
+                            who + "')) AND s.status_name = '" + status + "' " +
+                            "GROUP BY t.task_id, cr.customer_name, c.contract_number, p.project_name, r.request_number, t.task_number, t.task_name, t.task_income_date, t.task_pa_intensity, t.task_tz_intensity, tu.task_uom_name, t.task_unit_plan, t.task_unit_fact, t.task_out, s.status_name " +
+                            "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
         } else {
-            sql = "SELECT t.task_id, cr.customer_name, t.task_number, t.task_name, t.task_pa_intensity, tu.task_uom_name, t.task_unit_plan, t.task_income_date, s.status_name FROM public.task t " +
-                    "join public.project p on p.project_id = t.project_id " +
-                    "left join public.request r on r.request_id = t.request_id " +
-                    "join public.customer cr on cr.customer_id = p.customer_id " +
-                    "join public.contract_project cp on cp.project_id = p.project_id " +
-                    "join public.contract c on c.contract_id = cp.contract_id " +
-                    "join public.status s on s.status_id = t.status_id " +
-                    "join public.status_type st on st.status_type_id = s.status_type " +
-                    "join public.task_executor te on te.task_id = t.task_id " +
-                    "join public.user u on u.user_id = te.user_id " +
-                    "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
-                    "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '"+who+"') AND s.status_name = '"+ status +"' " +
-                    "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
+            sql =
+                    "SELECT t.task_id, cr.customer_name, t.task_number, t.task_name, t.task_pa_intensity, tu.task_uom_name, t.task_unit_plan, t.task_income_date, s.status_name FROM public.task t " +
+                            "join public.project p on p.project_id = t.project_id " +
+                            "left join public.request r on r.request_id = t.request_id " +
+                            "join public.customer cr on cr.customer_id = p.customer_id " +
+                            "join public.contract_project cp on cp.project_id = p.project_id " +
+                            "join public.contract c on c.contract_id = cp.contract_id " +
+                            "join public.status s on s.status_id = t.status_id " +
+                            "join public.status_type st on st.status_type_id = s.status_type " +
+                            "join public.task_executor te on te.task_id = t.task_id " +
+                            "join public.user u on u.user_id = te.user_id " +
+                            "left join public.task_uom tu on tu.task_uom_id = t.task_uom_id " +
+                            "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who + "') AND s.status_name = '" + status + "' " +
+                            "ORDER BY cr.customer_name, c.contract_number, p.project_name, t.task_number";
         }
     }
 
@@ -1762,9 +1846,12 @@ public class MainController {
                 generateColName(dBconnection.getRs().getMetaData().getColumnName(i + 1));
                 TableColumn tableColumn = new TableColumn(tableColName);
 
-                tableColumn.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty((String) param.getValue().get(j)));
+                tableColumn.setCellValueFactory(
+                        (Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(
+                                (String) param.getValue().get(j)));
 
-                if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
+                if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") ||
+                        prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
                     if (tableColName.equals("Наименование задачи")) {
                         tableColumn.setCellFactory(new Callback<TableColumn, TableCell>() {
 
@@ -1799,12 +1886,11 @@ public class MainController {
                         });
                         tableColumn.setPrefWidth(550);
                     } else {
-                        tableColumn.setStyle( "-fx-alignment: CENTER;");
+                        tableColumn.setStyle("-fx-alignment: CENTER;");
                     }
-
-
                 } else {
-                    if (tableColName.equals("ФИО") || tableColName.equals("Номер контракта") || tableColName.equals("Проект") || tableColName.equals("Название контракта")
+                    if (tableColName.equals("ФИО") || tableColName.equals("Номер контракта") || tableColName.equals("Проект") ||
+                            tableColName.equals("Название контракта")
                             || tableColName.equals("Полное наименование") || tableColName.equals("Номер заявки") || tableColName.equals("Описание заявки")) {
 
                     } else {
@@ -1816,10 +1902,10 @@ public class MainController {
                     editCell(event);
                 }));*/
 
-                dataView.setRowFactory(row -> new TableRow<ObservableList>(){
+                dataView.setRowFactory(row -> new TableRow<ObservableList>() {
 
                     @Override
-                    public void updateItem(ObservableList item, boolean empty){
+                    public void updateItem(ObservableList item, boolean empty) {
                         super.updateItem(item, empty);
 
                         if (item == null || empty) {
@@ -1840,6 +1926,7 @@ public class MainController {
                             }
                         }
                     }
+
                     @Override
                     public void updateSelected(boolean selected) {
                         super.updateSelected(selected);
@@ -1861,20 +1948,18 @@ public class MainController {
                                     setStyle("");
                                 }
                             }
-                        }catch (NullPointerException nle) {
+                        } catch (NullPointerException nle) {
 
                         }
                     }
                 });
 
                 dataView.getColumns().addAll(tableColumn);
-
-
             }
             //наполнение observableList данными из базы
-            while(dBconnection.getRs().next()){
+            while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=dBconnection.getRs().getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     row.add(dBconnection.getRs().getString(i));
                 }
                 data.add(row);
@@ -1883,13 +1968,13 @@ public class MainController {
             dBconnection.closeDB();
             //Добавление данных в TableView
             dataView.setItems(data);
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     // генерация русскоязычных названий колонок таблицы
-    private void generateColName (String bdColName) {
+    private void generateColName(String bdColName) {
         switch (bdColName) {
             case "user_id_number":
                 tableColName = "Таб. номер";
@@ -2043,7 +2128,8 @@ public class MainController {
                 backupList.removeAll(filteredBackup);
                 filteredBackup.clear();
 
-                systemLabel.setText(systemLabel.getText() + " / " + siteFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                systemLabel.setText(
+                        systemLabel.getText() + " / " + siteFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
 
             if (!roleFilterBox.getCheckModel().getCheckedItems().isEmpty()) {
@@ -2063,13 +2149,13 @@ public class MainController {
                     }
 
                     contains = false;
-
                 }
 
                 backupList.removeAll(filteredBackup);
                 filteredBackup.clear();
 
-                systemLabel.setText(systemLabel.getText() + " / " + roleFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                systemLabel.setText(
+                        systemLabel.getText() + " / " + roleFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
 
             if (!stateFilterBox.getCheckModel().getCheckedItems().isEmpty()) {
@@ -2094,11 +2180,13 @@ public class MainController {
                 backupList.removeAll(filteredBackup);
                 filteredBackup.clear();
 
-                systemLabel.setText(systemLabel.getText() + " / " + stateFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                systemLabel.setText(
+                        systemLabel.getText() + " / " + stateFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
         }
 
-        if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
+        if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") ||
+                prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
             if (!customerFilterBox.getCheckModel().getCheckedItems().isEmpty()) {
 
                 filterKeys.clear();
@@ -2121,7 +2209,8 @@ public class MainController {
                 backupList.removeAll(filteredBackup);
                 filteredBackup.clear();
 
-                systemLabel.setText(systemLabel.getText() + " / " + customerFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                systemLabel.setText(
+                        systemLabel.getText() + " / " + customerFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
 
             if (!contractFilterBox.getCheckModel().getCheckedItems().isEmpty()) {
@@ -2146,7 +2235,8 @@ public class MainController {
                 backupList.removeAll(filteredBackup);
                 filteredBackup.clear();
 
-                systemLabel.setText(systemLabel.getText() + " / " + contractFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                systemLabel.setText(
+                        systemLabel.getText() + " / " + contractFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
 
             if (!projectFilterBox.getCheckModel().getCheckedItems().isEmpty()) {
@@ -2171,7 +2261,8 @@ public class MainController {
                 backupList.removeAll(filteredBackup);
                 filteredBackup.clear();
 
-                systemLabel.setText(systemLabel.getText() + " / " + projectFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                systemLabel.setText(
+                        systemLabel.getText() + " / " + projectFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
         }
 
@@ -2185,7 +2276,8 @@ public class MainController {
             stateFilterBox.getCheckModel().clearChecks();
         }
 
-        if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") || prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
+        if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") ||
+                prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
             customerFilterBox.getCheckModel().clearChecks();
             contractFilterBox.getCheckModel().clearChecks();
             projectFilterBox.getCheckModel().clearChecks();
@@ -2196,7 +2288,7 @@ public class MainController {
     public void deleteItem(String itemID) {
         dBconnection.openDB();
         try {
-            dBconnection.getStmt().executeUpdate("DELETE FROM public.task WHERE task_number = '"+ itemID +"'");
+            dBconnection.getStmt().executeUpdate("DELETE FROM public.task WHERE task_number = '" + itemID + "'");
             dBconnection.getC().commit();
             infoAlert.setTitle("Действие выполнено");
             infoAlert.setHeaderText("Удаление задачи");
@@ -2212,7 +2304,6 @@ public class MainController {
             return;
         }
         dBconnection.closeDB();
-
     }
 
     private ObservableList data(String k) {
@@ -2222,7 +2313,7 @@ public class MainController {
             dBconnection.query(k);
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=dBconnection.getRs().getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     //Перебор колонок
                     row.add(dBconnection.getRs().getString(i));
                 }
@@ -2230,7 +2321,7 @@ public class MainController {
             }
             dBconnection.queryClose();
             dBconnection.closeDB();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             errorAlert.setTitle("Ошибка data");
             errorAlert.setContentText(e.getMessage());
             errorAlert.showAndWait();
@@ -2245,7 +2336,7 @@ public class MainController {
             dBconnection.query(k);
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=dBconnection.getRs().getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     //Перебор колонок
                     row.add(dBconnection.getRs().getString(i));
                 }
@@ -2253,7 +2344,7 @@ public class MainController {
             }
             dBconnection.queryClose();
             dBconnection.closeDB();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             errorAlert.setTitle("Ошибка data");
             errorAlert.setContentText(e.getMessage());
             errorAlert.showAndWait();
