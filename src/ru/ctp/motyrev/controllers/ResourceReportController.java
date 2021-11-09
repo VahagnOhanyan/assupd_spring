@@ -137,8 +137,7 @@ public class ResourceReportController {
                 halfyearBox.setVisible(false);
                 yearBox.setVisible(false);
                 endDate.setVisible(true);
-                endDate.setPromptText("за");
-                startDate.setValue(LocalDate.now());
+                startDate.setValue(LocalDate.of(2018,1,1));
                 endDate.setValue(LocalDate.now());
             }
         });
@@ -355,7 +354,7 @@ public class ResourceReportController {
 
     public void addData() {
         formClear();
-        startDate.setValue(LocalDate.now());
+        startDate.setValue(LocalDate.of(2018,1,1));
         endDate.setValue(LocalDate.now());
     }
 
@@ -1938,7 +1937,6 @@ public class ResourceReportController {
         reportSwitch.setSelected(true);
         startDate.setVisible(true);
         startDate.setDisable(true);
-        endDate.setPromptText("за");
         period = null;
         contractNumber = null;
         customer = null;
