@@ -1752,7 +1752,7 @@ public class ResourceReportController {
                                 desktop.open(new File("Ресурсный_отчет_на_" + quarterBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
                             }
                             if (reportSwitchForMonth.isSelected()) {
-                                desktop.open(new File("Ресурсный_отчет_на_" + monthBox.getValue() + "_" + yearBox.getValue() + " года" + ".xls"));
+                                desktop.open(new File("Ресурсный_отчет_на_" + monthBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
                             }
                             if (reportSwitchForPeriod.isSelected()) {
                                 desktop.open(new File("Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls"));
