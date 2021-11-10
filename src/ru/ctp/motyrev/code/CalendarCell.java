@@ -16,6 +16,16 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
 
     private final TextField textField = new TextField();
 
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    private static int year;
+
     // Converter for converting the text in the text field to the user type, and vice-versa:
     private final StringConverter<T> converter;
 
@@ -78,7 +88,7 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
 
     private boolean checkDate(int month, int day) {
         Calendar date = Calendar.getInstance();
-        date.set(date.get(Calendar.YEAR), month, day);
+        date.set(year, month, day);
         int dayofweeks = Calendar.DAY_OF_WEEK;
         return date.get(dayofweeks) == Calendar.SATURDAY
                 || date.get(dayofweeks) == Calendar.SUNDAY;
@@ -86,10 +96,10 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
 
     private boolean checkDateForCurrent(int month, int day) {
         Calendar date = Calendar.getInstance();
-        date.set(date.get(Calendar.YEAR), month, day);
+        date.set(year, month, day);
         GregorianCalendar currentDate = new GregorianCalendar();
         return date.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) &&
-                date.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH);
+                date.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH) && date.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR);
     }
 
     // set the text of the text field and display the graphic
