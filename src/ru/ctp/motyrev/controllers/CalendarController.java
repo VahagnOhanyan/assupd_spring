@@ -3,26 +3,25 @@ package ru.ctp.motyrev.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.*;
 import ru.ctp.motyrev.code.CalendarCell;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 
 public class CalendarController {
     @FXML
@@ -30,16 +29,23 @@ public class CalendarController {
     @FXML
     private Label yearLabel;
 
+    public static final int START_YEAR = 2018;
     String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
     ObservableList<Months> list;
     ObservableList<TableColumn<Months, ?>> columns;
     TableColumn<Months, String>[] tableColumnDays = new TableColumn[31];
     Calendar c = Calendar.getInstance();
-    File xlsxFile = new File("holidays.xlsx");
-    Workbook workbook = null;
-    FileInputStream inp = null;
-    Sheet sheet = workbook.getSheetAt(0);
-     int rowNum = 1;
+    Calendar calendar = Calendar.getInstance();
+    SimpleDateFormat format1 = new SimpleDateFormat("dd/MM");
+    File holidayFile = new File("holidays.xlsx");
+    File workFile = new File("workdays.xlsx");
+    static Workbook holidayBook = null;
+    static Workbook workbook = null;
+    static FileInputStream inp = null;
+    static FileInputStream inpWork = null;
+    static FileOutputStream fileOut = null;
+    static FileOutputStream fileOut1 = null;
+
     @FXML
     private void initialize() {
         yearLabel.setText(String.valueOf(LocalDate.now().getYear()));
@@ -82,70 +88,165 @@ public class CalendarController {
             tableColumnDays[i - 1].setCellFactory(column -> {
                 CalendarCell<Months, String> cc = CalendarCell.createCalendarCell();
                 cc.setYear(year);
-                ContextMenu cm1 = new ContextMenu();
-                ContextMenu cm2 = new ContextMenu();
-                MenuItem mi1 = new MenuItem("Установить нерабочим днём");
-                MenuItem mi2 = new MenuItem("Установить рабочим днём");
-                mi1.setOnAction(event -> {
-
-
-                    try {
-                        inp = new FileInputStream(xlsxFile);
-                        workbook = WorkbookFactory.create(inp);
-                    } catch (IOException | InvalidFormatException e) {
-                        e.printStackTrace();
-                    }
-                    assert workbook != null;
-
-                  //  workbook.setSheetName(0, "holidays");
-                    while (sheet.createRow(++rowNum).createCell(c.get(Calendar.YEAR) - 2018).getStringCellValue() != null && sheet.createRow(rowNum).createCell(c.get(Calendar.YEAR) - 2018).getStringCellValue() != "") {
-                        System.out.println(sheet.createRow(++rowNum).createCell(c.get(Calendar.YEAR) - 2018).getStringCellValue());
-
-                    }
-                    Row row = sheet.createRow(rowNum);
-                    org.apache.poi.ss.usermodel.Cell cell1 = row.createCell(c.get(Calendar.YEAR) - 2018);
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(cc.getYear(), cc.getIndex(), Integer.parseInt(cc.getItem()));
-                    Date date = calendar.getTime();
-                    SimpleDateFormat format1 = new SimpleDateFormat("dd/MM");
-                    String date1 = format1.format(date);
-                    cell1.setCellValue(date1);
-                    try {
-                        FileOutputStream fileOut = new FileOutputStream(xlsxFile);
-                        workbook.write(fileOut);
-                        fileOut.close();
-                        workbook.close();
-                        inp.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (!cc.getStyle().contains("#d4ebd7")) {
-                        cc.setStyle("-fx-alignment: CENTER;  -fx-background-color:lemonchiffon;");
-                    }
-                });
-                cm1.getItems().add(mi1);
-                mi2.setOnAction(event -> {
-                    if (!cc.getStyle().contains("#d4ebd7")) {
-                        cc.setStyle("-fx-alignment: CENTER;");
-                    }
-                });
-                cm2.getItems().add(mi2);
-
-                cc.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                    if (event.getButton() == MouseButton.SECONDARY) {
-                        if (cc.getStyle().equals("-fx-alignment: CENTER;")) {
-                            cm1.show(cc, event.getScreenX(), event.getScreenY());
-                        } else {
-                            cm2.show(cc, event.getScreenX(), event.getScreenY());
-                        }
-                        event.consume();
-                    }
-                });
                 return cc;
             });
         }
         Collections.addAll(columns, tableColumnDays);
+    }
+
+    public void updateCalendarCell(CalendarCell<Months, String> cc, ActionEvent event) {
+        try {
+            inp = new FileInputStream(holidayFile);
+            holidayBook = WorkbookFactory.create(inp);
+            inpWork = new FileInputStream(workFile);
+            workbook = WorkbookFactory.create(inpWork);
+        } catch (IOException | InvalidFormatException e) {
+            e.printStackTrace();
+        }
+        assert holidayBook != null;
+        Sheet holidaysheet = holidayBook.getSheetAt(0);
+        Sheet worksheet = workbook.getSheetAt(0);
+        Object source = event.getSource();
+        if (!(source instanceof MenuItem)) {
+            return;
+        }
+        MenuItem menuItem = (MenuItem) source;
+        String nextValue = "";
+        calendar.set(cc.getYear(), cc.getIndex(), Integer.parseInt(cc.getItem()));
+        Date date = calendar.getTime();
+        switch (menuItem.getId()) {
+            case "1":
+                Cell cell1;
+                boolean existsInWorkBook = false;
+                for (int i = 1; i <= c.getActualMaximum(Calendar.DAY_OF_YEAR); i++) {
+                    if (checkIfRowExists(worksheet, i)) {
+                        Row row = worksheet.getRow(i);
+                        if (checkIfCellExists(row, c.get(Calendar.YEAR) - START_YEAR)) {
+                            cell1 = row.getCell(c.get(Calendar.YEAR) - START_YEAR);
+                            nextValue = cell1.getStringCellValue();
+                            if (nextValue.equals(format1.format(date))) {
+                                existsInWorkBook = true;
+                                cell1.setCellValue("");
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!existsInWorkBook) {
+                    for (int i = 1; i <= c.getActualMaximum(Calendar.DAY_OF_YEAR); i++) {
+                        if (checkIfRowExists(holidaysheet, i)) {
+                            Row row = holidaysheet.getRow(i);
+                            if (checkIfCellExists(row, c.get(Calendar.YEAR) - START_YEAR)) {
+                                cell1 = row.getCell(c.get(Calendar.YEAR) - START_YEAR);
+                                nextValue = cell1.getStringCellValue();
+                                if (nextValue == null || nextValue.equals("")) {
+                                    cell1.setCellValue(format1.format(date));
+                                    break;
+                                }
+                            } else {
+                                cell1 = row.createCell(c.get(Calendar.YEAR) - START_YEAR);
+                                cell1.setCellValue(format1.format(date));
+                                break;
+                            }
+                        } else {
+                            holidaysheet.createRow(i).createCell(c.get(Calendar.YEAR) - START_YEAR).setCellValue(format1.format(date));
+                            break;
+                        }
+                    }
+                }
+
+                if (!cc.getStyle().contains("#d4ebd7")) {
+                    cc.setStyle("-fx-alignment: CENTER;  -fx-background-color:lemonchiffon;");
+                }
+                break;
+            case "2":
+                boolean existsInHolidayBook = false;
+                Cell cell2;
+                for (int i = 1; i <= c.getActualMaximum(Calendar.DAY_OF_YEAR); i++) {
+                    if (checkIfRowExists(holidaysheet, i)) {
+                        Row row = holidaysheet.getRow(i);
+                        if (checkIfCellExists(row, c.get(Calendar.YEAR) - START_YEAR)) {
+                            cell2 = row.getCell(c.get(Calendar.YEAR) - START_YEAR);
+                            nextValue = cell2.getStringCellValue();
+                            if (nextValue.equals(format1.format(date))) {
+                                existsInHolidayBook = true;
+                                cell2.setCellValue("");
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!existsInHolidayBook) {
+                    for (int i = 1; i <= c.getActualMaximum(Calendar.DAY_OF_YEAR); i++) {
+                        if (checkIfRowExists(worksheet, i)) {
+                            Row row = worksheet.getRow(i);
+                            if (checkIfCellExists(row, c.get(Calendar.YEAR) - START_YEAR)) {
+                                cell2 = row.getCell(c.get(Calendar.YEAR) - START_YEAR);
+                                nextValue = cell2.getStringCellValue();
+                                if (nextValue == null || nextValue.equals("")) {
+                                    cell2.setCellValue(format1.format(date));
+                                    break;
+                                }
+                            } else {
+                                cell2 = row.createCell(c.get(Calendar.YEAR) - START_YEAR);
+                                cell2.setCellValue(format1.format(date));
+                                break;
+                            }
+                        } else {
+                            worksheet.createRow(i).createCell(c.get(Calendar.YEAR) - START_YEAR).setCellValue(format1.format(date));
+                            break;
+                        }
+                    }
+                }
+
+                if (!cc.getStyle().contains("#d4ebd7")) {
+                    cc.setStyle("-fx-alignment: CENTER;");
+                }
+        }
+        try {
+            fileOut = new FileOutputStream(holidayFile);
+            holidayBook.write(fileOut);
+            fileOut1 = new FileOutputStream(workFile);
+            workbook.write(fileOut1);
+            CalendarController.closeResources();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void closeResources() {
+        try {
+            fileOut.close();
+            holidayBook.close();
+            inp.close();
+            fileOut1.close();
+            workbook.close();
+            inpWork.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean checkIfCellExists(Row row, int cellNum) {
+        Cell cell = row.getCell(cellNum);
+        return cell != null;
+    }
+
+    private boolean checkIfRowExists(Sheet sheet, int rowNum) {
+        Row row = sheet.getRow(rowNum);
+        if (row == null) {
+            return false;
+        }
+        if (row.getLastCellNum() <= 0) {
+            return false;
+        }
+        for (int cNum = row.getFirstCellNum(); cNum < row.getLastCellNum(); cNum++) {
+            org.apache.poi.ss.usermodel.Cell cell = row.getCell(cNum);
+            if (cell != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void actionChangeYear(ActionEvent actionEvent) {
@@ -170,28 +271,6 @@ public class CalendarController {
             tableColumnDays[i - 1].setCellFactory(column -> {
                 CalendarCell<Months, String> cc = CalendarCell.createCalendarCell();
                 cc.setYear(c.get(Calendar.YEAR));
-                ContextMenu cm1 = new ContextMenu();
-                ContextMenu cm2 = new ContextMenu();
-                MenuItem mi1 = new MenuItem("Установить нерабочим днём");
-                MenuItem mi2 = new MenuItem("Установить рабочим днём");
-                cm1.getItems().add(mi1);
-                mi2.setOnAction(event -> {
-                    if (!cc.getStyle().contains("#d4ebd7")) {
-                        cc.setStyle("-fx-alignment: CENTER;");
-                    }
-                });
-                cm2.getItems().add(mi2);
-
-                cc.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                    if (event.getButton() == MouseButton.SECONDARY) {
-                        if (cc.getStyle().equals("-fx-alignment: CENTER;")) {
-                            cm1.show(cc, event.getScreenX(), event.getScreenY());
-                        } else {
-                            cm2.show(cc, event.getScreenX(), event.getScreenY());
-                        }
-                        event.consume();
-                    }
-                });
                 return cc;
             });
         }
@@ -209,7 +288,7 @@ public class CalendarController {
 
     public static class Months {
 
-        private String[] days;
+        private final String[] days;
 
         public String getDay1() {
             return days[0];

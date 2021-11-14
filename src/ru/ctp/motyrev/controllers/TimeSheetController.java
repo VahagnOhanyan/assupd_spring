@@ -16,10 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import ru.ctp.motyrev.code.CurrentDateCell;
-import ru.ctp.motyrev.code.DBconnection;
-import ru.ctp.motyrev.code.EditCell;
-import ru.ctp.motyrev.code.WeekEndCell;
+import ru.ctp.motyrev.code.*;
 import ru.ctp.motyrev.interfaces.impls.CollectionTimeSheet;
 import ru.ctp.motyrev.objects.TimeSheet;
 
@@ -27,6 +24,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import static javafx.scene.control.TableView.UNCONSTRAINED_RESIZE_POLICY;
@@ -1423,8 +1421,12 @@ public class TimeSheetController {
 
             if (checkDateForCurrent(i)) {
                 tableColumn.setCellFactory(column -> CurrentDateCell.createStringCurrentDateCell());
-            } else if (checkDate(i)) {
+            } else if (checkDate(i) && !CalendarCell.createCalendarCell().checkDateForWorkday(LocalDate.now().getMonth().ordinal(), i)) {
                 tableColumn.setCellFactory(column -> WeekEndCell.createStringEditCell());
+            } else if (CalendarCell.createCalendarCell().checkDateForHoliday(LocalDate.now().getMonth().ordinal(), i) &&
+                    !CalendarCell.createCalendarCell().checkDateForWorkday(LocalDate.now().getMonth().ordinal(), i)) {
+                tableColumn.setCellFactory(column -> WeekEndCell.createStringEditCell());
+                CalendarController.closeResources();
             } else {
                 tableColumn.setCellFactory(column -> EditCell.createStringEditCell());
             }
@@ -1562,7 +1564,7 @@ public class TimeSheetController {
         Calendar date2 = date;
 
         date2.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH), i);
-         int dayofweeks = GregorianCalendar.DAY_OF_WEEK;
+        int dayofweeks = GregorianCalendar.DAY_OF_WEEK;
         if (date2.get(dayofweeks) == GregorianCalendar.SATURDAY
                 || date2.get(dayofweeks) == GregorianCalendar.SUNDAY) {
             return true;
