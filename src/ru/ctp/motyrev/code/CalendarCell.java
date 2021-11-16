@@ -6,26 +6,15 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import ru.ctp.motyrev.controllers.CalendarController;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class CalendarCell<S, T> extends TableCell<S, T> {
-    /*
-     Text field for editing
-     TODO: allow this to be a plugable control.
-    */
 
     private final TextField textField = new TextField();
 
@@ -34,33 +23,20 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
     }
 
     public void setYear(int year) {
-        this.year = year;
+        CalendarCell.year = year;
     }
 
-    private int year = LocalDate.now().getYear();
+    private static int year = LocalDate.now().getYear();
 
     // Converter for converting the text in the text field to the user type, and vice-versa:
     private final StringConverter<T> converter;
-    SimpleDateFormat format1 = new SimpleDateFormat("dd/MM");
-    static File holidayFile = new File("holidays.xlsx");
-    static File workFile = new File("workdays.xlsx");
-    static Workbook holidayBook = null;
-    static Workbook workbook = null;
-    static FileInputStream inp = null;
-    static FileInputStream inpWork = null;
+    private static ResultSet res = null;
 
-    static {
-        try {
-            inp = new FileInputStream(holidayFile);
-            holidayBook = WorkbookFactory.create(inp);
-            inpWork = new FileInputStream(workFile);
-            workbook = WorkbookFactory.create(inpWork);
-        } catch (IOException | InvalidFormatException e) {
-            e.printStackTrace();
-        }
+    public static void setRes(ResultSet res) {
+        CalendarCell.res = res;
     }
 
-    public CalendarCell(StringConverter<T> converter) {
+    private CalendarCell(StringConverter<T> converter) {
         this.converter = converter;
 
         itemProperty().addListener((obx, oldItem, newItem) -> {
@@ -76,7 +52,7 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
     /**
      * Convenience converter that does nothing (converts Strings to themselves and vice-versa...).
      */
-    public static final StringConverter<String> IDENTITY_CONVERTER = new StringConverter<String>() {
+    private static final StringConverter<String> IDENTITY_CONVERTER = new StringConverter<String>() {
 
         @Override
         public String toString(String object) {
@@ -117,14 +93,7 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
                     setStyle("-fx-alignment: CENTER;");
                 }
             }
-            try {
-                holidayBook.close();
-                inp.close();
-                workbook.close();
-                inpWork.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             ContextMenu cm1 = new ContextMenu();
             ContextMenu cm2 = new ContextMenu();
             MenuItem mi1 = new MenuItem("Установить нерабочим днём");
@@ -148,7 +117,7 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
         }
     }
 
-    private boolean checkDateForWeekEnd(int month, int day) {
+    private static boolean checkDateForWeekEnd(int month, int day) {
         Calendar date = Calendar.getInstance();
         date.set(year, month, day);
         int dayofweeks = Calendar.DAY_OF_WEEK;
@@ -157,63 +126,49 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
     }
 
     public boolean checkDateForHoliday(int month, int day) {
-
-        Calendar date = Calendar.getInstance();
-        date.set(year, month, day);
-        Date d = date.getTime();
-        Sheet holidaysheet = holidayBook.getSheetAt(0);
-        Cell cell1;
-        String nextValue;
-        for (int i = 1; i <= date.getActualMaximum(Calendar.DAY_OF_YEAR); i++) {
-            if (checkIfRowExists(holidaysheet, i)) {
-                Row row = holidaysheet.getRow(i);
-                if (checkIfCellExists(row, year - CalendarController.START_YEAR)) {
-                    cell1 = row.getCell(year - CalendarController.START_YEAR);
-                    nextValue = cell1.getStringCellValue();
-                    if (nextValue.equals(format1.format(d))) {
-                        return true;
-                    }
-                    if (nextValue.equals("")) {
-                        return false;
-                    }
-                } else {
-                    return false;
+        setBeforeFirst();
+        try {
+            while (!res.next()) {
+                int yyyy = res.getInt(CalendarController.YEAR);
+                int mm = res.getInt(CalendarController.MONTH) - 1;
+                int dd = res.getInt(CalendarController.DAY);
+                String type = res.getString(CalendarController.TYPE);
+                if (year == yyyy && month == mm && dd == day && type.equals("holiday")) {
+                    return true;
                 }
-            } else {
-                return false;
             }
+        } catch (SQLException e) {
+            return false;
         }
+
         return false;
     }
 
     public boolean checkDateForWorkday(int month, int day) {
-
-        Calendar date = Calendar.getInstance();
-        date.set(year, month, day);
-        Date d = date.getTime();
-        Sheet worksheet = workbook.getSheetAt(0);
-        Cell cell1;
-        String nextValue;
-        for (int i = 1; i <= date.getActualMaximum(Calendar.DAY_OF_YEAR); i++) {
-            if (checkIfRowExists(worksheet, i)) {
-                Row row = worksheet.getRow(i);
-                if (checkIfCellExists(row, year - CalendarController.START_YEAR)) {
-                    cell1 = row.getCell(year - CalendarController.START_YEAR);
-                    nextValue = cell1.getStringCellValue();
-                    if (nextValue.equals(format1.format(d))) {
-                        return true;
-                    }
-                    if (nextValue.equals("")) {
-                        return false;
-                    }
-                } else {
-                    return false;
+        setBeforeFirst();
+        try {
+            while (!res.next()) {
+                int yyyy = res.getInt(CalendarController.YEAR);
+                int mm = res.getInt(CalendarController.MONTH) - 1;
+                int dd = res.getInt(CalendarController.DAY);
+                String type = res.getString(CalendarController.TYPE);
+                if (year == yyyy && month == mm && dd == day && type.equals("workday")) {
+                    return true;
                 }
-            } else {
-                return false;
             }
+        } catch (SQLException e) {
+            return false;
         }
+
         return false;
+    }
+
+    private void setBeforeFirst() {
+        try {
+            res.beforeFirst();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean checkDateForCurrent(int month, int day) {
@@ -222,28 +177,6 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
         GregorianCalendar currentDate = new GregorianCalendar();
         return date.get(Calendar.DAY_OF_MONTH) == currentDate.get(Calendar.DAY_OF_MONTH) &&
                 date.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH) && date.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR);
-    }
-
-    private boolean checkIfCellExists(Row row, int cellNum) {
-        Cell cell = row.getCell(cellNum);
-        return cell != null;
-    }
-
-    private boolean checkIfRowExists(Sheet sheet, int rowNum) {
-        Row row = sheet.getRow(rowNum);
-        if (row == null) {
-            return false;
-        }
-        if (row.getLastCellNum() <= 0) {
-            return false;
-        }
-        for (int cNum = row.getFirstCellNum(); cNum < row.getLastCellNum(); cNum++) {
-            org.apache.poi.ss.usermodel.Cell cell = row.getCell(cNum);
-            if (cell != null) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // set the text of the text field and display the graphic

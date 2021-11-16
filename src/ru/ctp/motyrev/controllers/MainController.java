@@ -16,19 +16,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.controlsfx.control.CheckComboBox;
 import ru.ctp.motyrev.code.DBconnection;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
-import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static javafx.scene.control.TableView.UNCONSTRAINED_RESIZE_POLICY;
 
 public class MainController {
@@ -146,7 +142,6 @@ public class MainController {
     private Parent fxmlSite;
     private Parent fxmlTaskView;
     private Parent fxmlEffectivityReport;
-    private Parent fileChooserView;
     private Parent calendarView;
     private FXMLLoader fxmlSheetLoader = new FXMLLoader();
     private FXMLLoader fxmlProjectLoader = new FXMLLoader();
@@ -168,7 +163,6 @@ public class MainController {
     private FXMLLoader fxmlSiteLoader = new FXMLLoader();
     private FXMLLoader fxmlTaskViewLoader = new FXMLLoader();
     private FXMLLoader fxmlEffectivityReportLoader = new FXMLLoader();
-    private FXMLLoader fileChooserViewLoader = new FXMLLoader();
     private FXMLLoader calendarViewLoader = new FXMLLoader();
     private SheetController sheetController;
     private ProjectController projectController;
@@ -190,7 +184,6 @@ public class MainController {
     private SiteController siteController;
     private TaskViewController taskViewController;
     private EffectivityReportController effectivityReportController;
-    private HolidaysController fileChooserController;
     private CalendarController calendarController;
     private Stage sheetStage;
     private Stage projectStage;
@@ -212,7 +205,6 @@ public class MainController {
     private Stage siteStage;
     private Stage taskViewStage;
     private Stage effectivityReportStage;
-    public Stage fileChooserStage;
     public Stage calendarStage;
 
     public void setMainStage(Stage mainStage) {
@@ -347,10 +339,6 @@ public class MainController {
             fxmlEffectivityReportLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/effectivityReport.fxml"));
             fxmlEffectivityReport = fxmlEffectivityReportLoader.load();
             effectivityReportController = fxmlEffectivityReportLoader.getController();
-
-            fileChooserViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/holidaysCsvFile.fxml"));
-            fileChooserView = fileChooserViewLoader.load();
-            fileChooserController = fileChooserViewLoader.getController();
 
             calendarViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/calendar.fxml"));
             calendarView = calendarViewLoader.load();
@@ -895,15 +883,6 @@ public class MainController {
                     calendarStage.show();
                 }
                 break;
-            case "calendarImport":
-                if (role.equalsIgnoreCase("super_user")) {
-                    setFileChooserStage();
-                    //FileChooser fileChooser = new FileChooser();
-                    //fileChooser.setTitle("Open file")
-                    // fileChooser.showOpenDialog(mainStage);
-                    fileChooserStage.show();
-                }
-                break;
             case "menuClose":
                 System.exit(0);
                 break;
@@ -1148,18 +1127,6 @@ public class MainController {
             effectivityReportStage.setResizable(false);
             effectivityReportStage.initModality(Modality.WINDOW_MODAL);
             effectivityReportStage.initOwner(mainStage);
-        }
-    }
-
-    private void setFileChooserStage() {
-        if (fileChooserStage == null) {
-            fileChooserStage = new Stage();
-            fileChooserStage.setScene(new Scene(fileChooserView));
-            fileChooserStage.setMinHeight(100);
-            fileChooserStage.setMinWidth(100);
-            fileChooserStage.setResizable(false);
-            fileChooserStage.initModality(Modality.WINDOW_MODAL);
-            fileChooserStage.initOwner(mainStage);
         }
     }
 

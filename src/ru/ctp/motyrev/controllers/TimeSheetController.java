@@ -21,6 +21,7 @@ import ru.ctp.motyrev.interfaces.impls.CollectionTimeSheet;
 import ru.ctp.motyrev.objects.TimeSheet;
 
 import java.io.*;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -1403,7 +1404,8 @@ public class TimeSheetController {
         });
 
         timeSheetView.getColumns().addAll(tableCol1, tableCol2, tableCol3, tableCol4);
-
+        ResultSet calendarRs = CalendarController.getCalendarData();
+        CalendarCell.setRes(calendarRs);
         for (int i = 1; i <= date.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
 
             TableColumn tableColumn = new TableColumn("" + i);
@@ -1426,7 +1428,6 @@ public class TimeSheetController {
             } else if (CalendarCell.createCalendarCell().checkDateForHoliday(LocalDate.now().getMonth().ordinal(), i) &&
                     !CalendarCell.createCalendarCell().checkDateForWorkday(LocalDate.now().getMonth().ordinal(), i)) {
                 tableColumn.setCellFactory(column -> WeekEndCell.createStringEditCell());
-                CalendarController.closeResources();
             } else {
                 tableColumn.setCellFactory(column -> EditCell.createStringEditCell());
             }
@@ -1448,7 +1449,7 @@ public class TimeSheetController {
 
             timeSheetView.getColumns().addAll(tableColumn);
         }
-
+        CalendarController.closeResources();
         TableColumn tableCol5 = new TableColumn("Итого");
         if (procEndColWidth.equals("")) {
             tableCol5.setPrefWidth(70);

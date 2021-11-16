@@ -31,9 +31,8 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Сервис">
                      <items>
-                        <MenuItem disable="true" mnemonicParsing="false" text="Импорт обменного файла (.xls)" />
-                        <MenuItem fx:id="calendarImport" disable="false" mnemonicParsing="false" onAction="#actionMenuItemPressed" text="Импорт производственного календаря (.xls)" />
                         <MenuItem fx:id="calendar" disable="false" mnemonicParsing="false" onAction="#actionMenuItemPressed" text="Календарь" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="Импорт обменного файла (.xls)" />
                         <MenuItem disable="true" mnemonicParsing="false" text="Импорт листов ежемесячной отчетности (.xls)" />
                      </items>
                   </Menu>
