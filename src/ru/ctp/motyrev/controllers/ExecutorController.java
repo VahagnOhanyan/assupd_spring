@@ -11,6 +11,8 @@ import org.controlsfx.control.ListSelectionView;
 import ru.ctp.motyrev.code.DBconnection;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExecutorController {
 
@@ -20,37 +22,51 @@ public class ExecutorController {
     private ListSelectionView executorView;
     @FXML
     private Label lblTask;
-
+    @FXML
+    private TextField fldSearch;
+    
     String taskNum = null;
 
     private Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
     private Alert errorAlert = new Alert(Alert.AlertType.ERROR);
     private Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
 
-    private ObservableList<ObservableList> dataSelect = FXCollections.observableArrayList();
+    private ObservableList<ObservableList<String>> dataSelectSource = FXCollections.observableArrayList();
+    private ObservableList<ObservableList<String>> dataSelectTarget = FXCollections.observableArrayList();
     private ObservableList<ObservableList> data = FXCollections.observableArrayList();
 
     DBconnection dBconnection = new DBconnection();
 
     @FXML
     private void initialize() {
-
         executorView.setSourceHeader(new Label("Сотрудники"));
         executorView.setTargetHeader(new Label("Исполнители"));
-
+        fldSearch.textProperty().addListener((observable, oldValue, newValue) ->
+                executorView.getSourceItems().setAll(filterList(dataSelectSource, newValue))
+        );
     }
+    private ObservableList<ObservableList<String>> filterList(ObservableList<ObservableList<String>> list, String searchText){
+        ObservableList<ObservableList<String>> filteredList = FXCollections.observableArrayList();
+        for (ObservableList<String> l : list){
+            for (String txt : l) {
+                if (txt.contains(searchText))
+                    filteredList.add(l);
 
+            }
+        }
+        return filteredList;
+    }
     public void addData(String taskNum) {
         this.taskNum = taskNum;
         lblTask.setText("Задача: " + taskNum);
-        executorView.getSourceItems().setAll(data("SELECT u.user_id_number, u.user_fullname FROM public.user u " +
+        executorView.getSourceItems().setAll(dataSource("SELECT u.user_id_number, u.user_fullname FROM public.user u " +
                 "WHERE u.user_id NOT IN (SELECT ur.user_id FROM public.user ur " +
                 "join public.task_executor te on te.user_id = ur.user_id " +
                 "join public.task t on t.task_id = te.task_id " +
                 "WHERE t.task_number = '"+taskNum+"') AND u.user_fullname != 'super_user'" +
                 "ORDER BY u.user_fullname"));
 
-        executorView.getTargetItems().setAll(data("SELECT u.user_id_number, u.user_fullname FROM public.user u " +
+        executorView.getTargetItems().setAll(dataTarget("SELECT u.user_id_number, u.user_fullname FROM public.user u " +
                 "WHERE u.user_id IN (SELECT ur.user_id FROM public.user ur " +
                 "join public.task_executor te on te.user_id = ur.user_id " +
                 "join public.task t on t.task_id = te.task_id " +
@@ -80,11 +96,21 @@ public class ExecutorController {
 
         actionClose(actionEvent);
     }
-
-    private ObservableList data(String k) {
+    private ObservableList dataSource(String k) {
+        return  data("source",k);
+    }
+    private ObservableList dataTarget(String k) {
+        return  data("target",k);
+    }
+    private ObservableList data(String type, String k) {
+      if (type.equals("target")) {
+          dataSelectTarget.clear();
+      }
+        if (type.equals("source")) {
+            dataSelectSource.clear();
+        }
         try {
             dBconnection.openDB();
-            dataSelect.clear();
             dBconnection.query(k);
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
@@ -92,7 +118,13 @@ public class ExecutorController {
                     //Перебор колонок
                     row.add(dBconnection.getRs().getString(i));
                 }
-                dataSelect.add(row);
+                if (type.equals("target")) {
+                    dataSelectTarget.add(row);
+                }
+                if (type.equals("source")) {
+                    dataSelectSource.add(row);
+                }
+
             }
             dBconnection.queryClose();
             dBconnection.closeDB();
@@ -102,12 +134,20 @@ public class ExecutorController {
             errorAlert.showAndWait();
             e.printStackTrace();
         }
-        return dataSelect;
+        if (type.equals("target")) {
+            return dataSelectTarget;
+        }
+        if (type.equals("source")) {
+            return dataSelectSource;
+        }
+        return null;
     }
 
     public void formClear() {
         data.clear();
-        dataSelect.clear();
+        dataSelectSource.clear();
+        dataSelectTarget.clear();
+        fldSearch.clear();
         taskNum = null;
 
     }
