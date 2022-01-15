@@ -31,10 +31,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 public class ResourceReportController {
 
+    @FXML
+    private ComboBox<String> yearBox;
+    @FXML
+    private ComboBox<String> halfyearBox;
+    @FXML
+    private ComboBox<String> quarterBox;
+    @FXML
+    private ComboBox<String> monthBox;
     @FXML
     private Button btnGenerate;
     @FXML
@@ -89,6 +99,15 @@ public class ResourceReportController {
     private ObservableList<ObservableList> dataActivityReq = FXCollections.observableArrayList();
     private ObservableList<ObservableList> dataApproved = FXCollections.observableArrayList();
 
+    LocalDate firstQuarterStart = LocalDate.of(LocalDate.now().getYear(), Month.of(1), 1);
+    LocalDate firstQuarterEnd = LocalDate.of(LocalDate.now().getYear(), Month.of(3), 31);
+    LocalDate secondQuarterStart = LocalDate.of(LocalDate.now().getYear(), Month.of(4), 1);
+    LocalDate secondQuarterEnd = LocalDate.of(LocalDate.now().getYear(), Month.of(6), 30);
+    LocalDate thirdQuarterStart = LocalDate.of(LocalDate.now().getYear(), Month.of(7), 1);
+    LocalDate thirdQuarterEnd = LocalDate.of(LocalDate.now().getYear(), Month.of(9), 30);
+    LocalDate fourthQuarterStart = LocalDate.of(LocalDate.now().getYear(), Month.of(10), 1);
+    LocalDate fourthQuarterEnd = LocalDate.of(LocalDate.now().getYear(), Month.of(12), 31);
+
     DBconnection dBconnection = new DBconnection();
 
     @FXML
@@ -101,61 +120,166 @@ public class ResourceReportController {
 
     @FXML
     private void initialize() {
-        ToggleGroup toggleGroup = new ToggleGroup();
-        reportSwitch.setToggleGroup(toggleGroup);
-        reportSwitchForPeriod.setToggleGroup(toggleGroup);
-        reportSwitchForMonth.setToggleGroup(toggleGroup);
-        reportSwitchForQuarter.setToggleGroup(toggleGroup);
-        reportSwitchForHalfYear.setToggleGroup(toggleGroup);
-        reportSwitchForYear.setToggleGroup(toggleGroup);
 
-        reportSwitch.selectedProperty().addListener(observable -> startDate.setDisable(true));
+        yearBox.getItems().addAll("2018", "2019", "2020", "2021", "2022");
+        halfyearBox.getItems().addAll("I", "II");
+        quarterBox.getItems().addAll("I", "II", "III", "IV");
+        String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+        monthBox.getItems().addAll(months);
+        reportSwitch.setSelected(true);
 
-        reportSwitchForPeriod.selectedProperty().addListener(observable -> startDate.setDisable(!reportSwitchForPeriod.isSelected()));
+        reportSwitch.selectedProperty().addListener(observable -> {
+            if (reportSwitch.isSelected()) {
+                startDate.setVisible(true);
+                startDate.setDisable(true);
+                monthBox.setVisible(false);
+                quarterBox.setVisible(false);
+                halfyearBox.setVisible(false);
+                yearBox.setVisible(false);
+                endDate.setVisible(true);
+                startDate.setValue(LocalDate.of(2018,1,1));
+                endDate.setValue(LocalDate.now());
+            }
+        });
+
+        reportSwitchForPeriod.selectedProperty().addListener(observable -> {
+            if (reportSwitchForPeriod.isSelected()) {
+                monthBox.setVisible(false);
+                quarterBox.setVisible(false);
+                halfyearBox.setVisible(false);
+                yearBox.setVisible(false);
+                startDate.setVisible(true);
+                startDate.setDisable(false);
+                endDate.setVisible(true);
+                endDate.setPromptText("по");
+                startDate.setValue(LocalDate.now());
+                endDate.setValue(LocalDate.now());
+            }
+        });
+
+        reportSwitchForYear.selectedProperty().addListener(observable -> {
+            if (reportSwitchForYear.isSelected()) {
+                startDate.setVisible(true);
+                startDate.setDisable(true);
+                endDate.setVisible(false);
+                monthBox.setVisible(false);
+                quarterBox.setVisible(false);
+                halfyearBox.setVisible(false);
+                startDate.setValue(LocalDate.of(LocalDate.now().getYear(), Month.of(1), 1));
+                yearBox.setVisible(true);
+                yearBox.setValue(String.valueOf(LocalDate.now().getYear()));
+                endDate.setValue(LocalDate.now());
+            }
+        });
+        reportSwitchForHalfYear.selectedProperty().addListener(observable -> {
+            if (reportSwitchForHalfYear.isSelected()) {
+                startDate.setVisible(false);
+                endDate.setVisible(false);
+                monthBox.setVisible(false);
+                quarterBox.setVisible(false);
+                halfyearBox.setVisible(true);
+                if (LocalDate.now().isBefore(LocalDate.of(LocalDate.now().getYear(), Month.of(6), 30))) {
+                    halfyearBox.setValue("I");
+                    startDate.setValue(LocalDate.of(LocalDate.now().getYear(), Month.of(1), 1));
+                } else {
+                    halfyearBox.setValue("II");
+                    startDate.setValue(LocalDate.of(LocalDate.now().getYear(), Month.of(7), 1));
+                }
+                yearBox.setVisible(true);
+                yearBox.setValue(String.valueOf(LocalDate.now().getYear()));
+                endDate.setValue(LocalDate.now());
+            }
+        });
 
         reportSwitchForQuarter.selectedProperty().addListener(observable -> {
             if (reportSwitchForQuarter.isSelected()) {
-                startDate.setDisable(false);
-                startDate.setValue(LocalDate.now().minusMonths(3));
+                startDate.setVisible(false);
+                endDate.setVisible(false);
+                monthBox.setVisible(false);
+                halfyearBox.setVisible(false);
+                quarterBox.setVisible(true);
+                if (LocalDate.now().isBefore(secondQuarterStart)) {
+                    quarterBox.setValue("I");
+                    startDate.setValue(firstQuarterStart);
+                } else if (LocalDate.now().isBefore(thirdQuarterStart)) {
+                    quarterBox.setValue("II");
+                    startDate.setValue(secondQuarterStart);
+                } else if (LocalDate.now().isBefore(fourthQuarterStart)) {
+                    quarterBox.setValue("III");
+                    startDate.setValue(thirdQuarterStart);
+                } else {
+                    quarterBox.setValue("IV");
+                    startDate.setValue(fourthQuarterStart);
+                }
                 endDate.setValue(LocalDate.now());
-            } else {
-                startDate.setDisable(true);
+                yearBox.setVisible(true);
+                yearBox.setValue(String.valueOf(LocalDate.now().getYear()));
             }
         });
 
         reportSwitchForMonth.selectedProperty().addListener(observable -> {
             if (reportSwitchForMonth.isSelected()) {
-                startDate.setDisable(false);
-                startDate.setValue(LocalDate.now().minusMonths(1));
+                startDate.setVisible(false);
+                endDate.setVisible(false);
+                quarterBox.setVisible(false);
+                halfyearBox.setVisible(false);
+                monthBox.setVisible(true);
+                monthBox.setValue(months[LocalDate.now().getMonth().ordinal()]);
+                yearBox.setVisible(true);
+                yearBox.setValue(String.valueOf(LocalDate.now().getYear()));
+                startDate.setValue(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1));
                 endDate.setValue(LocalDate.now());
-            } else {
-                startDate.setDisable(true);
             }
         });
-        reportSwitchForYear.selectedProperty().addListener(observable -> {
-            if (reportSwitchForYear.isSelected()) {
-                startDate.setDisable(false);
-                startDate.setValue(LocalDate.now().minusMonths(12));
-                endDate.setValue(LocalDate.now());
-            } else {
-                startDate.setDisable(true);
+
+        monthBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null) {
+                LocalDate oldLdstart = startDate.getValue();
+                LocalDate newLdstart = oldLdstart.withMonth(new TimeSheetController().returnMonth(newValue) + 1);
+                startDate.setValue(newLdstart);
+                defineMaxDayOfMonth(newValue);
+                checkIfNowIsWithinRange();
             }
         });
-        reportSwitchForHalfYear.selectedProperty().addListener(observable -> {
-            if (reportSwitchForHalfYear.isSelected()) {
-                startDate.setDisable(false);
-                startDate.setValue(LocalDate.now().minusMonths(6));
-                endDate.setValue(LocalDate.now());
-            } else {
-                startDate.setDisable(true);
+
+        yearBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null) {
+                LocalDate oldLdstart = startDate.getValue();
+                LocalDate newLdstart = oldLdstart.withYear(Integer.parseInt(newValue));
+                startDate.setValue(newLdstart);
+                if (monthBox.isVisible()) {
+                    defineMaxDayOfMonth(monthBox.getValue());
+                } else if (halfyearBox.isVisible()) {
+                    defineHalfYearRange(halfyearBox.getValue());
+                } else if (quarterBox.isVisible()) {
+                    defineQuarterRange(quarterBox.getValue());
+                } else {
+
+                    LocalDate oldLdend = endDate.getValue();
+                    LocalDate newLdend = oldLdend.withYear(Integer.parseInt(newValue)).withMonth(12).withDayOfMonth(31);
+                    endDate.setValue(newLdend);
+                }
+                checkIfNowIsWithinRange();
             }
         });
-        endDate.valueProperty().addListener(observable -> {
-            if (!reportSwitch.isSelected()) {
-                btnGenerate.setDisable(!(startDate.getValue() != null && endDate.getValue() != null));
-            } else {
-                btnGenerate.setDisable(endDate.getValue() == null);
+        halfyearBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null) {
+                defineHalfYearRange(newValue);
+                checkIfNowIsWithinRange();
             }
+        });
+
+        quarterBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null) {
+                defineQuarterRange(newValue);
+                checkIfNowIsWithinRange();
+            }
+        });
+
+        endDate.valueProperty().addListener((observable) -> {
+            System.out.println("startDate: " + startDate.getValue() + " endDate: " + endDate.getValue());
+            btnGenerate.setDisable(
+                    endDate.getValue() == null || (endDate.getValue() != null && endDate.getValue().isAfter(LocalDate.now())));
         });
 
         StringConverter converter = new StringConverter<LocalDate>() {
@@ -185,8 +309,53 @@ public class ResourceReportController {
         endDate.setConverter(converter);
     }
 
+    private void defineQuarterRange(String value) {
+        if (value.equals("I")) {
+            startDate.setValue(firstQuarterStart.withYear(Integer.parseInt(yearBox.getValue())));
+            endDate.setValue(firstQuarterEnd.withYear(Integer.parseInt(yearBox.getValue())));
+        }
+        if (value.equals("II")) {
+            startDate.setValue(secondQuarterStart.withYear(Integer.parseInt(yearBox.getValue())));
+            endDate.setValue(secondQuarterEnd.withYear(Integer.parseInt(yearBox.getValue())));
+        }
+        if (value.equals("III")) {
+            startDate.setValue(thirdQuarterStart.withYear(Integer.parseInt(yearBox.getValue())));
+            endDate.setValue(thirdQuarterEnd.withYear(Integer.parseInt(yearBox.getValue())));
+        }
+        if (value.equals("IV")) {
+            startDate.setValue(fourthQuarterStart.withYear(Integer.parseInt(yearBox.getValue())));
+            endDate.setValue(fourthQuarterEnd.withYear(Integer.parseInt(yearBox.getValue())));
+        }
+    }
+
+    private void defineHalfYearRange(String value) {
+        if (value.equals("I")) {
+            startDate.setValue(firstQuarterStart.withYear(Integer.parseInt(yearBox.getValue())));
+            endDate.setValue(secondQuarterEnd.withYear(Integer.parseInt(yearBox.getValue())));
+        }
+        if (value.equals("II")) {
+            startDate.setValue(thirdQuarterStart.withYear(Integer.parseInt(yearBox.getValue())));
+            endDate.setValue(fourthQuarterEnd.withYear(Integer.parseInt(yearBox.getValue())));
+        }
+    }
+
+    private void defineMaxDayOfMonth(String value) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Integer.parseInt(yearBox.getValue()), new TimeSheetController().returnMonth(value), 1);
+        int res = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        endDate.setValue(LocalDate.of(Integer.parseInt(yearBox.getValue()), new TimeSheetController().returnMonth(value) + 1, res));
+    }
+
+    private void checkIfNowIsWithinRange() {
+        if (LocalDate.now().isAfter(startDate.getValue()) && LocalDate.now().isBefore(endDate.getValue())) {
+            endDate.setValue(LocalDate.now());
+        }
+    }
+
     public void addData() {
         formClear();
+        startDate.setValue(LocalDate.of(2018,1,1));
+        endDate.setValue(LocalDate.now());
     }
 
     public void generateResourceReport(ActionEvent actionEvent) {
@@ -535,12 +704,24 @@ public class ResourceReportController {
                 cellStyle17.setBorderLeft(BorderStyle.THIN);
                 cellStyle17.setBorderRight(BorderStyle.THIN);
 
-                if (!reportSwitch.isSelected()) {
-                    wb.setSheetName(0, "Ресурсный отчет c " + startDate.getValue() + " по " + endDate.getValue());
-                } else {
-                    wb.setSheetName(0, "Ресурсный отчет на " + endDate.getValue());
+                if (reportSwitch.isSelected()) {
+                    wb.setSheetName(0, "Ресурсный отчет за " + endDate.getValue());
                 }
-
+                if (reportSwitchForYear.isSelected()) {
+                    wb.setSheetName(0, "Ресурсный отчет за " + yearBox.getValue() + " год");
+                }
+                if (reportSwitchForHalfYear.isSelected()) {
+                    wb.setSheetName(0, "Ресурсный отчет за " + halfyearBox.getValue() + " полугодие " + yearBox.getValue() + " года");
+                }
+                if (reportSwitchForQuarter.isSelected()) {
+                    wb.setSheetName(0, "Ресурсный отчет за " + quarterBox.getValue() + " квартал " + yearBox.getValue() + " года");
+                }
+                if (reportSwitchForMonth.isSelected()) {
+                    wb.setSheetName(0, "Ресурсный отчет за " + monthBox.getValue() + " " + yearBox.getValue() + " года");
+                }
+                if (reportSwitchForPeriod.isSelected()) {
+                    wb.setSheetName(0, "Ресурсный отчет c " + startDate.getValue() + " по " + endDate.getValue());
+                }
                 counter += 1;
                 updateProgress(counter, size);
                 Thread.sleep(20);
@@ -1004,17 +1185,18 @@ public class ResourceReportController {
 
                 if (MainController.role.equalsIgnoreCase(SUPER_USER) || MainController.role.equalsIgnoreCase(ADMIN) ||
                         MainController.role.equalsIgnoreCase("АУП")) {
-                    dataActivity("SELECT c.customer_name, ct.contract_number, p.project_name, p.project_id, sum(daily_intensity) FROM public.daily_work dw " +
-                            "join public.stage_daily sd on sd.daily_work_id = dw.daily_work_id " +
-                            "join public.stage s on s.stage_id = sd.stage_id " +
-                            "join public.task t on t.task_id = s.task_id " +
-                            "join public.project p on p.project_id = t.project_id " +
-                            "join public.customer c on c.customer_id = p.customer_id " +
-                            "join public.contract_project cp on cp.project_id = p.project_id " +
-                            "join public.contract ct on ct.contract_id = cp.contract_id " +
-                            "WHERE " + period + " " +
-                            "GROUP BY c.customer_name, ct.contract_number, p.project_name, p.project_id " +
-                            "ORDER BY c.customer_name, ct.contract_number");
+                    dataActivity(
+                            "SELECT c.customer_name, ct.contract_number, p.project_name, p.project_id, sum(daily_intensity) FROM public.daily_work dw " +
+                                    "join public.stage_daily sd on sd.daily_work_id = dw.daily_work_id " +
+                                    "join public.stage s on s.stage_id = sd.stage_id " +
+                                    "join public.task t on t.task_id = s.task_id " +
+                                    "join public.project p on p.project_id = t.project_id " +
+                                    "join public.customer c on c.customer_id = p.customer_id " +
+                                    "join public.contract_project cp on cp.project_id = p.project_id " +
+                                    "join public.contract ct on ct.contract_id = cp.contract_id " +
+                                    "WHERE " + period + " " +
+                                    "GROUP BY c.customer_name, ct.contract_number, p.project_name, p.project_id " +
+                                    "ORDER BY c.customer_name, ct.contract_number");
 
                     dataActivityReq("SELECT c.customer_name, ct.contract_number, r.request_number, r.request_id, sum(daily_intensity), " +
                             "CASE WHEN r.request_number~E'^\\d+$' THEN CAST (r.request_number AS INTEGER) " +
@@ -1031,18 +1213,20 @@ public class ResourceReportController {
                             "GROUP BY c.customer_name, ct.contract_number, r.request_number, r.request_id " +
                             "ORDER BY c.customer_name, ct.contract_number, sort");
                 } else if (MainController.role.equalsIgnoreCase("Менеджер проекта")) {
-                    dataActivity("SELECT c.customer_name, ct.contract_number, p.project_name, p.project_id, sum(daily_intensity) FROM public.daily_work dw " +
-                            "join public.stage_daily sd on sd.daily_work_id = dw.daily_work_id " +
-                            "join public.stage s on s.stage_id = sd.stage_id " +
-                            "join public.task t on t.task_id = s.task_id " +
-                            "join public.project p on p.project_id = t.project_id " +
-                            "join public.project_manager pm on pm.project_id = p.project_id " +
-                            "join public.customer c on c.customer_id = p.customer_id " +
-                            "join public.contract_project cp on cp.project_id = p.project_id " +
-                            "join public.contract ct on ct.contract_id = cp.contract_id " +
-                            "WHERE " + period + " AND pm.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + MainController.who + "') " +
-                            "GROUP BY c.customer_name, ct.contract_number, p.project_name, p.project_id " +
-                            "ORDER BY c.customer_name, ct.contract_number");
+                    dataActivity(
+                            "SELECT c.customer_name, ct.contract_number, p.project_name, p.project_id, sum(daily_intensity) FROM public.daily_work dw " +
+                                    "join public.stage_daily sd on sd.daily_work_id = dw.daily_work_id " +
+                                    "join public.stage s on s.stage_id = sd.stage_id " +
+                                    "join public.task t on t.task_id = s.task_id " +
+                                    "join public.project p on p.project_id = t.project_id " +
+                                    "join public.project_manager pm on pm.project_id = p.project_id " +
+                                    "join public.customer c on c.customer_id = p.customer_id " +
+                                    "join public.contract_project cp on cp.project_id = p.project_id " +
+                                    "join public.contract ct on ct.contract_id = cp.contract_id " +
+                                    "WHERE " + period + " AND pm.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + MainController.who +
+                                    "') " +
+                                    "GROUP BY c.customer_name, ct.contract_number, p.project_name, p.project_id " +
+                                    "ORDER BY c.customer_name, ct.contract_number");
 
                     dataActivityReq("SELECT c.customer_name, ct.contract_number, r.request_number, r.request_id, sum(daily_intensity), " +
                             "CASE WHEN r.request_number~E'^\\d+$' THEN CAST (r.request_number AS INTEGER) " +
@@ -1061,23 +1245,24 @@ public class ResourceReportController {
                             "GROUP BY c.customer_name, ct.contract_number, r.request_number, r.request_id " +
                             "ORDER BY c.customer_name, ct.contract_number, sort");
                 } else if (MainController.role.equalsIgnoreCase(DEPARTMENT_HEAD) || MainController.role.equalsIgnoreCase(LEAD_SPECIALIST)) {
-                    dataActivity("SELECT c.customer_name, ct.contract_number, p.project_name, p.project_id, sum(daily_intensity) FROM public.daily_work dw " +
-                            "join public.stage_daily sd on sd.daily_work_id = dw.daily_work_id " +
-                            "join public.stage s on s.stage_id = sd.stage_id " +
-                            "join public.task t on t.task_id = s.task_id " +
-                            "join public.project p on p.project_id = t.project_id " +
-                            "join public.customer c on c.customer_id = p.customer_id " +
-                            "join public.contract_project cp on cp.project_id = p.project_id " +
-                            "join public.contract ct on ct.contract_id = cp.contract_id " +
-                            "join public.user u on u.user_id = dw.user_id " +
-                            "WHERE " + period + " AND " +
-                            "u.user_id IN (SELECT ur.user_id FROM public.user ur " +
-                            "left join public.user_subordination us on us.user_sub_id = ur.user_id " +
-                            "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + MainController.who +
-                            "') OR ur.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + MainController.who + "')) " +
-                            "GROUP BY ur.user_id HAVING count(ur.user_id) >= 1) " +
-                            "GROUP BY c.customer_name, ct.contract_number, p.project_name, p.project_id " +
-                            "ORDER BY c.customer_name, ct.contract_number");
+                    dataActivity(
+                            "SELECT c.customer_name, ct.contract_number, p.project_name, p.project_id, sum(daily_intensity) FROM public.daily_work dw " +
+                                    "join public.stage_daily sd on sd.daily_work_id = dw.daily_work_id " +
+                                    "join public.stage s on s.stage_id = sd.stage_id " +
+                                    "join public.task t on t.task_id = s.task_id " +
+                                    "join public.project p on p.project_id = t.project_id " +
+                                    "join public.customer c on c.customer_id = p.customer_id " +
+                                    "join public.contract_project cp on cp.project_id = p.project_id " +
+                                    "join public.contract ct on ct.contract_id = cp.contract_id " +
+                                    "join public.user u on u.user_id = dw.user_id " +
+                                    "WHERE " + period + " AND " +
+                                    "u.user_id IN (SELECT ur.user_id FROM public.user ur " +
+                                    "left join public.user_subordination us on us.user_sub_id = ur.user_id " +
+                                    "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + MainController.who +
+                                    "') OR ur.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + MainController.who + "')) " +
+                                    "GROUP BY ur.user_id HAVING count(ur.user_id) >= 1) " +
+                                    "GROUP BY c.customer_name, ct.contract_number, p.project_name, p.project_id " +
+                                    "ORDER BY c.customer_name, ct.contract_number");
 
                     dataActivityReq(
                             "SELECT c.customer_name, ct.contract_number, r.request_number, r.request_id, sum(daily_intensity) FROM public.daily_work dw " +
@@ -1264,14 +1449,26 @@ public class ResourceReportController {
                 updateProgress(counter, size);
                 Thread.sleep(20);
 
-                FileOutputStream fileOut;
+                FileOutputStream fileOut = null;
 
-                if (!reportSwitch.isSelected()) {
-                    fileOut = new FileOutputStream("Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls");
-                } else {
+                if (reportSwitch.isSelected()) {
                     fileOut = new FileOutputStream("Ресурсный_отчет_на_" + endDate.getValue() + ".xls");
                 }
-
+                if (reportSwitchForYear.isSelected()) {
+                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + yearBox.getValue() + "_год" + ".xls");
+                }
+                if (reportSwitchForHalfYear.isSelected()) {
+                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + halfyearBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
+                }
+                if (reportSwitchForQuarter.isSelected()) {
+                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + quarterBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
+                }
+                if (reportSwitchForMonth.isSelected()) {
+                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + monthBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
+                }
+                if (reportSwitchForPeriod.isSelected()) {
+                    fileOut = new FileOutputStream("Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls");
+                }
                 wb.write(fileOut);
                 fileOut.close();
                 inp.close();
@@ -1398,9 +1595,6 @@ public class ResourceReportController {
 
                             String userTabels = "";
 
-                            if (reportSwitch.isSelected()) {
-                                startDate.setValue(LocalDate.parse("01.01.2018", sdf3));
-                            }
                             for (int k = 0; k < dataApproved.size(); k++) {
                                 if (!sdf.format(startDate.getValue()).equals(sdf.format(endDate.getValue()))) {
                                     if (dataApproved.get(k).get(2).toString().equals(sdf.format(startDate.getValue()))) {
@@ -1424,7 +1618,8 @@ public class ResourceReportController {
                                         if (k != dataApproved.size() - 1) {
                                             if (!dataApproved.get(k).get(0).toString().equals(dataApproved.get(k + 1).get(0).toString()) |
                                                     !dataApproved.get(k).get(2).toString().equals(dataApproved.get(k + 1).get(2))) {
-                                                notApproved = (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
+                                                notApproved =
+                                                        (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
                                             }
                                         } else {
                                             notApproved = (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
@@ -1449,7 +1644,8 @@ public class ResourceReportController {
                                         if (k != dataApproved.size() - 1) {
                                             if (!dataApproved.get(k).get(0).toString().equals(dataApproved.get(k + 1).get(0).toString()) |
                                                     !dataApproved.get(k).get(2).toString().equals(dataApproved.get(k + 1).get(2))) {
-                                                notApproved = (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
+                                                notApproved =
+                                                        (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
                                             }
                                         } else {
                                             notApproved = (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
@@ -1474,7 +1670,8 @@ public class ResourceReportController {
                                         if (k != dataApproved.size() - 1) {
                                             if (!dataApproved.get(k).get(0).toString().equals(dataApproved.get(k + 1).get(0).toString()) |
                                                     !dataApproved.get(k).get(2).toString().equals(dataApproved.get(k + 1).get(2))) {
-                                                notApproved = (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
+                                                notApproved =
+                                                        (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
                                             }
                                         } else {
                                             notApproved = (notApproved + userTabels + "." + dataApproved.get(k).get(2).toString() + "\n").replace(",,", "");
@@ -1542,10 +1739,23 @@ public class ResourceReportController {
                         }
 
                         try {
-                            if (!reportSwitch.isSelected()) {
-                                desktop.open(new File("Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls"));
-                            } else {
+                            if (reportSwitch.isSelected()) {
                                 desktop.open(new File("Ресурсный_отчет_на_" + endDate.getValue() + ".xls"));
+                            }
+                            if (reportSwitchForYear.isSelected()) {
+                                desktop.open(new File("Ресурсный_отчет_на_" + yearBox.getValue() + "_год" + ".xls"));
+                            }
+                            if (reportSwitchForHalfYear.isSelected()) {
+                                desktop.open(new File("Ресурсный_отчет_на_" + halfyearBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
+                            }
+                            if (reportSwitchForQuarter.isSelected()) {
+                                desktop.open(new File("Ресурсный_отчет_на_" + quarterBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
+                            }
+                            if (reportSwitchForMonth.isSelected()) {
+                                desktop.open(new File("Ресурсный_отчет_на_" + monthBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
+                            }
+                            if (reportSwitchForPeriod.isSelected()) {
+                                desktop.open(new File("Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls"));
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -1713,7 +1923,7 @@ public class ResourceReportController {
         if (!reportSwitch.isSelected()) {
             period = "dw.daily_work_date >= '" + startDate.getValue() + "' AND dw.daily_work_date <= '" + endDate.getValue() + "'";
         } else {
-            period = "dw.daily_work_date <= '" + endDate.getValue() + "'";
+            period = "dw.daily_work_date = '" + endDate.getValue() + "'";
         }
         return period;
     }
@@ -1724,7 +1934,8 @@ public class ResourceReportController {
         dataActivity.clear();
         dataApproved.clear();
         btnGenerate.setDisable(true);
-        reportSwitch.setSelected(false);
+        reportSwitch.setSelected(true);
+        startDate.setVisible(true);
         startDate.setDisable(true);
         period = null;
         contractNumber = null;
