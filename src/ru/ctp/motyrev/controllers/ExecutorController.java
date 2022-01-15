@@ -9,10 +9,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.controlsfx.control.ListSelectionView;
 import ru.ctp.motyrev.code.DBconnection;
-
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class ExecutorController {
 
@@ -24,7 +22,7 @@ public class ExecutorController {
     private Label lblTask;
     @FXML
     private TextField fldSearch;
-    
+
     String taskNum = null;
 
     private Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -43,19 +41,25 @@ public class ExecutorController {
         executorView.setTargetHeader(new Label("Исполнители"));
         fldSearch.textProperty().addListener((observable, oldValue, newValue) ->
                 executorView.getSourceItems().setAll(filterList(dataSelectSource, newValue))
+
         );
     }
-    private ObservableList<ObservableList<String>> filterList(ObservableList<ObservableList<String>> list, String searchText){
-        ObservableList<ObservableList<String>> filteredList = FXCollections.observableArrayList();
-        for (ObservableList<String> l : list){
-            for (String txt : l) {
-                if (txt.contains(searchText))
-                    filteredList.add(l);
 
+    private ObservableList<ObservableList<String>> filterList(ObservableList<ObservableList<String>> list, String searchText) {
+        ObservableList<ObservableList<String>> filteredList = FXCollections.observableArrayList();
+        if (searchText.trim().equals("")) {
+            return dataSelectSource;
+        }
+        for (ObservableList<String> l : list) {
+            for (String txt : l) {
+                if (txt.contains(searchText)) {
+                    filteredList.add(l);
+                }
             }
         }
         return filteredList;
     }
+
     public void addData(String taskNum) {
         this.taskNum = taskNum;
         lblTask.setText("Задача: " + taskNum);
@@ -63,14 +67,14 @@ public class ExecutorController {
                 "WHERE u.user_id NOT IN (SELECT ur.user_id FROM public.user ur " +
                 "join public.task_executor te on te.user_id = ur.user_id " +
                 "join public.task t on t.task_id = te.task_id " +
-                "WHERE t.task_number = '"+taskNum+"') AND u.user_fullname != 'super_user'" +
+                "WHERE t.task_number = '" + taskNum + "') AND u.user_fullname != 'super_user'" +
                 "ORDER BY u.user_fullname"));
 
         executorView.getTargetItems().setAll(dataTarget("SELECT u.user_id_number, u.user_fullname FROM public.user u " +
                 "WHERE u.user_id IN (SELECT ur.user_id FROM public.user ur " +
                 "join public.task_executor te on te.user_id = ur.user_id " +
                 "join public.task t on t.task_id = te.task_id " +
-                "WHERE t.task_number = '"+taskNum+"') AND u.user_fullname != 'super_user'" +
+                "WHERE t.task_number = '" + taskNum + "') AND u.user_fullname != 'super_user'" +
                 "ORDER BY u.user_fullname"));
     }
 
@@ -78,13 +82,15 @@ public class ExecutorController {
         dBconnection.openDB();
         try {
             dBconnection.getStmt().executeUpdate("DELETE FROM public.task_executor " +
-                    "WHERE task_id = (SELECT task_id FROM public.task WHERE task_number = '"+taskNum+"')");
+                    "WHERE task_id = (SELECT task_id FROM public.task WHERE task_number = '" + taskNum + "')");
 
             if (executorView.getTargetItems().size() != 0) {
                 for (Object executor : executorView.getTargetItems()) {
 
                     dBconnection.getStmt().executeUpdate("INSERT INTO public.task_executor (task_id, user_id) VALUES " +
-                            "((SELECT task_id FROM public.task WHERE task_number = '" + taskNum + "'), (SELECT user_id FROM public.user WHERE user_id_number = '" + executor.toString().substring(1, executor.toString().indexOf(",")) + "'))");
+                            "((SELECT task_id FROM public.task WHERE task_number = '" + taskNum +
+                            "'), (SELECT user_id FROM public.user WHERE user_id_number = '" +
+                            executor.toString().substring(1, executor.toString().indexOf(",")) + "'))");
                 }
             }
 
@@ -96,16 +102,19 @@ public class ExecutorController {
 
         actionClose(actionEvent);
     }
+
     private ObservableList dataSource(String k) {
-        return  data("source",k);
+        return data("source", k);
     }
+
     private ObservableList dataTarget(String k) {
-        return  data("target",k);
+        return data("target", k);
     }
+
     private ObservableList data(String type, String k) {
-      if (type.equals("target")) {
-          dataSelectTarget.clear();
-      }
+        if (type.equals("target")) {
+            dataSelectTarget.clear();
+        }
         if (type.equals("source")) {
             dataSelectSource.clear();
         }
@@ -114,7 +123,7 @@ public class ExecutorController {
             dBconnection.query(k);
             while (dBconnection.getRs().next()) {
                 ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i=1 ; i<=dBconnection.getRs().getMetaData().getColumnCount(); i++){
+                for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     //Перебор колонок
                     row.add(dBconnection.getRs().getString(i));
                 }
@@ -124,11 +133,10 @@ public class ExecutorController {
                 if (type.equals("source")) {
                     dataSelectSource.add(row);
                 }
-
             }
             dBconnection.queryClose();
             dBconnection.closeDB();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             errorAlert.setTitle("Ошибка data");
             errorAlert.setContentText(e.getMessage());
             errorAlert.showAndWait();
@@ -149,7 +157,6 @@ public class ExecutorController {
         dataSelectTarget.clear();
         fldSearch.clear();
         taskNum = null;
-
     }
 
     public void actionClose(ActionEvent actionEvent) {
@@ -158,5 +165,4 @@ public class ExecutorController {
         stage.hide();
         formClear();
     }
-
 }
