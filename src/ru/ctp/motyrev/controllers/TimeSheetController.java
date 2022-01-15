@@ -1579,7 +1579,9 @@ public class TimeSheetController {
 
         date3.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH), i);
         GregorianCalendar currentDate = new GregorianCalendar();
-        if (date3.get(GregorianCalendar.DATE) == currentDate.get(GregorianCalendar.DATE)) {
+        if ((date3.get(GregorianCalendar.DAY_OF_MONTH) == currentDate.get(GregorianCalendar.DAY_OF_MONTH)) &&
+                (date3.get(GregorianCalendar.MONTH) == currentDate.get(GregorianCalendar.MONTH)) &&
+                (date3.get(GregorianCalendar.YEAR) == currentDate.get(GregorianCalendar.YEAR))) {
             return true;
         } else {
             return false;
