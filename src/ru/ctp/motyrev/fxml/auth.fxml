@@ -33,7 +33,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="94.0" layoutY="270.0" text="Управление проектами v 1.0.4 " />
+      <Label layoutX="94.0" layoutY="270.0" text="Управление проектами v 1.0.5 " />
       <CheckBox fx:id="domainCheck" disable="true" layoutX="105.0" layoutY="189.0" mnemonicParsing="false" text="Доменная аутентификация" />
    </children>
 </AnchorPane>
