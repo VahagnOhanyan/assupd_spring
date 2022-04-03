@@ -1450,24 +1450,24 @@ public class ResourceReportController {
                 Thread.sleep(20);
 
                 FileOutputStream fileOut = null;
-
+                String path = System.getProperty("user.home") + File.separator + "Documents" + File.separator;
                 if (reportSwitch.isSelected()) {
-                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + endDate.getValue() + ".xls");
+                    fileOut = new FileOutputStream(path + "Ресурсный_отчет_на_" + endDate.getValue() + ".xls");
                 }
                 if (reportSwitchForYear.isSelected()) {
-                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + yearBox.getValue() + "_год" + ".xls");
+                    fileOut = new FileOutputStream(path + "Ресурсный_отчет_на_" + yearBox.getValue() + "_год" + ".xls");
                 }
                 if (reportSwitchForHalfYear.isSelected()) {
-                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + halfyearBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
+                    fileOut = new FileOutputStream(path + "Ресурсный_отчет_на_" + halfyearBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
                 }
                 if (reportSwitchForQuarter.isSelected()) {
-                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + quarterBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
+                    fileOut = new FileOutputStream(path + "Ресурсный_отчет_на_" + quarterBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
                 }
                 if (reportSwitchForMonth.isSelected()) {
-                    fileOut = new FileOutputStream("Ресурсный_отчет_на_" + monthBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
+                    fileOut = new FileOutputStream(path + "Ресурсный_отчет_на_" + monthBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls");
                 }
                 if (reportSwitchForPeriod.isSelected()) {
-                    fileOut = new FileOutputStream("Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls");
+                    fileOut = new FileOutputStream(path + "Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls");
                 }
                 wb.write(fileOut);
                 fileOut.close();
@@ -1740,22 +1740,22 @@ public class ResourceReportController {
 
                         try {
                             if (reportSwitch.isSelected()) {
-                                desktop.open(new File("Ресурсный_отчет_на_" + endDate.getValue() + ".xls"));
+                                desktop.open(new File(path + "Ресурсный_отчет_на_" + endDate.getValue() + ".xls"));
                             }
                             if (reportSwitchForYear.isSelected()) {
-                                desktop.open(new File("Ресурсный_отчет_на_" + yearBox.getValue() + "_год" + ".xls"));
+                                desktop.open(new File(path + "Ресурсный_отчет_на_" + yearBox.getValue() + "_год" + ".xls"));
                             }
                             if (reportSwitchForHalfYear.isSelected()) {
-                                desktop.open(new File("Ресурсный_отчет_на_" + halfyearBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
+                                desktop.open(new File(path + "Ресурсный_отчет_на_" + halfyearBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
                             }
                             if (reportSwitchForQuarter.isSelected()) {
-                                desktop.open(new File("Ресурсный_отчет_на_" + quarterBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
+                                desktop.open(new File(path + "Ресурсный_отчет_на_" + quarterBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
                             }
                             if (reportSwitchForMonth.isSelected()) {
-                                desktop.open(new File("Ресурсный_отчет_на_" + monthBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
+                                desktop.open(new File(path + "Ресурсный_отчет_на_" + monthBox.getValue() + "_" + yearBox.getValue() + "_года" + ".xls"));
                             }
                             if (reportSwitchForPeriod.isSelected()) {
-                                desktop.open(new File("Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls"));
+                                desktop.open(new File(path + "Ресурсный_отчет_c_" + startDate.getValue() + "_по_" + endDate.getValue() + ".xls"));
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
