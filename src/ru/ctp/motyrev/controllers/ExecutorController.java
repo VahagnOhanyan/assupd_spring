@@ -52,7 +52,7 @@ public class ExecutorController {
         }
         for (ObservableList<String> l : list) {
             for (String txt : l) {
-                if (txt.contains(searchText)) {
+                if (txt.toLowerCase().contains(searchText.toLowerCase())) {
                     filteredList.add(l);
                 }
             }
