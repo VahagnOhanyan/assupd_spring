@@ -1406,6 +1406,8 @@ public class TimeSheetController {
         timeSheetView.getColumns().addAll(tableCol1, tableCol2, tableCol3, tableCol4);
         ResultSet calendarRs = CalendarController.getCalendarData();
         CalendarCell.setRes(calendarRs);
+        CalendarCell.year = date.get(Calendar.YEAR);
+
         for (int i = 1; i <= date.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
 
             TableColumn tableColumn = new TableColumn("" + i);
@@ -1422,12 +1424,25 @@ public class TimeSheetController {
             tableColumn.setCellValueFactory(new PropertyValueFactory<TimeSheet, String>("day" + i));
 
             if (checkDateForCurrent(i)) {
-                tableColumn.setCellFactory(column -> CurrentDateCell.createStringCurrentDateCell());
+                if ((checkDate(i) || CalendarCell.createCalendarCell().checkDateForHoliday(date.get(Calendar.MONTH), i)) &&
+                        !CalendarCell.createCalendarCell().checkDateForWorkday(date.get(Calendar.MONTH), i)) {
+                    tableColumn.setCellFactory(column -> {
+                        WeekEndCell w = WeekEndCell.createStringEditCell();
+                        w.setStyle("-fx-alignment: CENTER;  -fx-background-color:#fce4d6;");
+                        return w;
+                    });
+                }else {
+                    tableColumn.setCellFactory(column -> CurrentDateCell.createStringCurrentDateCell());
+                }
             } else if (checkDate(i) && !CalendarCell.createCalendarCell().checkDateForWorkday(LocalDate.now().getMonth().ordinal(), i)) {
                 tableColumn.setCellFactory(column -> WeekEndCell.createStringEditCell());
-            } else if (CalendarCell.createCalendarCell().checkDateForHoliday(LocalDate.now().getMonth().ordinal(), i) &&
-                    !CalendarCell.createCalendarCell().checkDateForWorkday(LocalDate.now().getMonth().ordinal(), i)) {
-                tableColumn.setCellFactory(column -> WeekEndCell.createStringEditCell());
+                System.out.println("date.get(Calendar.MONTH):" + date.get(Calendar.MONTH));
+            } else if (CalendarCell.createCalendarCell().checkDateForHoliday(date.get(Calendar.MONTH), i) &&
+                    !CalendarCell.createCalendarCell().checkDateForWorkday(date.get(Calendar.MONTH), i)) {
+                tableColumn.setCellFactory(column -> {
+                   WeekEndCell w = WeekEndCell.createStringEditCell();
+                  // w.setStyle("-fx-alignment: CENTER;  -fx-background-color:#f8cbad;");
+                   return w;});
             } else {
                 tableColumn.setCellFactory(column -> EditCell.createStringEditCell());
             }

@@ -54,7 +54,7 @@ public class CalendarController {
         Collections.addAll(columns, tableColumnDays);
     }
 
-    private ObservableList<Months> getMonthList() {
+    public ObservableList<Months> getMonthList() {
 
         Months m1 = new Months(months[0]);
         Months m2 = new Months(months[1]);
@@ -122,7 +122,7 @@ public class CalendarController {
         setBeforeFirst();
         if (menuItem.getId().equals("1")) {
             try {
-                while (!res.next()) {
+                while (res.next()) {
 
                     int yyyy = res.getInt(YEAR);
                     int mm = res.getInt(MONTH);
@@ -153,12 +153,14 @@ public class CalendarController {
                     e.printStackTrace();
                 }
             }
-            if (!cc.getStyle().contains("#d4ebd7")) {
-                cc.setStyle("-fx-alignment: CENTER;  -fx-background-color:lemonchiffon;");
+            if (!cc.getStyle().contains("#ddebf7")) {
+                cc.setStyle("-fx-alignment: CENTER;  -fx-background-color:#fff2cc;");
+            }else{
+                cc.setStyle("-fx-alignment: CENTER;  -fx-background-color:#fce4d6;");
             }
         } else if (menuItem.getId().equals("2")) {
             try {
-                while (!res.next()) {
+                while (res.next()) {
                     int yyyy = res.getInt(YEAR);
                     int mm = res.getInt(MONTH);
                     int dd = res.getInt(DAY);
@@ -188,8 +190,10 @@ public class CalendarController {
                     e.printStackTrace();
                 }
             }
-            if (!cc.getStyle().contains("#d4ebd7")) {
+            if (cc.getStyle().contains("#fff2cc")) {
                 cc.setStyle("-fx-alignment: CENTER;");
+            }if (cc.getStyle().contains("#fce4d6")){
+                 cc.setStyle("-fx-alignment: CENTER;  -fx-background-color:#ddebf7;");
             }
             closeResources();
         }
