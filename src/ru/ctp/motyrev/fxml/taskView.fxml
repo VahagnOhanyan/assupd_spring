@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1310.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ctp.motyrev.controllers.TaskViewController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1310.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.ctp.motyrev.controllers.TaskViewController">
    <children>
       <TextArea fx:id="noteTxt2" layoutX="421.0" layoutY="80.0" prefHeight="69.0" prefWidth="358.0" visible="false" AnchorPane.leftAnchor="421.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="80.0" />
       <Button fx:id="changeBtn" layoutX="793.0" layoutY="78.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="188.0" text="Изменить" visible="false" AnchorPane.rightAnchor="329.0" AnchorPane.topAnchor="78.0" />
@@ -83,19 +75,36 @@
         <panes>
           <TitledPane fx:id="shortViewPane" text="Краткая информация">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <GridPane>
                      <children>
-                        <TableView fx:id="shortStageView" layoutX="14.0" layoutY="14.0" prefHeight="335.0" prefWidth="611.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="5.0" />
-                        <TableView fx:id="shortExecuterView" layoutX="664.6" layoutY="23.6" prefHeight="292.0" prefWidth="598.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="655.0" AnchorPane.topAnchor="5.0" />
+                        <TableView fx:id="shortStageView" layoutX="14.0" layoutY="14.0" prefHeight="335.0" prefWidth="611.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+                        <TableView fx:id="shortExecuterView" layoutX="664.6" layoutY="23.6" prefHeight="292.0" prefWidth="598.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
                      </children>
-                  </AnchorPane>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                     </rowConstraints>
+                  </GridPane>
             </content>
           </TitledPane>
-          <TitledPane animated="false" expanded="false" prefHeight="403.0" prefWidth="1280.0" text="Подробно">
+          <TitledPane fx:id="summaryViewPane" prefHeight="403.0" prefWidth="3280.0" text="Подробно">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="3278.0">
                      <children>
-                        <TableView fx:id="summaryView" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                        <TableView fx:id="summaryView" layoutX="19.6" layoutY="74.6" prefHeight="230.0" prefWidth="1244.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="65.0" />
+                         <ComboBox fx:id="monthBox" disable="false" layoutX="876.0" layoutY="-2.0" prefHeight="31.0" prefWidth="108.0" promptText="Месяц" AnchorPane.rightAnchor="294.0" AnchorPane.topAnchor="-2.0" />
+                         <ComboBox fx:id="yearBox" disable="false" layoutX="990.0" layoutY="-2.0" prefHeight="31.0" prefWidth="76.0" promptText="Год" AnchorPane.rightAnchor="212.0" AnchorPane.topAnchor="-2.0" />
+                         <Button fx:id="btnShow" disable="true" layoutX="1085.0" layoutY="-2.0" mnemonicParsing="false" onAction="#show" prefHeight="31.0" prefWidth="107.0" text="Показать" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="-2.0" />
+                         <RadioButton fx:id="showByUsers" disable="false" layoutX="206.0" layoutY="-8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="140.0" text="Сотрудникам" AnchorPane.rightAnchor="932.4" AnchorPane.topAnchor="-8.0" />
+                         <RadioButton fx:id="showByStages" disable="false" layoutX="36.0" layoutY="-8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Этап" AnchorPane.rightAnchor="1122.4" AnchorPane.topAnchor="-8.0" />
+                         <CheckBox fx:id="hideEmpty" disable="false" layoutX="469.0" layoutY="14.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="136.0" text="Скрыть пустые" AnchorPane.rightAnchor="673.4" AnchorPane.topAnchor="14.0" />
+                         <RadioButton fx:id="oneMonth" disable="false" layoutX="36.0" layoutY="23.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="100.0" text="Месяц" AnchorPane.rightAnchor="1142.4" AnchorPane.topAnchor="23.0" />
+                         <RadioButton fx:id="allTime" disable="false" layoutX="206.0" layoutY="23.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="137.0" text="Период задачи" AnchorPane.rightAnchor="934.8" AnchorPane.topAnchor="23.0" />
+                         <DatePicker fx:id="startDate" layoutX="30.0" layoutY="136.0" prefHeight="31.0" prefWidth="132.0" promptText="с" visible="false" />
+                         <DatePicker fx:id="endDate" layoutX="182.0" layoutY="136.0" prefHeight="31.0" prefWidth="132.0" visible="false" />
                      </children>
                   </AnchorPane>
             </content>
