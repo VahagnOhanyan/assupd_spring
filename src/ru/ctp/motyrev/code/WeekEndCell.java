@@ -29,7 +29,7 @@ public class WeekEndCell<S, T> extends TableCell<S, T> {
         });
         setGraphic(textField);
         setContentDisplay(ContentDisplay.TEXT_ONLY);
-        setStyle("-fx-alignment: CENTER;  -fx-background-color:lemonchiffon;");
+        setStyle("-fx-alignment: CENTER;  -fx-background-color:#fff2cc;");
 
         textField.setOnAction(evt -> {
             commitEdit(this.converter.fromString(textField.getText()));

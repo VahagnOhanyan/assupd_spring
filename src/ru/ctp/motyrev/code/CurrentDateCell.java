@@ -33,7 +33,7 @@ public class CurrentDateCell<S, T> extends TableCell<S, T> {
         });
         setGraphic(textField);
         setContentDisplay(ContentDisplay.TEXT_ONLY);
-        setStyle("-fx-alignment: CENTER;  -fx-background-color:#d4ebd7;");
+        setStyle("-fx-alignment: CENTER;  -fx-background-color:#ddebf7;");
         textField.setOnAction(evt -> {
             commitEdit(this.converter.fromString(textField.getText()));
         });

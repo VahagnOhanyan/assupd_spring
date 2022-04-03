@@ -26,7 +26,7 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
         CalendarCell.year = year;
     }
 
-    private static int year = LocalDate.now().getYear();
+    public static int year = LocalDate.now().getYear();
 
     // Converter for converting the text in the text field to the user type, and vice-versa:
     private final StringConverter<T> converter;
@@ -81,13 +81,19 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
             if (monthOrder >= 0 && monthOrder <= 11) {
                 if (checkDateForCurrent(monthOrder, Integer.parseInt((String) item))) {
                     setContentDisplay(ContentDisplay.TEXT_ONLY);
-                    setStyle("-fx-alignment: CENTER;  -fx-background-color:#d4ebd7;");
+                    setStyle("-fx-alignment: CENTER;  -fx-background-color:#ddebf7;");
+                                        if ((checkDateForWeekEnd(monthOrder, Integer.parseInt((String) item)) &&
+                                                !checkDateForWorkday(monthOrder, Integer.parseInt((String) item))) ||
+                                                (checkDateForHoliday(monthOrder, Integer.parseInt((String) item)) &&
+                                                        !checkDateForWorkday(monthOrder, Integer.parseInt((String) item))))  {
+                                            setStyle("-fx-alignment: CENTER;  -fx-background-color:#fce4d6;");
+                                       }
                 } else if ((checkDateForWeekEnd(monthOrder, Integer.parseInt((String) item)) &&
                         !checkDateForWorkday(monthOrder, Integer.parseInt((String) item))) ||
                         (checkDateForHoliday(monthOrder, Integer.parseInt((String) item)) &&
                                 !checkDateForWorkday(monthOrder, Integer.parseInt((String) item)))) {
                     setContentDisplay(ContentDisplay.TEXT_ONLY);
-                    setStyle("-fx-alignment: CENTER;  -fx-background-color:lemonchiffon;");
+                    setStyle("-fx-alignment: CENTER;  -fx-background-color:#fff2cc;");
                 } else {
                     setContentDisplay(ContentDisplay.TEXT_ONLY);
                     setStyle("-fx-alignment: CENTER;");
@@ -105,11 +111,12 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
             mi1.setOnAction(event -> new CalendarController().updateCalendarCell((CalendarCell<CalendarController.Months, String>) this, event));
             mi2.setOnAction(event -> new CalendarController().updateCalendarCell((CalendarCell<CalendarController.Months, String>) this, event));
             this.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                if (event.getButton() == MouseButton.SECONDARY) {
-                    if (this.getStyle().equals("-fx-alignment: CENTER;")) {
-                        cm1.show(this, event.getScreenX(), event.getScreenY());
-                    } else {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    if (this.getStyle().contains("#fff2cc;") || this.getStyle().contains("#fce4d6;")) {
                         cm2.show(this, event.getScreenX(), event.getScreenY());
+                    }
+                    if (this.getStyle().equals("-fx-alignment: CENTER;") || this.getStyle().contains("#ddebf7;")) {
+                        cm1.show(this, event.getScreenX(), event.getScreenY());
                     }
                     event.consume();
                 }
@@ -128,7 +135,8 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
     public boolean checkDateForHoliday(int month, int day) {
         setBeforeFirst();
         try {
-            while (!res.next()) {
+            while (res.next()) {
+
                 int yyyy = res.getInt(CalendarController.YEAR);
                 int mm = res.getInt(CalendarController.MONTH) - 1;
                 int dd = res.getInt(CalendarController.DAY);
@@ -147,7 +155,7 @@ public class CalendarCell<S, T> extends TableCell<S, T> {
     public boolean checkDateForWorkday(int month, int day) {
         setBeforeFirst();
         try {
-            while (!res.next()) {
+            while (res.next()) {
                 int yyyy = res.getInt(CalendarController.YEAR);
                 int mm = res.getInt(CalendarController.MONTH) - 1;
                 int dd = res.getInt(CalendarController.DAY);
