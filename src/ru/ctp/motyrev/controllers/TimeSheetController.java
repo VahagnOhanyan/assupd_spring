@@ -6,32 +6,66 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import ru.ctp.motyrev.code.*;
 import ru.ctp.motyrev.interfaces.impls.CollectionTimeSheet;
 import ru.ctp.motyrev.objects.TimeSheet;
 
+import java.awt.*;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 import static javafx.scene.control.TableView.UNCONSTRAINED_RESIZE_POLICY;
 
 public class TimeSheetController {
-
+    @FXML
+    public Group diffBox;
+    @FXML
+    public Group totalBox;
+    @FXML
+    public TextField totalForMonth;
+    @FXML
+    private Button btnPrint;
+    @FXML
+    private TextField Я_ASUPD;
+    @FXML
+    private TextField О_ASUPD;
+    @FXML
+    private TextField Б_ASUPD;
+    @FXML
+    private TextField Итог_ASUPD;
+    @FXML
+    private TextField Я;
+    @FXML
+    private TextField О;
+    @FXML
+    private TextField Б;
+    @FXML
+    private TextField Итог;
     @FXML
     private Label userLbl;
     @FXML
@@ -50,8 +84,6 @@ public class TimeSheetController {
     private TextArea noteTxt;
     @FXML
     private TextArea noteTxt2;
-    @FXML
-    private TextField txtAll;
     @FXML
     public ComboBox taskBox;
     @FXML
@@ -80,7 +112,7 @@ public class TimeSheetController {
     private Label depHeadLbl;
     @FXML
     private Label managerLbl;
-
+    
     private String user;
     private String workNum;
     private String workStage;
@@ -105,6 +137,7 @@ public class TimeSheetController {
     SimpleDateFormat sdf3 = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy");
     SimpleDateFormat sdf5 = new SimpleDateFormat("MM");
+    SimpleDateFormat sdf6 = new SimpleDateFormat("dd.MM.yyyy");
 
     DBconnection dBconnection = new DBconnection();
 
@@ -133,9 +166,21 @@ public class TimeSheetController {
     private TaskPaneController taskPaneController;
     private Stage taskPaneStage;
 
+    String[] stages = {"Работы по бэк-офису", "Отпуск", "Больничный", "Обучение", "IDLE", "", "Отпуск без сохранения з/п"};
+
+    private Stage exportToExcelStage;
+    private TimeSheetReportController exportToExcelController;
+    private final FXMLLoader fxmlExportToExcelViewLoader = new FXMLLoader();
+
+    private Parent fxmlExportToExcelView;
+
     @FXML
     private void initialize() {
-
+        try {
+            initLoader();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         noteTxt.setWrapText(true);
         noteTxt2.setWrapText(true);
 
@@ -369,6 +414,31 @@ public class TimeSheetController {
         yearBox.getItems().addAll("2018", "2019", "2020", "2021", "2022");
     }
 
+    private void initLoader() throws IOException {
+        fxmlExportToExcelViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/timeSheetExportToExcel.fxml"));
+        fxmlExportToExcelView = fxmlExportToExcelViewLoader.load();
+        exportToExcelController = fxmlExportToExcelViewLoader.getController();
+    }
+
+    public void openExportToExcelWindow() {
+        setExportToExcelStage();
+    }
+
+    private void setExportToExcelStage() {
+
+        if (exportToExcelStage == null) {
+            exportToExcelStage = new Stage();
+            exportToExcelStage.setScene(new Scene(fxmlExportToExcelView));
+            exportToExcelStage.setMinHeight(100);
+            exportToExcelStage.setMinWidth(100);
+            exportToExcelStage.setResizable(false);
+            exportToExcelStage.initModality(Modality.WINDOW_MODAL);
+            exportToExcelStage.initOwner(new Stage());
+        }
+        // exportToExcelController.addData();
+        exportToExcelStage.showAndWait();
+    }
+
     public void showComments() {
 
         if (commentsStage == null) {
@@ -430,14 +500,15 @@ public class TimeSheetController {
         timeSheetView.setEditable(false);
     }
 
-    public void initTimeSheet(String user) {
+    public void initTimeSheet(String user, Calendar calendar) {
         formClear();
 
         this.user = user;
 
-        date.set(date2.get(GregorianCalendar.YEAR), date2.get(GregorianCalendar.MONTH), date2.get(GregorianCalendar.DAY_OF_MONTH));
+        date.set(calendar.get(GregorianCalendar.YEAR), calendar.get(GregorianCalendar.MONTH), calendar.get(GregorianCalendar.DAY_OF_MONTH));
 
         addData(date);
+        exportToExcelController.initTimeSheetReport(user, date, data);
     }
 
     public void changeDate(ActionEvent actionEvent) {
@@ -496,10 +567,18 @@ public class TimeSheetController {
             btnShow.setDisable(false);
             backBtn.setDisable(false);
             forwardBtn.setDisable(false);
+            btnPrint.setDisable(false);
+            diffBox.setVisible(true);
+            AnchorPane.setBottomAnchor(timeSheetView, 119.0);
+        } else{
+            totalBox.setVisible(true);
+            AnchorPane.setBottomAnchor(timeSheetView, 56.0);
         }
 
         userLbl.setTextFill(Color.BLUE);
-        userLbl.setText(user.substring(user.indexOf(",") + 2, user.lastIndexOf("]")));
+        String userNameStart = user.substring(user.indexOf(",") + 2);
+        System.out.println(userNameStart);
+        userLbl.setText(userNameStart.substring(0, userNameStart.indexOf(",")));
 
         dateLbl.setTextFill(Color.RED);
         dateLbl.setText(sdf.format(date.getTime()) + " " + sdf4.format(date.getTime()));
@@ -514,6 +593,8 @@ public class TimeSheetController {
 
         System.out.println("Timesheet заполнен: " + sdf3.format(new Date()));
 
+        fillDiffView();
+
         approveStatus();
 
         System.out.println("Статусы заполнены: " + sdf3.format(new Date()));
@@ -521,6 +602,101 @@ public class TimeSheetController {
         approveState();
 
         System.out.println("Табель загружен: " + sdf3.format(new Date()));
+    }
+
+    private void fillDiffView() {
+
+        Я.setText("");
+        Я_ASUPD.setText("");
+        О.setText("");
+        О_ASUPD.setText("");
+        Б.setText("");
+        Б_ASUPD.setText("");
+        Итог.setText("");
+        Итог_ASUPD.setText("");
+
+        dBconnection.openDB();
+        try {
+            System.out.println(sdf6.format(date.getTime()));
+            fillFromAsupd("select 'Явка', sum(dw.daily_intensity) from public.task t join public.stage s on s.task_id = t.task_id " +
+                    " join public.stage_type st on st.stage_type_id = s.stage_type_id" +
+                    " join public.stage_daily sd on sd.stage_id = s.stage_id" +
+                    " join public.daily_work dw on dw.daily_work_id = sd.daily_work_id" +
+                    " join public.user u on u.user_id = dw.user_id where u.user_id_number = '" + user.substring(1, user.indexOf(",")) +
+                    "' and to_char(dw.daily_work_date,'yyyy-MM')= '" + sdf2.format(date.getTime()) + "'");
+
+            fillFromAsupd("select st.user_stage_type_name, sum(dw.daily_intensity) from public.user_stage s\n" +
+                    " join public.user_stage_type st on st.user_stage_type_id = s.user_stage_type_id\n" +
+                    " join public.user_stage_daily sd on sd.user_stage_id = s.user_stage_id\n" +
+                    " join public.daily_work dw on dw.daily_work_id = sd.daily_work_id\n" +
+                    " join public.user u on u.user_id = dw.user_id where u.user_id_number = '" + user.substring(1, user.indexOf(",")) +
+                    "' and to_char(dw.daily_work_date,'yyyy-MM')= '" + sdf2.format(date.getTime()) + "'" + " group by st.user_stage_type_name");
+            System.out.println(user);
+            System.out.println(user.substring(1, user.indexOf(",")));
+            fillFrom1C("select worked,hospital,vacation,total from onec where num like '" + '%' + user.substring(1, user.indexOf(",")) +
+                    "' and monthyear= '" + sdf6.format(date.getTime()) + "'");
+        } catch (Exception e) {
+            errorAlert.setTitle("Ошибка data");
+            errorAlert.setContentText(e.getMessage());
+            errorAlert.showAndWait();
+            e.printStackTrace();
+        } finally {
+            dBconnection.queryClose();
+            dBconnection.closeDB();
+        }
+        Я_ASUPD.setStyle("-fx-background-color: white");
+        Я.setStyle("-fx-background-color: white");
+        О_ASUPD.setStyle("-fx-background-color: white");
+        О.setStyle("-fx-background-color: white");
+        Б_ASUPD.setStyle("-fx-background-color: white");
+        Б.setStyle("-fx-background-color: white");
+        Итог_ASUPD.setStyle("-fx-background-color: white");
+        totalForMonth.setStyle("-fx-background-color: white");
+        Итог.setStyle("-fx-background-color: white");
+        if (!Я_ASUPD.getText().equals("") && !Я.getText().equals("")) {
+            if (Double.parseDouble(Я_ASUPD.getText()) > Double.parseDouble(Я.getText())) {
+                Я_ASUPD.setStyle("-fx-background-color: #F7CAAC");
+            } else if (Double.parseDouble(Я_ASUPD.getText()) < Double.parseDouble(Я.getText())) {
+                Я_ASUPD.setStyle("-fx-background-color: #B4C6E7");
+            } else {
+                Я_ASUPD.setStyle("-fx-background-color: white");
+            }
+        } else {
+            Я_ASUPD.setStyle("-fx-background-color: white");
+        }
+        if (!О_ASUPD.getText().equals("") && !О.getText().equals("")) {
+            if (Double.parseDouble(О_ASUPD.getText()) > Double.parseDouble(О.getText())) {
+                О_ASUPD.setStyle("-fx-background-color: #F7CAAC");
+            } else if (Double.parseDouble(О_ASUPD.getText()) < Double.parseDouble(О.getText())) {
+                О_ASUPD.setStyle("-fx-background-color: #B4C6E7");
+            } else {
+                О_ASUPD.setStyle("-fx-background-color: white");
+            }
+        } else {
+            О_ASUPD.setStyle("-fx-background-color: white");
+        }
+        if (!Б_ASUPD.getText().equals("") && !Б.getText().equals("")) {
+            if (Double.parseDouble(Б_ASUPD.getText()) > Double.parseDouble(Б.getText())) {
+                Б_ASUPD.setStyle("-fx-background-color: #F7CAAC");
+            } else if (Double.parseDouble(Б_ASUPD.getText()) < Double.parseDouble(Б.getText())) {
+                Б_ASUPD.setStyle("-fx-background-color: #B4C6E7");
+            } else {
+                Б_ASUPD.setStyle("-fx-background-color: white");
+            }
+        } else {
+            Б_ASUPD.setStyle("-fx-background-color: white");
+        }
+        if (!Итог_ASUPD.getText().equals("") && !Итог.getText().equals("")) {
+            if (Double.parseDouble(Итог_ASUPD.getText()) > Double.parseDouble(Итог.getText())) {
+                Итог_ASUPD.setStyle("-fx-background-color: #F7CAAC");
+            } else if (Double.parseDouble(Итог_ASUPD.getText()) < Double.parseDouble(Итог.getText())) {
+                Итог_ASUPD.setStyle("-fx-background-color: #B4C6E7");
+            } else {
+                Итог_ASUPD.setStyle("-fx-background-color: white");
+            }
+        } else {
+            Итог_ASUPD.setStyle("-fx-background-color: white");
+        }
     }
 
     private void approveStatus() {
@@ -1125,16 +1301,13 @@ public class TimeSheetController {
                 }
                 dBconnection.queryClose();
                 dBconnection.closeDB();
-
+                Double total2 = 0.0;
                 if (data2.size() != 0) {
                     TimeSheet nulTimeSheet = new TimeSheet();
                     timeSheetList.add(nulTimeSheet);
 
                     TimeSheet timeSheet = new TimeSheet();
-
-                    txtAll.clear();
                     Double total = 0.0;
-
                     timeSheet.setWork_stage(data2.get(0).get(0).toString());
                     timeSheet.setDay1(checkVal((String) data2.get(0).get(1)));
                     total += checkDoubleVal((String) data2.get(0).get(1));
@@ -1198,10 +1371,12 @@ public class TimeSheetController {
                     total += checkDoubleVal((String) data2.get(0).get(30));
                     timeSheet.setDay31(checkVal((String) data2.get(0).get(31)));
                     total += checkDoubleVal((String) data2.get(0).get(31));
+                    System.out.println("total: " + total);
+                    total2 += total;
                     timeSheetList.add(timeSheet);
-
-                    txtAll.setText(total.toString());
                 }
+               // timeSheetList.getTimesheetlist().get(data2.size()-1).setEnd_perc(String.valueOf(total2));
+                fillDiffView();
             } catch (Exception e) {
                 errorAlert.setTitle("Ошибка data");
                 errorAlert.setContentText(e.getMessage());
@@ -1427,22 +1602,29 @@ public class TimeSheetController {
                 if ((checkDate(i) || CalendarCell.createCalendarCell().checkDateForHoliday(date.get(Calendar.MONTH), i)) &&
                         !CalendarCell.createCalendarCell().checkDateForWorkday(date.get(Calendar.MONTH), i)) {
                     tableColumn.setCellFactory(column -> {
+
                         WeekEndCell w = WeekEndCell.createStringEditCell();
                         w.setStyle("-fx-alignment: CENTER;  -fx-background-color:#fce4d6;");
+                        w.setOnMouseClicked(null);
+
                         return w;
                     });
-                }else {
+                } else {
                     tableColumn.setCellFactory(column -> CurrentDateCell.createStringCurrentDateCell());
                 }
-            } else if (checkDate(i) && !CalendarCell.createCalendarCell().checkDateForWorkday(LocalDate.now().getMonth().ordinal(), i)) {
-                tableColumn.setCellFactory(column -> WeekEndCell.createStringEditCell());
-                System.out.println("date.get(Calendar.MONTH):" + date.get(Calendar.MONTH));
+            } else if (checkDate(i) && !CalendarCell.createCalendarCell().checkDateForWorkday(date.get(Calendar.MONTH), i)) {
+                tableColumn.setCellFactory(column ->
+                {
+                    WeekEndCell w = WeekEndCell.createStringEditCell();
+                    w.setOnMouseClicked(null);
+                    return w;
+                });
             } else if (CalendarCell.createCalendarCell().checkDateForHoliday(date.get(Calendar.MONTH), i) &&
                     !CalendarCell.createCalendarCell().checkDateForWorkday(date.get(Calendar.MONTH), i)) {
                 tableColumn.setCellFactory(column -> {
-                   WeekEndCell w = WeekEndCell.createStringEditCell();
-                  // w.setStyle("-fx-alignment: CENTER;  -fx-background-color:#f8cbad;");
-                   return w;});
+                    WeekEndCell w = WeekEndCell.createStringEditCell();
+                    return w;
+                });
             } else {
                 tableColumn.setCellFactory(column -> EditCell.createStringEditCell());
             }
@@ -1483,6 +1665,7 @@ public class TimeSheetController {
         timeSheetView.getColumns().addAll(tableCol5);
         //Добавление данных в TableView
         timeSheetView.setItems(timeSheetList.getTimesheetlist());
+        //timeSheetView.setSelectionModel(null);
     }
 
     public void savePerspective() {
@@ -1576,7 +1759,7 @@ public class TimeSheetController {
         }
     }
 
-    private boolean checkDate(int i) {
+    public boolean checkDate(int i) {
         Calendar date2 = date;
 
         date2.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH), i);
@@ -1589,7 +1772,7 @@ public class TimeSheetController {
         }
     }
 
-    private boolean checkDateForCurrent(int i) {
+    public boolean checkDateForCurrent(int i) {
         Calendar date3 = date;
 
         date3.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH), i);
@@ -1639,16 +1822,16 @@ public class TimeSheetController {
 
             dBconnection.query("SELECT * " +
                     "FROM crosstab(" +
-                    "'SELECT s.stage_id, t.task_number, st.stage_type_name, ''Загр. врем. отключена'', dw.day_num, dw.daily_intensity FROM " +
+                    "'SELECT s.stage_id, t.task_number, st.stage_type_name, ''Загр. врем. отключена'', dw.day_num, sum(dw.daily_intensity) FROM " +
                     "public.stage s " +
                     "join public.task t on t.task_id = s.task_id " +
                     "join public.stage_type st on st.stage_type_id = s.stage_type_id " +
                     "join public.stage_daily sd on sd.stage_id = s.stage_id " +
                     "join public.daily_work dw on dw.daily_work_id = sd.daily_work_id " +
                     "join public.user u on u.user_id = dw.user_id " +
-                    "left join public.stage_note stn on stn.stage_id = s.stage_id " +
                     "WHERE dw.daily_work_date >= ''" + sdf2.format(date.getTime()) + "-01" + "'' AND dw.daily_work_date <= ''" + sdf2.format(date.getTime()) +
                     "-" + checkMaximux() + "'' AND u.user_id_number = ''" + user.substring(1, user.indexOf(",")) + "'' " +
+                    "GROUP BY t.task_number, s.stage_id, st.stage_type_name, dw.day_num " +
                     "ORDER BY t.task_number, s.stage_id', " +
                     "'SELECT d from generate_series(1,31) d') " +
                     "AS (stage_id integer, task_number text, stage_type_name text, stage_note text, day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +
@@ -1736,7 +1919,7 @@ public class TimeSheetController {
                 for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                     //Перебор колонок
 
-                    if (i > 4 & i < 35) {
+                    if (i > 4 & i <= 35) {
                         h += checkVal2(dBconnection.getRs().getString(i));
                     }
 
@@ -2168,6 +2351,60 @@ public class TimeSheetController {
         return specData;
     }
 
+    private void fillFromAsupd(String query) throws SQLException {
+        dBconnection.query(query);
+        while (dBconnection.getRs().next()) {
+            if (О_ASUPD.getText().equals("")) {
+                О_ASUPD.setText("0.0");
+            }
+            if (Я_ASUPD.getText().equals("")) {
+                Я_ASUPD.setText("0.0");
+            }
+            if (Б_ASUPD.getText().equals("")) {
+                Б_ASUPD.setText("0.0");
+            }
+            if (dBconnection.getRs().getString(1).equals(stages[1]) || dBconnection.getRs().getString(1).equals(stages[6])) {
+                if (!О_ASUPD.getText().equals("")) {
+                    double v = Double.parseDouble(О_ASUPD.getText()) + Double.parseDouble(dBconnection.getRs().getString(2));
+                    О_ASUPD.setText(String.valueOf(v));
+                }
+            } else if (dBconnection.getRs().getString(1).equals(stages[2]) || dBconnection.getRs().getString(1).equals(stages[5])) {
+                if (!Б_ASUPD.getText().equals("")) {
+                    double v = Double.parseDouble(Б_ASUPD.getText()) + Double.parseDouble(dBconnection.getRs().getString(2));
+                    Б_ASUPD.setText(String.valueOf(v));
+                }
+            } else if (dBconnection.getRs().getString(1).equals("Явка") || dBconnection.getRs().getString(1).equals(stages[3]) ||
+                    dBconnection.getRs().getString(1).equals(stages[0]) || dBconnection.getRs().getString(1).equals(stages[4])) {
+                if (dBconnection.getRs().getString(2) != null) {
+                    if (!Я_ASUPD.getText().equals("")) {
+                        double p = Double.parseDouble(Я_ASUPD.getText()) + Double.parseDouble(dBconnection.getRs().getString(2));
+                        Я_ASUPD.setText(String.valueOf(p));
+                    }
+                }
+            }
+        }
+        if (!Я_ASUPD.getText().equals("")) {
+            if (!MainController.role.equals("Сотрудник")) {
+                Итог_ASUPD.setText(
+                        String.valueOf(Double.parseDouble(Я_ASUPD.getText()) + Double.parseDouble(Б_ASUPD.getText()) + Double.parseDouble(О_ASUPD.getText())));
+            }else{
+                totalForMonth.setText(
+                        String.valueOf(Double.parseDouble(Я_ASUPD.getText()) + Double.parseDouble(Б_ASUPD.getText()) + Double.parseDouble(О_ASUPD.getText())));
+            }
+        }
+    }
+
+    private void fillFrom1C(String query) throws SQLException {
+        dBconnection.query(query);
+        while (dBconnection.getRs().next()) {
+            System.out.println(dBconnection.getRs().getString(1));
+            Я.setText(String.valueOf(dBconnection.getRs().getDouble(1)));
+            Б.setText(String.valueOf(dBconnection.getRs().getDouble(2)));
+            О.setText(String.valueOf(dBconnection.getRs().getDouble(3)));
+            Итог.setText(String.valueOf(dBconnection.getRs().getDouble(4)));
+        }
+    }
+
     public void formClear() {
         editBtn.setTextFill(Color.BLACK);
         editBtn.setText("Редактировать");
@@ -2190,7 +2427,6 @@ public class TimeSheetController {
         timeSheetView.setEditable(false);
         noteTxt2.setVisible(false);
         changeBtn.setVisible(false);
-        txtAll.clear();
 
         taskColWidth = "";
         stageColWidth = "";

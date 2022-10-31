@@ -1,0 +1,115 @@
+
+E
+java:S3740 "/Provide the parametrized type for this generic.(º±Æı
+J
+java:S3740""/Provide the parametrized type for this generic.(íö³€şÿÿÿÿ
+E
+java:S3740$"/Provide the parametrized type for this generic.(ß®Ùˆ
+D
+java:S37402"/Provide the parametrized type for this generic.(ßø¼
+E
+java:S37403"/Provide the parametrized type for this generic.(ÓùøÜ
+F
+java:S3740î"/Provide the parametrized type for this generic.(ß¼±
+m
+java:S3776:"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(ˆå¶šûÿÿÿÿ
+n
+java:S3776ˆ"RRefactor this method to reduce its Cognitive Complexity from 42 to the 15 allowed.(ıæ¾ûÿÿÿÿ
+N
+java:S1172ˆ"2Remove this unused method parameter "actionEvent".(ıæ¾ûÿÿÿÿ
+\
+java:S2147²"ECombine this catch with the one at line 432, which has the same body.(ï­£Ä
+\
+java:S2147´"ECombine this catch with the one at line 432, which has the same body.(îæ³
+‚
+java:S2178›"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ÔÈïúÿÿÿÿ
+‚
+java:S2178"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(¢Şñ’ùÿÿÿÿ
+=
+java:S2111Ÿ"!Use "BigDecimal.valueOf" instead.(¬£ªşÿÿÿÿ
+}
+java:S2178«"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ğÊ¡‰
+‚
+java:S2178­"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(œÌâ‰ıÿÿÿÿ
+8
+java:S2111¯"!Use "BigDecimal.valueOf" instead.(–×î¬
+H
+java:S2201¶",The return value of "setScale" must be used.(Äöéışÿÿÿÿ
+F
+java:S2200ï"/Only the sign of the result should be examined.(Í«¹½
+n
+java:S3776º"RRefactor this method to reduce its Cognitive Complexity from 33 to the 15 allowed.(‘¹ø«ÿÿÿÿÿ
+N
+java:S1172º"2Remove this unused method parameter "actionEvent".(‘¹ø«ÿÿÿÿÿ
+\
+java:S2147æ"ECombine this catch with the one at line 740, which has the same body.(ï­£Ä
+\
+java:S2147è"ECombine this catch with the one at line 740, which has the same body.(îæ³
+=	java:S131ˆ""Add a default case to this switch.(İõô£ùÿÿÿÿ
+=	java:S131»""Add a default case to this switch.(İõô£ùÿÿÿÿ
+b
+java:S1128"GRemove this unused import 'org.apache.poi.hssf.usermodel.HSSFWorkbook'.(¾§—Œıÿÿÿÿ
+A
+java:S1128"+Remove this unused import 'java.util.Date'.(¸…¼ü
+B
+java:S1068."-Remove this unused "infoAlert" private field.(î§œ
+K
+java:S10680"0Remove this unused "confirmAlert" private field.(™ñ—îüÿÿÿÿ
+t
+java:S1192 "]Define a constant instead of duplicating this literal "_Ğ¾Ñ‚Ñ‡ĞµÑ‚_Ğ½Ğ°_ĞºĞ¾Ğ½ĞµÑ†_" 4 times.(êœ†·
+i
+java:S1192m"SDefine a constant instead of duplicating this literal "III ĞºĞ²Ğ°Ñ€Ñ‚Ğ°Ğ»" 3 times.(©æ‘‘
+{
+java:S1192"_Define a constant instead of duplicating this literal "_Ğ¾Ñ‚Ñ‡ĞµÑ‚_Ğ·Ğ°_Ğ¿ĞµÑ€Ğ¸Ğ¾Ğ´_" 4 times.(ßŸÀ şÿÿÿÿ
+g
+java:S1192k"QDefine a constant instead of duplicating this literal "I ĞºĞ²Ğ°Ñ€Ñ‚Ğ°Ğ»" 3 times.(òÜû»
+h
+java:S1192l"RDefine a constant instead of duplicating this literal "II ĞºĞ²Ğ°Ñ€Ñ‚Ğ°Ğ»" 3 times.(‹á¢ê
+h
+java:S1192n"RDefine a constant instead of duplicating this literal "IV ĞºĞ²Ğ°Ñ€Ñ‚Ğ°Ğ»" 3 times.(åñáÜ
+E
+java:S1066>"/Merge this if statement with the enclosing one.(İ§ÔÃ
+E
+java:S1066O"/Merge this if statement with the enclosing one.(İ§ÔÃ
+g	java:S117Œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ˆÒØ
+l	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï  ›üÿÿÿÿ
+g	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ú«Ë
+l	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(úèåøÿÿÿÿ
+g	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ¥Çõ
+g	java:S117‘"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Í¡—Š
+l	java:S117’"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡¤¹Ÿıÿÿÿÿ
+f	java:S117“"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦±Ò\
+l	java:S117”"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çŠöòøÿÿÿÿ
+g	java:S117•"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•‘—Ú
+g	java:S117–"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€Ş…•
+g	java:S117—"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹¶¶ù
+l	java:S117˜"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿‘™šşÿÿÿÿ
+g	java:S117™"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üˆœ£
+l	java:S117š"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒáªÿÿÿÿÿ
+f	java:S117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ì‰ëe
+l	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ª ˆûÿÿÿÿ
+l	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆÓªùÿÿÿÿ
+g	java:S117Ÿ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Å¤â²
+g	java:S117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(£ô¿ì
+g	java:S117¾"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ˆÒØ
+l	java:S117¿"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï  ›üÿÿÿÿ
+g	java:S117À"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ú«Ë
+l	java:S117Á"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(úèåøÿÿÿÿ
+g	java:S117Â"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ¥Çõ
+g	java:S117Ã"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Í¡—Š
+l	java:S117Ä"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡¤¹Ÿıÿÿÿÿ
+f	java:S117Å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦±Ò\
+g	java:S117Æ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•‘—Ú
+l	java:S117È"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ìšœ²ÿÿÿÿÿ
+a
+java:S2259à"EA "NullPointerException" could be thrown; "desktop" is nullable here.(ˆŠ“›øÿÿÿÿ
+[
+java:S2259®"EA "NullPointerException" could be thrown; "desktop" is nullable here.(¼Äº7
+[
+java:S2259â"EA "NullPointerException" could be thrown; "desktop" is nullable here.(¼Äº7
+a
+java:S2259¬"EA "NullPointerException" could be thrown; "desktop" is nullable here.(ˆŠ“›øÿÿÿÿ
+]
+java:S2095Ù"FUse try-with-resources or close this "Workbook" in a "finally" clause.(Ö—¦µ
+]
+java:S2095±"FUse try-with-resources or close this "Workbook" in a "finally" clause.(Ö—¦µ

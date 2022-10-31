@@ -47,7 +47,8 @@ public class ApproveController {
             formClear();
 
             tabLbl.setTextFill(Color.BLUE);
-            tabLbl.setText("Табель: " + user + " за " + month + "." + year);
+            String userNameStart = user.substring(user.indexOf(",") + 2);
+            tabLbl.setText("Табель: " + userNameStart.substring(0, userNameStart.indexOf(",")) + " за " + month + "." + year);
 
 
 

@@ -1,0 +1,365 @@
+
+J
+java:S37406"/Provide the parametrized type for this generic.(¤‰Óùÿÿÿÿ
+J
+java:S37408"/Provide the parametrized type for this generic.(ûıüşıÿÿÿÿ
+D
+java:S3740d"/Provide the parametrized type for this generic.(ßø¼
+E
+java:S3740e"/Provide the parametrized type for this generic.(ÿğ©
+E
+java:S3740f"/Provide the parametrized type for this generic.(ÓùøÜ
+J
+java:S3740g"/Provide the parametrized type for this generic.(ÉÃÜÏûÿÿÿÿ
+K
+java:S3740"/Provide the parametrized type for this generic.(ÔéÖŸıÿÿÿÿ
+K
+java:S3740"/Provide the parametrized type for this generic.(ÔéÖŸıÿÿÿÿ
+F
+java:S3740ƒ"/Provide the parametrized type for this generic.(²è±
+F
+java:S3740…"/Provide the parametrized type for this generic.(‡ü‹ş
+F
+java:S3740…"/Provide the parametrized type for this generic.(‡ü‹ş
+K
+java:S3740‡"/Provide the parametrized type for this generic.(…êëùÿÿÿÿ
+K
+java:S3740‹"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740‹"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+K
+java:S3740¹"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740¹"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740½"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+F
+java:S3740ı"/Provide the parametrized type for this generic.(«¥¬à
+F
+java:S3740ı"/Provide the parametrized type for this generic.(«¥¬à
+K
+java:S3740"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+K
+java:S3740Â"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740Â"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740Æ"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+F
+java:S3740ö"/Provide the parametrized type for this generic.(«¥¬à
+F
+java:S3740ö"/Provide the parametrized type for this generic.(«¥¬à
+K
+java:S3740ú"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+K
+java:S3740°"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740°"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740´"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+F
+java:S3740ì"/Provide the parametrized type for this generic.(«¥¬à
+F
+java:S3740ì"/Provide the parametrized type for this generic.(«¥¬à
+K
+java:S3740ğ"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+K
+java:S3740¨"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740¨"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+K
+java:S3740¬"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+F
+java:S3740Ü"/Provide the parametrized type for this generic.(«¥¬à
+F
+java:S3740Ü"/Provide the parametrized type for this generic.(«¥¬à
+K
+java:S3740à"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+K
+java:S3740"/Provide the parametrized type for this generic.(¼ƒ€üÿÿÿÿ
+K
+java:S3740õ	"/Provide the parametrized type for this generic.(Ï™‘ ÿÿÿÿÿ
+F
+java:S3740ã
+"/Provide the parametrized type for this generic.(ß¼±
+K
+java:S3740û
+"/Provide the parametrized type for this generic.(–ÈĞáøÿÿÿÿ
+m
+java:S3776j"RRefactor this method to reduce its Cognitive Complexity from 61 to the 15 allowed.(ˆå¶šûÿÿÿÿ
+X
+java:S1126l"BReplace this if-then-else statement by a single method invocation.(ÊªüÓ
+]
+java:S1126t"BReplace this if-then-else statement by a single method invocation.(½Œ¡†úÿÿÿÿ
+j
+java:S3776Ğ"SRefactor this method to reduce its Cognitive Complexity from 241 to the 15 allowed.(°’„
+R	java:S125Ñ"<This block of commented-out lines of code should be removed.(Èê–¦
+u
+java:S1171“"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+h
+java:S3252œ"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+h
+java:S3252Ã"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+D	java:S108Å")Either remove or fill this block of code.(ÊÖûÂùÿÿÿÿ
+c
+java:S1858Ê"G"item" is already a string, there's no need to call "toString()" on it.(…öÀøùÿÿÿÿ
+c
+java:S1858Ì"G"item" is already a string, there's no need to call "toString()" on it.(Ë‚šòúÿÿÿÿ
+^
+java:S1858Î"G"item" is already a string, there's no need to call "toString()" on it.(€µ¡“
+c
+java:S1858Ğ"G"item" is already a string, there's no need to call "toString()" on it.(ÃæÈüÿÿÿÿ
+c
+java:S1858Ò"G"item" is already a string, there's no need to call "toString()" on it.(í×º÷ıÿÿÿÿ
+D	java:S108ô")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+h
+java:S3252‡"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+D	java:S108‰")Either remove or fill this block of code.(ÊÖûÂùÿÿÿÿ
+c
+java:S1858"G"item" is already a string, there's no need to call "toString()" on it.(…öÀøùÿÿÿÿ
+c
+java:S1858"G"item" is already a string, there's no need to call "toString()" on it.(Ë‚šòúÿÿÿÿ
+^
+java:S1858’"G"item" is already a string, there's no need to call "toString()" on it.(€µ¡“
+c
+java:S1858”"G"item" is already a string, there's no need to call "toString()" on it.(ÃæÈüÿÿÿÿ
+c
+java:S1858–"G"item" is already a string, there's no need to call "toString()" on it.(í×º÷ıÿÿÿÿ
+D	java:S108¸")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+h
+java:S3252Ì"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+D	java:S108Î")Either remove or fill this block of code.(ÊÖûÂùÿÿÿÿ
+D	java:S108í")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+h
+java:S3252€"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+D	java:S108‚")Either remove or fill this block of code.(ÊÖûÂùÿÿÿÿ
+D	java:S108¡")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+h
+java:S3252º"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+D	java:S108¼")Either remove or fill this block of code.(ÊÖûÂùÿÿÿÿ
+|
+java:S2178Â"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Èš™
+‚
+java:S2178Ú"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ë»æ¥ıÿÿÿÿ
+D	java:S108ã")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+h
+java:S3252ö"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+D	java:S108ø")Either remove or fill this block of code.(ÊÖûÂùÿÿÿÿ
+|
+java:S2178ş"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Èš™
+‚
+java:S2178–"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ë»æ¥ıÿÿÿÿ
+D	java:S108Ÿ")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+h
+java:S3252²"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+D	java:S108´")Either remove or fill this block of code.(ÊÖûÂùÿÿÿÿ
+D	java:S108Ó")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+h
+java:S3252æ"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+D	java:S108è")Either remove or fill this block of code.(ÊÖûÂùÿÿÿÿ
+D	java:S108‡")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+‚
+java:S2178—"fCorrect this "|" to "||" and extract the right operand to a variable if it should always be evaluated.(–“¦˜ÿÿÿÿÿ
+‚
+java:S2178—"fCorrect this "|" to "||" and extract the right operand to a variable if it should always be evaluated.(–“¦˜ÿÿÿÿÿ
+H
+java:S1602",Remove useless curly braces around statement(¼ƒ€üÿÿÿÿ
+W
+java:S1612";Replace this lambda with method reference 'this::editCell'.(¼ƒ€üÿÿÿÿ
+i
+java:S3776Ú"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(øÑúÊ
+j
+java:S1871û"NThis branch's code block is the same as the block for the branch on line 1006.(±İÅÖûÿÿÿÿ
+‚
+java:S2178ê"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ì¼®‘ÿÿÿÿÿ
+‚
+java:S2178ê"fCorrect this "|" to "||" and extract the right operand to a variable if it should always be evaluated.(ì¼®‘ÿÿÿÿÿ
+}
+java:S2178ì"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(çÊÏá
+}
+java:S2178ì"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(çÊÏá
+‚
+java:S2178î"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(·¶Í¤üÿÿÿÿ
+‚
+java:S2178î"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(·¶Í¤üÿÿÿÿ
+}
+java:S2178ñ"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Í—íÎ
+}
+java:S2178ñ"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Í—íÎ
+}
+java:S2178ñ"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Í—íÎ
+}
+java:S2178ó"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(‰ËŠ¿
+}
+java:S2178ó"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(‰ËŠ¿
+}
+java:S2178ó"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(‰ËŠ¿
+}
+java:S2178ö"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(«é»Ğ
+}
+java:S2178ö"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(«é»Ğ
+}
+java:S2178ö"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(«é»Ğ
+}
+java:S2178ø"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(†Ã©¯
+}
+java:S2178ø"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(†Ã©¯
+}
+java:S2178ø"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(†Ã©¯
+‚
+java:S2178û"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(±İÅÖûÿÿÿÿ
+‚
+java:S2178û"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(±İÅÖûÿÿÿÿ
+‚
+java:S2178û"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(±İÅÖûÿÿÿÿ
+‚
+java:S2178ş"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(›ïŠØùÿÿÿÿ
+‚
+java:S2178ş"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(›ïŠØùÿÿÿÿ
+‚
+java:S2178ş"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(›ïŠØùÿÿÿÿ
+Y
+java:S1126‚"BReplace this if-then-else statement by a single method invocation.(Ç‰ŠÂ
+D	java:S108Û	")Either remove or fill this block of code.(äßîêüÿÿÿÿ
+]
+java:S2147ï	"FCombine this catch with the one at line 1261, which has the same body.(ï­£Ä
+?	java:S108„
+")Either remove or fill this block of code.(—¤”˜
+R	java:S125ˆ
+"<This block of commented-out lines of code should be removed.(£«Ò¬
+8	java:S131£
+""Add a default case to this switch.(ÃØÁĞ
+K
+java:S1128"0Remove this unused import 'javafx.geometry.Pos'.(ÌÆ÷Ùøÿÿÿÿ
+a
+java:S1128"KRemove this unused import 'javafx.scene.control.cell.PropertyValueFactory'.(àÎ¬õ
+W
+java:S1128"<Remove this unused import 'javafx.scene.text.TextAlignment'.(ë¤ßıÿÿÿÿ
+O
+java:S1128"9Remove this unused import 'ru.ctp.motyrev.code.EditCell'.(ˆ¡Êñ
+W
+java:S1128"<Remove this unused import 'ru.ctp.motyrev.code.WeekEndCell'.(Ä€ÔÁúÿÿÿÿ
+S
+java:S1128"=Remove this unused import 'ru.ctp.motyrev.objects.TimeSheet'.(¡ØŒ‹
+E
+java:S1128""/Remove this unused import 'java.util.Calendar'.(ÿÛö´
+>
+java:S1068S"(Remove this unused "date" private field.(³üÍ»
+B
+java:S1068W"'Remove this unused "sdf" private field.(Ìß½ëùÿÿÿÿ
+C
+java:S1068X"(Remove this unused "sdf2" private field.(Ÿ›¢ÿÿÿÿÿ
+=
+java:S1068Y"(Remove this unused "sdf3" private field.(Õìˆ
+C
+java:S1068Z"(Remove this unused "sdf4" private field.(èìÜùûÿÿÿÿ
+C
+java:S1068["(Remove this unused "sdf5" private field.(ê‹„›øÿÿÿÿ
+B
+java:S1068`"-Remove this unused "infoAlert" private field.(î§œ
+I
+java:S1144Ã	"-Remove this unused private "checkVal" method.(‹Şá˜øÿÿÿÿ
+J
+java:S1144Ì	"3Remove this unused private "checkDoubleVal" method.(Ã¼–Õ
+
+java:S1192Ë"yDefine a constant instead of duplicating this literal "-fx-background-color: lightgreen;-fx-alignment: CENTER;" 12 times.(Ä±€±
+µ
+java:S1192”"˜Define a constant instead of duplicating this literal "Ğ’Ñ‹ Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ‚ĞµĞ»ÑŒĞ½Ğ¾ Ñ…Ğ¾Ñ‚Ğ¸Ñ‚Ğµ Ğ¾Ñ‚Ğ¼ĞµĞ½Ğ¸Ñ‚ÑŒ ÑĞ¾Ğ³Ğ»Ğ°ÑĞ¾Ğ²Ğ°Ğ½Ğ¸Ğµ?" 3 times.(“‡ÓËøÿÿÿÿ
+b
+java:S1192Á"FDefine a constant instead of duplicating this literal "delta" 3 times.(¬…ÎĞúÿÿÿÿ
+p
+java:S1192"YDefine a constant instead of duplicating this literal "Ğ¡Ğ¾Ğ³Ğ»Ğ°ÑĞ¾Ğ²Ğ°Ğ½Ğ¸Ğµ" 3 times.(£–ç˜
+•
+java:S1192»"~Define a constant instead of duplicating this literal "(SELECT ra.request_approve_id FROM public.request_approve ra " 6 times.(ÆÇ‚«
+p
+java:S1192Ì"TDefine a constant instead of duplicating this literal "Ğ² Ğ¾Ğ¶Ğ¸Ğ´Ğ°Ğ½Ğ¸Ğ¸" 4 times.(Ë‚šòúÿÿÿÿ
+i
+java:S1192Ò"MDefine a constant instead of duplicating this literal "Ğ£Ğ²Ğ¾Ğ»ĞµĞ½" 4 times.(í×º÷ıÿÿÿÿ
+—
+java:S1192Ó"{Define a constant instead of duplicating this literal "-fx-background-color: LAVENDERBLUSH;-fx-alignment: CENTER;" 4 times.(Ò«…ûÿÿÿÿ
+b
+java:S1192ö"KDefine a constant instead of duplicating this literal "Super_user" 4 times.(«é»Ğ
+°
+java:S1192²"“Define a constant instead of duplicating this literal "WHERE request_id = (SELECT request_id FROM public.request WHERE request_number = '" 9 times.(¨ÿåóøÿÿÿÿ
+j
+java:S1192¯"NDefine a constant instead of duplicating this literal "'), 'true', '" 3 times.(ÔÚì¿úÿÿÿÿ
+h
+java:S1192¸"LDefine a constant instead of duplicating this literal "status_name" 3 times.(äÔÈØùÿÿÿÿ
+x
+java:S1192É"\Define a constant instead of duplicating this literal "WHERE r.request_number = '" 11 times.(ãü•¿ùÿÿÿÿ
+±
+java:S1192§"™Define a constant instead of duplicating this literal "SELECT ra.mp_create, ra.aup_approve, ra.customer_approve FROM public.request_approve ra " 3 times.(îÅ¢Ó
+¾
+java:S1192¥"¦Define a constant instead of duplicating this literal "' AND task_out = true) != 0 THEN (SELECT sum(task_pa_intensity) FROM public.task WHERE request_id = '" 3 times.(Ä½‡
+
+java:S1192Í"tDefine a constant instead of duplicating this literal "-fx-background-color: orange;-fx-alignment: CENTER;" 4 times.(¿—Èëúÿÿÿÿ
+‹
+java:S1192Å"tDefine a constant instead of duplicating this literal "-fx-background-color: yellow;-fx-alignment: CENTER;" 4 times.(öŠÅõ
+œ
+java:S1192¹"„Define a constant instead of duplicating this literal "(SELECT user_role_id FROM public.user_role WHERE user_role_name = '" 6 times.(˜èÖõ
+
+java:S1192Ó"yDefine a constant instead of duplicating this literal "-fx-background-color: DARKSALMON;-fx-alignment: CENTER;" 12 times.(ı±Å¸
+q
+java:S1192Ê"UDefine a constant instead of duplicating this literal "ÑƒÑ‚Ğ²ĞµÑ€Ğ¶Ğ´ĞµĞ½Ğ¾" 4 times.(…öÀøùÿÿÿÿ
+c
+java:S1192¯"GDefine a constant instead of duplicating this literal "effect" 3 times.(øõşıúÿÿÿÿ
+
+java:S1192¯"Define a constant instead of duplicating this literal "((SELECT request_id FROM public.request WHERE request_number = '" 3 times.(ÔÚì¿úÿÿÿÿ
+o
+java:S1192Õ"XDefine a constant instead of duplicating this literal "-fx-alignment: CENTER;" 19 times.(»ĞÌ
+
+java:S1192Ï"wDefine a constant instead of duplicating this literal "-fx-background-color: turquoise;-fx-alignment: CENTER;" 4 times.(¿øh
+o
+java:S1192Ğ"SDefine a constant instead of duplicating this literal "Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ¾" 4 times.(ÃæÈüÿÿÿÿ
+
+java:S1192Ñ"xDefine a constant instead of duplicating this literal "-fx-background-color: powderblue;-fx-alignment: CENTER;" 4 times.(½¦ß
+|
+java:S1192‘"`Define a constant instead of duplicating this literal "ĞœĞµĞ½ĞµĞ´Ğ¶ĞµÑ€ Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ°" 7 times.(ÉÍÿ¤øÿÿÿÿ
+ª
+java:S1192¡"’Define a constant instead of duplicating this literal "Ğ’Ñ‹ Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ‚ĞµĞ»ÑŒĞ½Ğ¾ Ñ…Ğ¾Ñ‚Ğ¸Ñ‚Ğµ ÑĞ¾Ğ³Ğ»Ğ°ÑĞ¾Ğ²Ğ°Ñ‚ÑŒ Ğ·Ğ°ÑĞ²ĞºÑƒ?" 3 times.(Õ»¬”
+à
+java:S1192·"ÈDefine a constant instead of duplicating this literal "INSERT INTO public.request_approve_history (edit_user, user_role_id, decision, approver_role, approve_date, request_approve_id) VALUES " 6 times.(ú‘çç
+j
+java:S1192Î"SDefine a constant instead of duplicating this literal "Ğ¿Ñ€Ğ¾Ğ²ĞµÑ€ĞµĞ½Ğ¾" 4 times.(€µ¡“
+
+java:S1192È"xDefine a constant instead of duplicating this literal "join public.request r on r.request_id = ra.request_id " 11 times.(şÙÃ
+C
+java:S1604~"(Make this anonymous inner class a lambda(ëÀŞÖıÿÿÿÿ
+D
+java:S1604‹"(Make this anonymous inner class a lambda(—­‹Âıÿÿÿÿ
+D
+java:S1604¹"(Make this anonymous inner class a lambda(—­‹Âıÿÿÿÿ
+?
+java:S1604ı"(Make this anonymous inner class a lambda(«¥¬à
+D
+java:S1604Â"(Make this anonymous inner class a lambda(—­‹Âıÿÿÿÿ
+?
+java:S1604ö"(Make this anonymous inner class a lambda(«¥¬à
+D
+java:S1604°"(Make this anonymous inner class a lambda(—­‹Âıÿÿÿÿ
+?
+java:S1604ì"(Make this anonymous inner class a lambda(«¥¬à
+D
+java:S1604¨"(Make this anonymous inner class a lambda(—­‹Âıÿÿÿÿ
+?
+java:S1604Ü"(Make this anonymous inner class a lambda(«¥¬à
+Z
+java:S1155Ë">Use isEmpty() to check whether the collection is empty or not.(ä”ƒöüÿÿÿÿ
+Z
+java:S1155‰">Use isEmpty() to check whether the collection is empty or not.(ä”ƒöüÿÿÿÿ
+Z
+java:S1155­">Use isEmpty() to check whether the collection is empty or not.(ÍÅ°÷ùÿÿÿÿ
+Z
+java:S1155à">Use isEmpty() to check whether the collection is empty or not.(ÍÅ°÷ùÿÿÿÿ
+Z
+java:S1155“	">Use isEmpty() to check whether the collection is empty or not.(ÍÅ°÷ùÿÿÿÿ
+K
+java:S1191"5Use classes from the Java API instead of Sun classes.(¿ËÍ‹
+d
+java:S2259Í"HA "NullPointerException" could be thrown; "scrollBar2" is nullable here.(…”¬şÿÿÿÿ
+d
+java:S2259Í"HA "NullPointerException" could be thrown; "scrollBar1" is nullable here.(…”¬şÿÿÿÿ
+j
+java:S2095ê	"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(ğÅõÁıÿÿÿÿ

@@ -1,0 +1,72 @@
+
+J
+java:S3740"/Provide the parametrized type for this generic.(Å·Ÿ¸øÿÿÿÿ
+D
+java:S3740-"/Provide the parametrized type for this generic.(ßø¼
+D
+java:S3740."/Provide the parametrized type for this generic.(´›*
+J
+java:S3740k"/Provide the parametrized type for this generic.(ÔéÖŸıÿÿÿÿ
+J
+java:S3740k"/Provide the parametrized type for this generic.(ÔéÖŸıÿÿÿÿ
+E
+java:S3740l"/Provide the parametrized type for this generic.(²è±
+E
+java:S3740r"/Provide the parametrized type for this generic.(ëğ©
+E
+java:S3740€"/Provide the parametrized type for this generic.(Û¤Ì
+F
+java:S3740Õ"/Provide the parametrized type for this generic.(ß¼±
+E
+java:S3740“"/Provide the parametrized type for this generic.(ïí¦A
+E
+java:S3740š"/Provide the parametrized type for this generic.(ïí¦A
+E
+java:S3740â"/Provide the parametrized type for this generic.(ïí¦A
+˜
+java:S1186Ú"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ªÆªì
+1
+java:S1116."Remove this empty statement.(´›*
+h
+java:S3776X"RRefactor this method to reduce its Cognitive Complexity from 48 to the 15 allowed.(Û¶ÑÇ
+b
+java:S3252u"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(ªöÁ©
+Q	java:S125|"<This block of commented-out lines of code should be removed.(ÉÇÅÕ
+u
+java:S1171ƒ"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+‚
+java:S2178“"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(šäÚŠúÿÿÿÿ
+|
+java:S2178§"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(£­ƒK
+D	java:S108¯")Either remove or fill this block of code.(Åæ¯±şÿÿÿÿ
+8	java:S131Î""Add a default case to this switch.(ÃØÁĞ
+I
+java:S1172Œ"2Remove this unused method parameter "actionEvent".(¸’‚’
+N
+java:S1172Ş"2Remove this unused method parameter "actionEvent".(¸“¼†üÿÿÿÿ
+Q	java:S125ì"<This block of commented-out lines of code should be removed.(ÆåØ_
+L
+java:S1128"6Remove this unused import 'javafx.event.EventHandler'.(º»û˜
+J
+java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ
+?
+java:S1068&")Remove this unused "exemp" private field.(«†ñÊ
+K
+java:S1068+"0Remove this unused "confirmAlert" private field.(™ñ—îüÿÿÿÿ
+„
+java:S1192Á"hDefine a constant instead of duplicating this literal "(SELECT status_id FROM public.status s " 4 times.(Ğ¯ó”øÿÿÿÿ
+š
+java:S1192Â"~Define a constant instead of duplicating this literal "join public.status_type st on status_type_id = s.status_type " 4 times.(óè”®øÿÿÿÿ
+o
+java:S1192Ä"SDefine a constant instead of duplicating this literal "WHERE sheet_id = '" 3 times.(Ìõâ›şÿÿÿÿ
+d
+java:S1192"MDefine a constant instead of duplicating this literal "ĞĞ¨Ğ˜Ğ‘ĞšĞ" 4 times.(ì¿˜ƒ
+i
+java:S1192Ç"MDefine a constant instead of duplicating this literal "ĞÑˆĞ¸Ğ±ĞºĞ°" 3 times.(†Ÿäêıÿÿÿÿ
+f
+java:S1192•"JDefine a constant instead of duplicating this literal "validated" 3 times.(È³ë†şÿÿÿÿ
+`
+java:S1192"IDefine a constant instead of duplicating this literal "declined" 5 times.(ì¿˜ƒ
+g	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(úõ¿ò
+b
+java:S1301Î"KReplace this "switch" statement by "if" statements to increase readability.(ÃØÁĞ

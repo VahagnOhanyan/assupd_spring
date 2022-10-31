@@ -3,18 +3,20 @@
     <output-path>$PROJECT_DIR$/out/artifacts/pm_client_jar</output-path>
     <root id="archive" name="pm_client.jar">
       <element id="module-output" name="pm_client" />
-      <element id="extracted-dir" path="C:/Programming/lib/postgresql-42.2.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-3.17.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-ooxml-3.17.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-ooxml-schemas-3.17.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/junit-4.12.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/log4j-1.2.17.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/commons-codec-1.10.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/commons-logging-1.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/commons-collections4-4.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/ooxml-lib/curvesapi-1.04.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/poi-bin-3.17-20170915/poi-3.17/ooxml-lib/xmlbeans-2.6.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="C:/Programming/lib/controlsfx-8.40.14/controlsfx-8.40.14.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/postgresql-42.2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-3.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-ooxml-3.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/poi-ooxml-schemas-3.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/junit-4.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/log4j-1.2.17.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/commons-codec-1.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/commons-logging-1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/lib/commons-collections4-4.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/ooxml-lib/curvesapi-1.04.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/poi-bin-3.17-20170915/poi-3.17/ooxml-lib/xmlbeans-2.6.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../Programming/lib/controlsfx-8.40.14/controlsfx-8.40.14.jar" path-in-jar="/" />
+      <element id="library" level="project" name="au.bytecode.opencsv" />
+      <element id="library" level="project" name="opencsv" />
     </root>
   </artifact>
 </component>

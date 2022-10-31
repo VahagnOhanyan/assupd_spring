@@ -1,0 +1,38 @@
+
+q
+java:S1450!"URemove the "dbName" field and declare it as a local variable in the relevant methods.(›à±8Ú•ı¤Ò/
+u
+java:S1450"SRemove the "host" field and declare it as a local variable in the relevant methods.(İÇã›ıÿÿÿÿ8Ú•ı¤Ò/
+u
+java:S1450 "SRemove the "port" field and declare it as a local variable in the relevant methods.(É¾Öâùÿÿÿÿ8Ú•ı¤Ò/
+=	java:S131K""Add a default case to this switch.(¯ßğ8Ú•ı¤Ò/
+b
+java:S2147m"ECombine this catch with the one at line 107, which has the same body.(ï­£Ä8Ú•ı¤Ò/
+S
+java:S2696z"6Make the enclosing method "static" or remove this set.(Ş½÷8Ú•ı¤Ò/
+X
+java:S2696{"6Make the enclosing method "static" or remove this set.(½¬‚Ïùÿÿÿÿ8Ú•ı¤Ò/
+S
+java:S2696|"6Make the enclosing method "static" or remove this set.(Â­Ş8Ú•ı¤Ò/
+O
+java:S4925~"-Remove this "Class.forName()", it is useless.(õ†¨Äùÿÿÿÿ8Ú•ı¤Ò/
+Y
+java:S2696•"6Make the enclosing method "static" or remove this set.(€õ¨šúÿÿÿÿ8Ú•ı¤Ò/
+T
+java:S2696–"6Make the enclosing method "static" or remove this set.(²¯¸­8Ú•ı¤Ò/
+ˆ
+java:S1192Œ"jDefine a constant instead of duplicating this literal "ĞÑˆĞ¸Ğ±ĞºĞ° Ğ°ÑƒÑ‚ĞµĞ½Ñ‚Ğ¸Ñ„Ğ¸ĞºĞ°Ñ†Ğ¸Ğ¸" 3 times.(­·ßÎ8Ú•ı¤Ò/
+h
+java:S11928"KDefine a constant instead of duplicating this literal "user_login" 3 times.(Æ–™8Ú•ı¤Ò/
+g
+java:S1301K"KReplace this "switch" statement by "if" statements to increase readability.(¯ßğ8Ú•ı¤Ò/
+r
+java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ÂèŒ§ûÿÿÿÿ8Ú•ı¤Ò/
+f
+java:S2095w"IUse try-with-resources or close this "InputStream" in a "finally" clause.(±Î€8Ú•ı¤Ò/
+j
+java:S20956"MUse try-with-resources or close this "FileInputStream" in a "finally" clause.(üığõ8Ú•ı¤Ò/
+p
+java:S2095h"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(ğÅõÁıÿÿÿÿ8Ú•ı¤Ò/
+r
+java:S2095‡"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(Á³û“ıÿÿÿÿ8Ú•ı¤Ò/

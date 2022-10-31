@@ -1,0 +1,128 @@
+
+n	java:S116"RRename this field "user_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„¡Ü8İÕ®ÒÈ/
+t	java:S116%"XRename this field "sum_intensity" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜·è8İÕ®ÒÈ/
+t	java:S116-"SRename this field "sheet_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾®ûëùÿÿÿÿ8İÕ®ÒÈ/
+p	java:S116."TRename this field "status_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ê¯·û8İÕ®ÒÈ/
+r	java:S116/"WRename this field "pa_intensity" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ù›Áf8İÕ®ÒÈ/
+x	java:S1160"WRename this field "tz_intensity" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è•ßÀıÿÿÿÿ8ŞÕ®ÒÈ/
+t	java:S1162"SRename this field "uom_plan" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÉèØÿÿÿÿÿ8ŞÕ®ÒÈ/
+t	java:S1163"SRename this field "uom_fact" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—´åşÿÿÿÿ8ŞÕ®ÒÈ/
+y	java:S1164"XRename this field "stage_recieve" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚˜şÿÿÿÿ8ŞÕ®ÒÈ/
+y	java:S1165"XRename this field "stage_execute" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«Ò–øÿÿÿÿ8ŞÕ®ÒÈ/
+x	java:S1166"WRename this field "stage_escort" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÔÆÕåøÿÿÿÿ8ŞÕ®ÒÈ/
+w	java:S1167"VRename this field "stage_check" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÔàÒÄşÿÿÿÿ8ŞÕ®ÒÈ/
+t	java:S1168"XRename this field "stage_approve" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µ â…8ŞÕ®ÒÈ/
+n
+java:S1450"QRemove the "id" field and declare it as a local variable in the relevant methods.(æ¨ç†8àÕ®ÒÈ/
+}
+java:S1450,"[Remove the "incomingDate" field and declare it as a local variable in the relevant methods.(È§©²úÿÿÿÿ8âÕ®ÒÈ/
+z
+java:S1450#"XRemove the "intensity" field and declare it as a local variable in the relevant methods.(ğãŸìúÿÿÿÿ8ãÕ®ÒÈ/
+v
+java:S1450"TRemove the "month" field and declare it as a local variable in the relevant methods.(æ£Šûøÿÿÿÿ8ãÕ®ÒÈ/
+u
+java:S1450*"SRemove the "note" field and declare it as a local variable in the relevant methods.(ÕğÌâúÿÿÿÿ8åÕ®ÒÈ/
+t
+java:S1450"RRemove the "num" field and declare it as a local variable in the relevant methods.(ê’şßûÿÿÿÿ8æÕ®ÒÈ/
+t
+java:S1450$"WRemove the "overtime" field and declare it as a local variable in the relevant methods.(˜ÊòÕ8èÕ®ÒÈ/
+y
+java:S1450-"WRemove the "sheet_id" field and declare it as a local variable in the relevant methods.(¾®ûëùÿÿÿÿ8èÕ®ÒÈ/
+y
+java:S1450%"\Remove the "sum_intensity" field and declare it as a local variable in the relevant methods.(˜·è8îÕ®ÒÈ/
+t
+java:S14501"RRemove the "uom" field and declare it as a local variable in the relevant methods.(ô¸¹„úÿÿÿÿ8ïÕ®ÒÈ/
+y
+java:S14503"WRemove the "uom_fact" field and declare it as a local variable in the relevant methods.(—´åşÿÿÿÿ8ñÕ®ÒÈ/
+y
+java:S14502"WRemove the "uom_plan" field and declare it as a local variable in the relevant methods.(åÉèØÿÿÿÿÿ8òÕ®ÒÈ/
+s
+java:S1450"VRemove the "user_id" field and declare it as a local variable in the relevant methods.(„¡Ü8òÕ®ÒÈ/
+w
+java:S1450("ZRemove the "workEndDate" field and declare it as a local variable in the relevant methods.(»øƒ½8óÕ®ÒÈ/
+y
+java:S1450'"\Remove the "workEndDatePA" field and declare it as a local variable in the relevant methods.(Ìü8ôÕ®ÒÈ/
+~
+java:S1450&"\Remove the "workStartDate" field and declare it as a local variable in the relevant methods.(©•öûÿÿÿÿ8õÕ®ÒÈ/
+w
+java:S1450B"URemove the "writer" field and declare it as a local variable in the relevant methods.(†¦ÈŒÿÿÿÿÿ8÷Õ®ÒÈ/
+p
+java:S1450"SRemove the "year" field and declare it as a local variable in the relevant methods.(´úùÓ8÷Õ®ÒÈ/
+H
+java:S1948;"+Make "workslist" transient or serializable.(É‹™î8úÕ®ÒÈ/
+M
+java:S1948="+Make "infoAlert" transient or serializable.(Ì¯”üúÿÿÿÿ8ûÕ®ÒÈ/
+J
+java:S1948B"(Make "writer" transient or serializable.(†¦ÈŒÿÿÿÿÿ8ûÕ®ÒÈ/
+K
+java:S1948D".Make "dBconnection" transient or serializable.(ƒ´è§8ûÕ®ÒÈ/
+o
+java:S3776H"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(¡¡Øô8€Ö®ÒÈ/
+c
+java:S2147Œ"ECombine this catch with the one at line 138, which has the same body.(ßÈ´8‚Ö®ÒÈ/
+X	java:S125M"<This block of commented-out lines of code should be removed.(ğÈ¡ó8…Ö®ÒÈ/
+]	java:S125W"<This block of commented-out lines of code should be removed.(ıÕ©ûúÿÿÿÿ8Ö®ÒÈ/
+p
+java:S3776‘"RRefactor this method to reduce its Cognitive Complexity from 38 to the 15 allowed.(Áõ£ˆ8”Ö®ÒÈ/
+9
+java:S3626Õ"Remove this redundant jump.(ûÁİ…8•Ö®ÒÈ/
+c
+java:S2147Ø"ECombine this catch with the one at line 214, which has the same body.(ßÈ´8–Ö®ÒÈ/
+Y	java:S125–"<This block of commented-out lines of code should be removed.(Òò‰Ü8–Ö®ÒÈ/
+‰
+java:S2178¦"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ÄÉ¨—úÿÿÿÿ8˜Ö®ÒÈ/
+‰
+java:S2178¦"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ÄÉ¨—úÿÿÿÿ8˜Ö®ÒÈ/
+p
+java:S3776÷"RRefactor this method to reduce its Cognitive Complexity from 62 to the 15 allowed.(üÚÀú8ŸÖ®ÒÈ/
+L
+java:S1940á")Use the opposite operator ("!=") instead.(áÿÔİıÿÿÿÿ8ªÖ®ÒÈ/
+v	java:S131â"YComplete cases by adding the missing enum constants or add a default case to this switch.(µß™é8ªÖ®ÒÈ/
+^
+java:S1858å"@"format" returns a string, there's no need to call "toString()".(şÑ×‡8«Ö®ÒÈ/
+±
+java:S1192Ã"Define a constant instead of duplicating this literal "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" 5 times.(Ç¸ÿ„üÿÿÿÿ8°Ö®ÒÈ/
+i
+java:S1192œ"FDefine a constant instead of duplicating this literal " AND " 6 times.(Êë«¿øÿÿÿÿ8±Ö®ÒÈ/
+›
+java:S1192³"xDefine a constant instead of duplicating this literal "SELECT sum(daily_intensity) FROM public.daily_work dw " 10 times.(»Şüßüÿÿÿÿ8±Ö®ÒÈ/
+˜
+java:S1192Á"uDefine a constant instead of duplicating this literal "u.user_id IN (SELECT ur.user_id FROM public.user ur " 5 times.(…ÚÁüÿÿÿÿ8±Ö®ÒÈ/
+‘
+java:S1192š"nDefine a constant instead of duplicating this literal "join public.user u on u.user_id = dw.user_id " 6 times.(’‡ÿ“ùÿÿÿÿ8±Ö®ÒÈ/
+¨
+java:S1192´"„Define a constant instead of duplicating this literal "join public.stage_daily sd on sd.daily_work_id = dw.daily_work_id " 10 times.(×›•şÿÿÿÿ8±Ö®ÒÈ/
+°
+java:S1192Ã"ŒDefine a constant instead of duplicating this literal "') OR ur.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" 5 times.(Ç¸ÿ„üÿÿÿÿ8±Ö®ÒÈ/
+|
+java:S1192¸"YDefine a constant instead of duplicating this literal "WHERE t.task_number = '" 10 times.(¢õÈşÿÿÿÿ8²Ö®ÒÈ/
+n
+java:S1192ÿ"KDefine a constant instead of duplicating this literal "Super_user" 6 times.(õÃ‡ôıÿÿÿÿ8²Ö®ÒÈ/
+‚
+java:S1192"dDefine a constant instead of duplicating this literal "Ğ’ĞµĞ´ÑƒÑ‰Ğ¸Ğ¹ ÑĞ¿ĞµÑ†Ğ¸Ğ°Ğ»Ğ¸ÑÑ‚" 6 times.(Ñ®ì”8²Ö®ÒÈ/
+‘
+java:S1192Ä"sDefine a constant instead of duplicating this literal "GROUP BY ur.user_id HAVING count(ur.user_id) >= 1)" 5 times.(Ö‹ôö8²Ö®ÒÈ/
+ƒ
+java:S1192ÿ"`Define a constant instead of duplicating this literal "ĞœĞµĞ½ĞµĞ´Ğ¶ĞµÑ€ Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ°" 6 times.(õÃ‡ôıÿÿÿÿ8²Ö®ÒÈ/
+Œ
+java:S1192·"nDefine a constant instead of duplicating this literal "join public.task t on t.task_id = s.task_id " 10 times.(Şïº·8²Ö®ÒÈ/
+•
+java:S1192µ"rDefine a constant instead of duplicating this literal "join public.stage s on s.stage_id = sd.stage_id " 10 times.(ø¸ßßøÿÿÿÿ8³Ö®ÒÈ/
+«
+java:S1192Â"‡Define a constant instead of duplicating this literal "left join public.user_subordination us on us.user_sub_id = ur.user_id " 5 times.(‚ÇÃøÿÿÿÿ8³Ö®ÒÈ/
+i
+java:S1192ÿ"FDefine a constant instead of duplicating this literal "Admin" 6 times.(õÃ‡ôıÿÿÿÿ8³Ö®ÒÈ/
+¦
+java:S1192¶"‚Define a constant instead of duplicating this literal "join public.stage_type st on st.stage_type_id = s.stage_type_id " 10 times.(÷Ÿ¬ƒùÿÿÿÿ8³Ö®ÒÈ/
+~
+java:S1192"`Define a constant instead of duplicating this literal "ĞĞ°Ñ‡Ğ°Ğ»ÑŒĞ½Ğ¸Ğº Ğ¾Ñ‚Ğ´ĞµĞ»Ğ°" 6 times.(Ñ®ì”8³Ö®ÒÈ/
+h
+java:S2259¼"JA "NullPointerException" could be thrown; "tz_intensity" is nullable here.(…Æñî8ó®ÒÈ/
+e
+java:S2259m"CA "NullPointerException" could be thrown; "stage" is nullable here.(È—û†ıÿÿÿÿ8ó®ÒÈ/
+o
+java:S2259À"QA "NullPointerException" could be thrown; "getCellStringValue()" can return null.(ïéöç8ó®ÒÈ/
+h
+java:S2095•"JUse try-with-resources or close this "HSSFWorkbook" in a "finally" clause.(ëÕÅˆ8ó®ÒÈ/
+g
+java:S2095P"JUse try-with-resources or close this "HSSFWorkbook" in a "finally" clause.(ëÕÅˆ8ó®ÒÈ/

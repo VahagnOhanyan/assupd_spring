@@ -1,0 +1,11 @@
+
+G
+java:S1602'",Remove useless curly braces around statement(¾‹şüÿÿÿÿ
+g
+java:S18717"LThis branch's code block is the same as the block for the branch on line 52.(Öëˆÿÿÿÿÿ
+t
+java:S2293]"YReplace the type specification in this constructor call with the diamond operator ("<>").(´İÈııÿÿÿÿ
+o
+java:S2293~"YReplace the type specification in this constructor call with the diamond operator ("<>").(¢Õ§Á
+E
+java:S5411+"*Use the primitive boolean expression here.(¦°àòşÿÿÿÿ

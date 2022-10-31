@@ -1,0 +1,55 @@
+
+Q
+java:S1066Z"/Merge this if statement with the enclosing one.(®÷•¯ùÿÿÿÿ8Ó‡÷ËÈ/
+L
+java:S3740"/Provide the parametrized type for this generic.(–é‰8Ÿ‡÷ËÈ/
+E
+java:S1068("(Remove this unused "root" private field.(Ëõ‰8Ò‡÷ËÈ/
+L
+java:S3740+"/Provide the parametrized type for this generic.(“Ãì8Ÿ‡÷ËÈ/
+I
+java:S1602;",Remove useless curly braces around statement(×ïßù8¬‡÷ËÈ/
+R
+java:S3740”"/Provide the parametrized type for this generic.(ÅÈäııÿÿÿÿ8 ‡÷ËÈ/
+L
+java:S3740 "/Provide the parametrized type for this generic.(ÓùøÜ8Ÿ‡÷ËÈ/
+L
+java:S1068%"/Remove this unused "rightNumber" private field.(­íôÕ8Ò‡÷ËÈ/
+M
+java:S3740Ô"/Provide the parametrized type for this generic.(´Îê¬8¡‡÷ËÈ/
+{
+java:S2293I"YReplace the type specification in this constructor call with the diamond operator ("<>").(¿Õ½Öıÿÿÿÿ8²‡÷ËÈ/
+t
+java:S1450#"RRemove the "sql" field and declare it as a local variable in the relevant methods.(Àûìºûÿÿÿÿ8¥‡÷ËÈ/
+[
+java:S4973X"9Use the "equals" method if value comparison was intended.(Â•²øÿÿÿÿ8Õ‡÷ËÈ/
+v
+java:S2293E"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ãô±8¯‡÷ËÈ/
+Q
+java:S3740z"/Provide the parametrized type for this generic.(ÔéÖŸıÿÿÿÿ8 ‡÷ËÈ/
+L
+java:S3740~"/Provide the parametrized type for this generic.(­ˆêŞ8 ‡÷ËÈ/
+^	java:S125¨"<This block of commented-out lines of code should be removed.(‚Õ²¨ùÿÿÿÿ8Ê‡÷ËÈ/
+?	java:S131¯""Add a default case to this switch.(ÃØÁĞ8Ì‡÷ËÈ/
+I
+java:S1068"-Remove this unused "infoAlert" private field.(î§œ8Ò‡÷ËÈ/
+K
+java:S3740"/Provide the parametrized type for this generic.(ßø¼8Ÿ‡÷ËÈ/
+Q
+java:S3740z"/Provide the parametrized type for this generic.(ÔéÖŸıÿÿÿÿ8 ‡÷ËÈ/
+U
+java:S1128"3Remove this unused import 'javafx.scene.text.Text'.(˜ÿ‡Üşÿÿÿÿ8Ñ‡÷ËÈ/
+M
+java:S3740€"/Provide the parametrized type for this generic.(úÛíÍ8 ‡÷ËÈ/
+M
+java:S3740¼"/Provide the parametrized type for this generic.(ß¼±8¡‡÷ËÈ/
+F
+java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å8Ò‡÷ËÈ/
+Q
+java:S1128"/Remove this unused import 'javafx.stage.Stage'.(æÄ¸²úÿÿÿÿ8Ñ‡÷ËÈ/
+W
+java:S1128":Remove this unused import 'ru.ctp.motyrev.code.Validator'.(ñ‹øË8Ò‡÷ËÈ/
+o
+java:S3776j"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(¤Á¸ƒ8¶‡÷ËÈ/
+L
+java:S3740~"/Provide the parametrized type for this generic.(­ˆêŞ8 ‡÷ËÈ/

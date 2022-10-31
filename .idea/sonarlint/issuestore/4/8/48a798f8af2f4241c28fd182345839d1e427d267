@@ -1,0 +1,251 @@
+
+E
+java:S37403"/Provide the parametrized type for this generic.(ß®Ùˆ
+D
+java:S3740_"/Provide the parametrized type for this generic.(ßø¼
+E
+java:S3740`"/Provide the parametrized type for this generic.(±ö¸æ
+E
+java:S3740a"/Provide the parametrized type for this generic.(£î£
+E
+java:S3740b"/Provide the parametrized type for this generic.(èÔÃ‹
+J
+java:S3740c"/Provide the parametrized type for this generic.( öá‚úÿÿÿÿ
+E
+java:S3740d"/Provide the parametrized type for this generic.(ôÎ´—
+K
+java:S3740"/Provide the parametrized type for this generic.(ó«À°ûÿÿÿÿ
+K
+java:S3740’
+"/Provide the parametrized type for this generic.(Å‚‹éüÿÿÿÿ
+E
+java:S3740£
+"/Provide the parametrized type for this generic.(·¨S
+K
+java:S3740ö"/Provide the parametrized type for this generic.(Òøúıúÿÿÿÿ
+K
+java:S3740®"/Provide the parametrized type for this generic.(Òøúıúÿÿÿÿ
+K
+java:S3740ò"/Provide the parametrized type for this generic.(Õ¥Õøÿÿÿÿ
+F
+java:S3740Š"/Provide the parametrized type for this generic.(ÃöŠ×
+F
+java:S3740¢"/Provide the parametrized type for this generic.(“Ğ×¬
+K
+java:S3740º"/Provide the parametrized type for this generic.(«‡¾¤üÿÿÿÿ
+K
+java:S3740Ò"/Provide the parametrized type for this generic.(ÖËÿƒøÿÿÿÿ
+F
+java:S3740ê"/Provide the parametrized type for this generic.(ùÒÕå
+n	java:S115w"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(—µóL
+m
+java:S3776z"RRefactor this method to reduce its Cognitive Complexity from 45 to the 15 allowed.(ˆå¶šûÿÿÿÿ
+O
+java:S1611—"8Remove the parentheses around the "observable" parameter(•ıˆ
+O	java:S106˜"9Replace this use of System.out or System.err by a logger.(Á®Ç¨
+j
+java:S3776é"SRefactor this method to reduce its Cognitive Complexity from 432 to the 15 allowed.(øßşÃ
+I
+java:S1172é"2Remove this unused method parameter "actionEvent".(øßşÃ
+R	java:S125ñ"<This block of commented-out lines of code should be removed.( ‚èò
+U
+java:S1117¾">Rename "userState" which hides the field declared at line 117.(¯ÜÆ°
+‚
+java:S2178Ç"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(¤İ²úÿÿÿÿ
+‚
+java:S2178×"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(¾äÅòıÿÿÿÿ
+‚
+java:S2178Ó"fCorrect this "|" to "||" and extract the right operand to a variable if it should always be evaluated.(ãŒ¨ëùÿÿÿÿ
+‚
+java:S2178í"fCorrect this "|" to "||" and extract the right operand to a variable if it should always be evaluated.(ãŒ¨ëùÿÿÿÿ
+‚
+java:S2178‡"fCorrect this "|" to "||" and extract the right operand to a variable if it should always be evaluated.(ãŒ¨ëùÿÿÿÿ
+‚
+java:S2178¤"fCorrect this "|" to "||" and extract the right operand to a variable if it should always be evaluated.(ãŒ¨ëùÿÿÿÿ
+C
+java:S1068Z"-Remove this unused "infoAlert" private field.(•™¬
+K
+java:S1068]"0Remove this unused "confirmAlert" private field.(îÉÊŒüÿÿÿÿ
+{
+java:S1192Ä"dDefine a constant instead of duplicating this literal "Ğ ĞµÑÑƒÑ€ÑĞ½Ñ‹Ğ¹ Ğ¾Ñ‚Ñ‡ĞµÑ‚ Ğ·Ğ° " 5 times.(ãĞ×¥
+—
+java:S1192ù"{Define a constant instead of duplicating this literal "join public.customer cr on cr.customer_id = c.customer_id " 9 times.(¿è±Èşÿÿÿÿ
+£
+java:S1192œ"‹Define a constant instead of duplicating this literal " AND pm.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" 5 times.(ö¸Ä÷
+§
+java:S1192™"ŠDefine a constant instead of duplicating this literal "join public.user_activity ua on ua.user_activity_id = u.user_Activity_id " 3 times.(µœ Çüÿÿÿÿ
+¯
+java:S1192•"’Define a constant instead of duplicating this literal "CASE WHEN r.request_number ~ E'^\\\\d+$' THEN CAST (r.request_number AS INTEGER) " 3 times.(ÓŒÿŒùÿÿÿÿ
+‹
+java:S1192€"oDefine a constant instead of duplicating this literal "join public.user u on u.user_id = dw.user_id " 15 times.(’‡ÿ“ùÿÿÿÿ
+º
+java:S1192›"¢Define a constant instead of duplicating this literal "GROUP BY u.user_fullname, to_char(dw.daily_work_date, 'MM'), to_char(dw.daily_work_date, 'YYYY') " 3 times.(ì­š
+«
+java:S1192½	"Define a constant instead of duplicating this literal "GROUP BY c.customer_name, ct.contract_number, r.request_number, r.request_id " 3 times.(şœåøÿÿÿÿ
+ 
+java:S1192ø"ƒDefine a constant instead of duplicating this literal "SELECT c.contract_number, cr.customer_name FROM public.contract c " 3 times.(æÂ¤²ıÿÿÿÿ
+Œ
+java:S1192Ô"uDefine a constant instead of duplicating this literal "join public.daily_work dw on dw.user_id = u.user_id " 6 times.(›¶ÃÒ
+¡
+java:S1192–"„Define a constant instead of duplicating this literal "join public.stage_daily sd on sd.daily_work_id = dw.daily_work_id " 12 times.(×›•şÿÿÿÿ
+f
+java:S1192µ"JDefine a constant instead of duplicating this literal "_Ğ³Ğ¾Ğ´Ğ°" 6 times.(ï‚Îğøÿÿÿÿ
+Ö
+java:S1192±"¹Define a constant instead of duplicating this literal "u.user_id IN (SELECT user_id FROM public.user) AND pm.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" 3 times.(¿Òğˆûÿÿÿÿ
+‡
+java:S1192‚"pDefine a constant instead of duplicating this literal "u.user_id IN (SELECT user_id FROM public.user) " 3 times.(şÄ’
+¤
+java:S1192ç"‡Define a constant instead of duplicating this literal "(us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" 5 times.(¼€æûÿÿÿÿ
+ª
+java:S1192ƒ"Define a constant instead of duplicating this literal "GROUP BY c.contract_number, cr.customer_name HAVING count(c.contract_id)>=1 " 3 times.(™ùÉêúÿÿÿÿ
+†
+java:S1192Õ"îDefine a constant instead of duplicating this literal "left join public.current_approve ca on ca.user_id = u.user_id AND ca.sheet_month = to_char(dw.daily_work_date, 'MM') AND ca.sheet_year = to_char(dw.daily_work_date, 'YYYY') " 4 times.(†£ö‹
+‘
+java:S1192»	"zDefine a constant instead of duplicating this literal "join public.customer c on c.customer_id = ct.customer_id " 3 times.(€Ÿùó
+
+java:S1192˜"cDefine a constant instead of duplicating this literal "END as sort FROM public.request r " 3 times.(Ä»ˆ›øÿÿÿÿ
+˜
+java:S1192«"€Define a constant instead of duplicating this literal "join public.project_manager pm on pm.project_id = p.project_id " 9 times.(ÁØµ
+
+java:S1192›"sDefine a constant instead of duplicating this literal "join public.task t on t.request_id = r.request_id " 3 times.(—øüöøÿÿÿÿ
+Ÿ
+java:S1192ÿ"‚Define a constant instead of duplicating this literal "join public.daily_work dw on dw.daily_work_id = sd.daily_work_id " 9 times.(ó¤«¡ùÿÿÿÿ
+c
+java:S1192"GDefine a constant instead of duplicating this literal " AND " 12 times.(ôŞèÿÿÿÿÿ
+—
+java:S1192º	"{Define a constant instead of duplicating this literal "join public.contract ct on ct.contract_id = r.contract_id " 3 times.(Ø§ï„üÿÿÿÿ
+
+java:S1192š"vDefine a constant instead of duplicating this literal "join public.project p on p.project_id = t.project_id " 9 times.(ê¿›©
+u
+java:S1192Ø"YDefine a constant instead of duplicating this literal "ORDER BY u.user_fullname" 3 times.(–Ã¨ûÿÿÿÿ
+
+java:S1192ª	"yDefine a constant instead of duplicating this literal "join public.customer c on c.customer_id = p.customer_id " 3 times.(íâÑ¼
+É
+java:S1192¢"¬Define a constant instead of duplicating this literal "GROUP BY c.contract_number, cr.customer_name, r.request_number, r.request_id HAVING count(r.request_id)>=1 " 3 times.(ôŠ×âşÿÿÿÿ
+
+java:S1192™"yDefine a constant instead of duplicating this literal "join public.contract c on c.contract_id = r.contract_id " 3 times.(¶Ò×ÿ
+ø
+java:S1192×"ÛDefine a constant instead of duplicating this literal "GROUP BY u.user_fullname, to_char(dw.daily_work_date, 'MM-YYYY'), ca.sheet_month, ca.sheet_year, ca.lead_approve, ca.dep_head_approve, ca.manager_approve " 3 times.(¨–‹˜ÿÿÿÿÿ
+¢
+java:S1192£"…Define a constant instead of duplicating this literal "ORDER BY cr.customer_name, c.contract_number, sort, r.request_number" 3 times.(É±Ã”úÿÿÿÿ
+Â
+java:S1192‘"ªDefine a constant instead of duplicating this literal "GROUP BY c.contract_number, cr.customer_name, p.project_name, p.project_id HAVING count(p.project_id)>=1 " 3 times.(Ú˜Âø
+Š
+java:S1192ü"sDefine a constant instead of duplicating this literal "join public.task t on t.project_id = p.project_id " 6 times.(¨È—Ê
+
+java:S1192¯"eDefine a constant instead of duplicating this literal "Ğ ĞµÑÑƒÑ€ÑĞ½Ñ‹Ğ¹_Ğ¾Ñ‚Ñ‡ĞµÑ‚_Ğ½Ğ°_" 10 times.(û·’Ùùÿÿÿÿ
+˜
+java:S1192¬	"|Define a constant instead of duplicating this literal "join public.contract ct on ct.contract_id = cp.contract_id " 3 times.(ßÂø†ûÿÿÿÿ
+£
+java:S1192å"†Define a constant instead of duplicating this literal "left join public.user_subordination us on us.user_sub_id = u.user_id " 5 times.(Ú«õŒÿÿÿÿÿ
+¹
+java:S1192œ"¡Define a constant instead of duplicating this literal "ORDER BY u.user_fullname, to_char(dw.daily_work_date, 'YYYY'), to_char(dw.daily_work_date, 'MM')" 3 times.(„€›¢
+
+java:S1192¦"vDefine a constant instead of duplicating this literal "join public.request r on r.request_id = t.request_id " 5 times.(™Ê•¶
+„
+java:S1192Ó"ìDefine a constant instead of duplicating this literal "SELECT u.user_fullname, to_char(dw.daily_work_date, 'MM-YYYY'), ca.sheet_month, ca.sheet_year, ca.lead_approve, ca.dep_head_approve, ca.manager_approve FROM public.user u " 3 times.(·³Ï²
+Š
+java:S1192ı"nDefine a constant instead of duplicating this literal "join public.stage s on s.task_id = t.task_id " 9 times.( ›‹Áıÿÿÿÿ
+d
+java:S1192"HDefine a constant instead of duplicating this literal "WHERE " 25 times.(ôŞèÿÿÿÿÿ
+‰
+java:S1192„"mDefine a constant instead of duplicating this literal "ORDER BY cr.customer_name, c.contract_number" 6 times.(Ñıúßşÿÿÿÿ
+“
+java:S1192û"wDefine a constant instead of duplicating this literal "join public.project p on p.project_id = cp.project_id " 7 times.(ÔÈ¬²øÿÿÿÿ
+”
+java:S1192ş"xDefine a constant instead of duplicating this literal "join public.stage_daily sd on sd.stage_id = s.stage_id " 9 times.(˜Ï¯çıÿÿÿÿ
+¤
+java:S1192”"Define a constant instead of duplicating this literal "SELECT cr.customer_name, c.contract_number, r.request_number, r.request_id, " 3 times.(ÇŒÍR
+w
+java:S1192¤"`Define a constant instead of duplicating this literal "ĞœĞµĞ½ĞµĞ´Ğ¶ĞµÑ€ Ğ¿Ñ€Ğ¾ĞµĞºÑ‚Ğ°" 5 times.(µ œ¨
+…
+java:S1192™"nDefine a constant instead of duplicating this literal "join public.task t on t.task_id = s.task_id " 12 times.(Şïº·
+
+java:S1192˜"rDefine a constant instead of duplicating this literal "join public.stage s on s.stage_id = sd.stage_id " 12 times.(ø¸ßßøÿÿÿÿ
+¤
+java:S1192®	"ŒDefine a constant instead of duplicating this literal "GROUP BY c.customer_name, ct.contract_number, p.project_name, p.project_id " 3 times.(•¥ËÚ
+„
+java:S1192¯	"mDefine a constant instead of duplicating this literal "ORDER BY c.customer_name, ct.contract_number" 4 times.(ÍÓò¥
+×
+java:S1192¥	"ºDefine a constant instead of duplicating this literal "SELECT c.customer_name, ct.contract_number, p.project_name, p.project_id, sum(daily_intensity) FROM public.daily_work dw " 3 times.(ø…à×ıÿÿÿÿ
+¨
+java:S1192è"‹Define a constant instead of duplicating this literal "') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" 5 times.(ºÖ’Óûÿÿÿÿ
+]
+java:S1192–"FDefine a constant instead of duplicating this literal "ELSE " 5 times.(äÜšè
+Ğ
+java:S1192—"³Define a constant instead of duplicating this literal "SELECT u.user_fullname, to_char(dw.daily_work_date, 'MM'), to_char(dw.daily_work_date, 'YYYY') FROM public.user u " 3 times.(‡¯¹ßûÿÿÿÿ
+›
+java:S1192ú"ƒDefine a constant instead of duplicating this literal "join public.contract_project cp on cp.contract_id = c.contract_id " 7 times.(Àœ§‹
+f
+java:S1192Ê"JDefine a constant instead of duplicating this literal " Ğ³Ğ¾Ğ´Ğ°" 3 times.(ƒŞŠ†üÿÿÿÿ
+™
+java:S1192«	"Define a constant instead of duplicating this literal "join public.contract_project cp on cp.project_id = p.project_id " 3 times.(€Ÿğ€
+g	java:S117Ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(çí™ı
+g	java:S117Û"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸”ÌÀ
+l	java:S117Ü"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦ó›ÿÿÿÿÿ
+g	java:S117ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ˆÒØ
+l	java:S117í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï  ›üÿÿÿÿ
+g	java:S117î"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ú«Ë
+l	java:S117ï"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(úèåøÿÿÿÿ
+g	java:S117ğ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œ¥Çõ
+g	java:S117ñ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Í¡—Š
+l	java:S117ò"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¡¤¹Ÿıÿÿÿÿ
+f	java:S117ó"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¦±Ò\
+g	java:S117ô"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°ÙÚ
+l	java:S117õ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„ìÈÕıÿÿÿÿ
+l	java:S117÷"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ìšœ²ÿÿÿÿÿ
+l	java:S117Ø"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ÿçÙÿÿÿÿÿ
+l	java:S117Ù"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ï´Öœùÿÿÿÿ
+l	java:S117Ú"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÀÑ­ÿûÿÿÿÿ
+l	java:S117Û"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æ´ü¸úÿÿÿÿ
+g	java:S117Ü"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆÊ£
+g	java:S117İ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»¥ÔË
+g	java:S117ß"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(úÎÑÜ
+D
+java:S1604È"(Make this anonymous inner class a lambda(ôâŠûıÿÿÿÿ
+8
+java:S1643ú"Use a StringBuilder instead.(‘ğˆùÿÿÿÿ
+3
+java:S1643Ç"Use a StringBuilder instead.(ÑÇòÿ
+3
+java:S1643É"Use a StringBuilder instead.(Ù­üë
+3
+java:S1643á"Use a StringBuilder instead.(ÑÇòÿ
+3
+java:S1643ã"Use a StringBuilder instead.(Ù­üë
+3
+java:S1643û"Use a StringBuilder instead.(ÑÇòÿ
+3
+java:S1643ı"Use a StringBuilder instead.(Ù­üë
+3
+java:S1643˜"Use a StringBuilder instead.(ÑÇòÿ
+3
+java:S1643š"Use a StringBuilder instead.(Ù­üë
+a
+java:S2184¥"ECast one of the operands of this subtraction operation to a "double".(óñß¦úÿÿÿÿ
+\
+java:S2259Ï"EA "NullPointerException" could be thrown; "desktop" is nullable here.(Ûë¥©
+\
+java:S2259Ø"EA "NullPointerException" could be thrown; "desktop" is nullable here.(·ÓãË
+\
+java:S2259Ò"EA "NullPointerException" could be thrown; "desktop" is nullable here.(ºìèá
+\
+java:S2259Á"EA "NullPointerException" could be thrown; "fileOut" is nullable here.(Ö´Œş
+\
+java:S2259Õ"EA "NullPointerException" could be thrown; "desktop" is nullable here.(Ô’Š¬
+a
+java:S2259Ş"EA "NullPointerException" could be thrown; "desktop" is nullable here.(¯µœßıÿÿÿÿ
+[
+java:S2259Û"EA "NullPointerException" could be thrown; "desktop" is nullable here.(ËÔˆ$
+j
+java:S2095¯"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(û·’Ùùÿÿÿÿ
+j
+java:S2095»"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(‹äÈ×ıÿÿÿÿ
+e
+java:S2095²"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(À’ñÌ
+]
+java:S2095Ÿ"FUse try-with-resources or close this "Workbook" in a "finally" clause.(Ö—¦µ
+j
+java:S2095µ"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(ï‚Îğøÿÿÿÿ
+e
+java:S2095¸"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(ùš‰ü

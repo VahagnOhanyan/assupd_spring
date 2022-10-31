@@ -20,14 +20,34 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.controlsfx.control.CheckComboBox;
-import ru.ctp.motyrev.code.DBconnection;
+import org.controlsfx.control.ToggleSwitch;
+import ru.ctp.motyrev.code.*;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static javafx.scene.control.TableView.UNCONSTRAINED_RESIZE_POLICY;
 
 public class MainController {
+
+    TimeSheetController timeSheetController2 = new TimeSheetController();
+    GregorianCalendar date = new GregorianCalendar();
+    GregorianCalendar date2 = new GregorianCalendar();
+    GregorianCalendar current = new GregorianCalendar();
+    SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+    SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");
+    SimpleDateFormat sdf3 = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy");
+    SimpleDateFormat sdf5 = new SimpleDateFormat("MM");
+    SimpleDateFormat sdf6 = new SimpleDateFormat("dd.MM.yyyy");
 
     private Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
     private Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -98,6 +118,16 @@ public class MainController {
     @FXML
     private CheckComboBox projectFilterBox;
     @FXML
+    private ToggleSwitch inDetails;
+    @FXML
+    private Button backBtn;
+    @FXML
+    private Button forwardBtn;
+    @FXML
+    private ComboBox<String> yearBox;
+    @FXML
+    private ComboBox<String> monthBox;
+    @FXML
     private Button btnEditValue;
     @FXML
     private Button btnEditLinks;
@@ -117,6 +147,10 @@ public class MainController {
     private MenuItem menuChangePass;
     @FXML
     private Label stateLabel;
+    @FXML
+    private Label siteFilterLabel;
+    @FXML
+    private Label roleFilterLabel;
 
     MenuItem menuEditRow = new MenuItem("Редактировать запись");
 
@@ -142,7 +176,10 @@ public class MainController {
     private Parent fxmlSite;
     private Parent fxmlTaskView;
     private Parent fxmlEffectivityReport;
-    private Parent calendarView;
+    private Parent fxmlImportOneCReport;
+    private Parent fxmlCalendarView;
+    //  private Parent fxmlExportToExcelView;
+
     private FXMLLoader fxmlSheetLoader = new FXMLLoader();
     private FXMLLoader fxmlProjectLoader = new FXMLLoader();
     private FXMLLoader fxmlRequestLoader = new FXMLLoader();
@@ -163,7 +200,10 @@ public class MainController {
     private FXMLLoader fxmlSiteLoader = new FXMLLoader();
     private FXMLLoader fxmlTaskViewLoader = new FXMLLoader();
     private FXMLLoader fxmlEffectivityReportLoader = new FXMLLoader();
-    private FXMLLoader calendarViewLoader = new FXMLLoader();
+    private FXMLLoader fxmlCalendarViewLoader = new FXMLLoader();
+    private FXMLLoader fxmlImportOneCReportLoader = new FXMLLoader();
+    //  private FXMLLoader fxmlExportToExcelViewLoader = new FXMLLoader();
+
     private SheetController sheetController;
     private ProjectController projectController;
     private RequestController requestController;
@@ -185,6 +225,8 @@ public class MainController {
     private TaskViewController taskViewController;
     private EffectivityReportController effectivityReportController;
     private CalendarController calendarController;
+    private ImportOneCReportController importOneCReportController;
+    // private ExportToExcelController exportToExcelController;
     private Stage sheetStage;
     private Stage projectStage;
     private Stage requestStage;
@@ -206,10 +248,17 @@ public class MainController {
     private Stage taskViewStage;
     private Stage effectivityReportStage;
     public Stage calendarStage;
+    private Stage importOneCReportStage;
 
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
     }
+
+    String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+    ResultSet resultSet;
+    ArrayList<Integer> holidays = new ArrayList();
+    ArrayList<Integer> workdays = new ArrayList();
+    private static final DecimalFormat df = new DecimalFormat("0.0");
 
     @FXML
     private void initialize() {
@@ -255,6 +304,12 @@ public class MainController {
         if (role.equalsIgnoreCase("сотрудник")) {
             mBtnReports.setDisable(true);
         }
+        if (!role.equalsIgnoreCase("ауп") && !role.equalsIgnoreCase("Сотрудник")) {
+            inDetails.setVisible(true);
+        } else {
+            inDetails.setVisible(false);
+        }
+
     }
 
     private void initLoader() {
@@ -340,9 +395,17 @@ public class MainController {
             fxmlEffectivityReport = fxmlEffectivityReportLoader.load();
             effectivityReportController = fxmlEffectivityReportLoader.getController();
 
-            calendarViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/calendar.fxml"));
-            calendarView = calendarViewLoader.load();
-            calendarController = calendarViewLoader.getController();
+            fxmlCalendarViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/calendar.fxml"));
+            fxmlCalendarView = fxmlCalendarViewLoader.load();
+            calendarController = fxmlCalendarViewLoader.getController();
+
+            fxmlImportOneCReportLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/importOneCReport.fxml"));
+            fxmlImportOneCReport = fxmlImportOneCReportLoader.load();
+            importOneCReportController = fxmlImportOneCReportLoader.getController();
+
+          /*  fxmlExportToExcelViewLoader.setLocation(getClass().getResource("/ru/ctp/motyrev/fxml/exportToExcel.fxml"));
+            fxmlExportToExcelView = fxmlExportToExcelViewLoader.load();
+            fxmlExportToExcelController = fxmlExportToExcelViewLoader.getController();*/
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -350,6 +413,33 @@ public class MainController {
 
     private void initListeners() {
 
+        monthBox.getItems().addAll(months);
+        yearBox.getItems().addAll("2018", "2019", "2020", "2021", "2022");
+        inDetails.selectedProperty().addListener(observable -> {
+            holidays.clear();
+            workdays.clear();
+            yearBox.setValue(String.valueOf(LocalDate.now().getYear()));
+            monthBox.setValue(months[LocalDate.now().getMonth().ordinal()]);
+            yearBox.setVisible(inDetails.isSelected());
+            monthBox.setVisible(inDetails.isSelected());
+            backBtn.setVisible(inDetails.isSelected());
+            forwardBtn.setVisible(inDetails.isSelected());
+            siteFilterBox.setVisible(!inDetails.isSelected());
+            siteFilterLabel.setVisible(!inDetails.isSelected());
+            roleFilterBox.setVisible(!inDetails.isSelected());
+            roleFilterLabel.setVisible(!inDetails.isSelected());
+            tableShowContent("Табель", true);
+        });
+        yearBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            monthBox.setValue(months[LocalDate.now().getMonth().ordinal()]);
+            date.set(Integer.parseInt(yearBox.getValue()), timeSheetController2.returnMonth(monthBox.getValue()), date.getActualMaximum(Calendar.MONTH));
+            tableShowContent("Табель", true);
+        });
+        monthBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            yearBox.setValue(String.valueOf(LocalDate.now().getYear()));
+            date.set(Integer.parseInt(yearBox.getValue()), timeSheetController2.returnMonth(monthBox.getValue()), date.getActualMaximum(Calendar.MONTH));
+            tableShowContent("Табель", true);
+        });
         treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 
             fldSearch.clear();
@@ -439,7 +529,7 @@ public class MainController {
                 deleteButton.setDisable(true);
             }
 
-            tableShowContent(newValue.getValue());
+            tableShowContent(newValue.getValue(), false);
         });
 
         customerFilterBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) c -> {
@@ -548,7 +638,7 @@ public class MainController {
                 dataView.getItems().clear();
                 searchNode = prevNode;
                 prevNode = "";
-                tableShowContent(searchNode);
+                tableShowContent(searchNode, false);
             }
         });
 
@@ -563,6 +653,20 @@ public class MainController {
                 customerDetail();
             }
         });
+    }
+
+    private ResultSet getCalendarData() {
+
+        dBconnection = new DBconnection();
+        dBconnection.openDB();
+        try {
+            resultSet = dBconnection.getC().prepareStatement("SELECT day, type FROM public.calendar where year =" + yearBox.getValue() + " and month= " +
+                            (timeSheetController2.returnMonth(monthBox.getValue()) + 1), ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)
+                    .executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultSet;
     }
 
     private void fillTreeView() {
@@ -812,7 +916,7 @@ public class MainController {
                     }
                     node = prevNode;
                     prevNode = "";
-                    tableShowContent(node);
+                    tableShowContent(node, false);
                 } else {
                     infoAlert.setTitle("Ошибка доступа");
                     infoAlert.setHeaderText(null);
@@ -943,6 +1047,16 @@ public class MainController {
                     infoAlert.showAndWait();
                 }
                 break;
+            case "importOneCReport":
+                if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("super_user")) {
+                    importOneCReportDetail();
+                } else {
+                    infoAlert.setTitle("Недостаточный уровень прав");
+                    infoAlert.setHeaderText(null);
+                    infoAlert.setContentText("Ваша роль в системе не позволяет просматривать выбранные данные.");
+                    infoAlert.showAndWait();
+                }
+                break;
             case "menuCustomer":
                 if (role.equalsIgnoreCase("ауп") || role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("super_user")) {
                     customerStage();
@@ -1018,8 +1132,8 @@ public class MainController {
 
     public void actionMenuAbout(ActionEvent actionEvent) {
         infoAlert.setTitle("О программе");
-        infoAlert.setHeaderText("АСУ ПД, 2018-2020 г.");
-        infoAlert.setContentText("v 1.0.4");
+        infoAlert.setHeaderText("АСУ ПД, 2018-2022 г.");
+        infoAlert.setContentText("v 1.0.6");
         infoAlert.showAndWait();
     }
 
@@ -1057,13 +1171,12 @@ public class MainController {
             timeSheetStage.setScene(new Scene(fxmlTimeSheet));
             timeSheetStage.setMinHeight(700);
             timeSheetStage.setMinWidth(1300);
-            timeSheetStage.initModality(Modality.WINDOW_MODAL);
+            timeSheetStage.initModality(Modality.NONE);
             timeSheetStage.initOwner(mainStage);
         }
         if (!dataView.getSelectionModel().isEmpty()) {
             Integer rowIndex = dataView.getSelectionModel().getSelectedIndex();
-
-            timeSheetController.initTimeSheet(dataView.getSelectionModel().getSelectedItem().toString());
+            timeSheetController.initTimeSheet(dataView.getSelectionModel().getSelectedItem().toString(), date);
             timeSheetStage.setOnCloseRequest(arg0 -> timeSheetController.formClear());
             timeSheetStage.showAndWait();
             updateTableView();
@@ -1130,10 +1243,22 @@ public class MainController {
         }
     }
 
+    private void importOneCReportStage() {
+        if (importOneCReportStage == null) {
+            importOneCReportStage = new Stage();
+            importOneCReportStage.setScene(new Scene(fxmlImportOneCReport));
+            importOneCReportStage.setMinHeight(100);
+            importOneCReportStage.setMinWidth(200);
+            importOneCReportStage.setResizable(false);
+            importOneCReportStage.initModality(Modality.WINDOW_MODAL);
+            importOneCReportStage.initOwner(mainStage);
+        }
+    }
+
     private void setCalendarStage() {
         if (calendarStage == null) {
             calendarStage = new Stage();
-            calendarStage.setScene(new Scene(calendarView));
+            calendarStage.setScene(new Scene(fxmlCalendarView));
             calendarStage.setMinHeight(100);
             calendarStage.setMinWidth(100);
             calendarStage.setResizable(false);
@@ -1148,6 +1273,14 @@ public class MainController {
         effectivityReportStage.setTitle("Отчет по эффективности");
         effectivityReportController.addData();
         effectivityReportStage.showAndWait();
+    }
+
+    private void importOneCReportDetail() {
+        importOneCReportStage();
+
+        importOneCReportStage.setTitle("Отчёт табелей АСУ ПД vs 1С");
+        importOneCReportController.addData();
+        importOneCReportStage.showAndWait();
     }
 
     private void siteStage() {
@@ -1387,7 +1520,7 @@ public class MainController {
             requestViewStage.setScene(new Scene(fxmlRequestView));
             requestViewStage.setMinHeight(700);
             requestViewStage.setMinWidth(1300);
-            requestViewStage.initModality(Modality.WINDOW_MODAL);
+            requestViewStage.initModality(Modality.NONE);
             requestViewStage.initOwner(mainStage);
         }
     }
@@ -1413,7 +1546,7 @@ public class MainController {
             taskViewStage.setScene(new Scene(fxmlTaskView));
             taskViewStage.setMinHeight(700);
             taskViewStage.setMinWidth(1300);
-            taskViewStage.initModality(Modality.WINDOW_MODAL);
+            taskViewStage.initModality(Modality.NONE);
             taskViewStage.initOwner(mainStage);
         }
     }
@@ -1434,7 +1567,7 @@ public class MainController {
 
     private void updateTableView() {
         prevNode = "";
-        tableShowContent(treeView.getSelectionModel().getSelectedItem().getValue());
+        tableShowContent(treeView.getSelectionModel().getSelectedItem().getValue(), false);
 
         if (treeView.getSelectionModel().getSelectedItem().getValue().equalsIgnoreCase("Сотрудники")) {
             if (!siteFilterBox.getCheckModel().isEmpty() || !roleFilterBox.getCheckModel().isEmpty() || !stateFilterBox.getCheckModel().isEmpty()) {
@@ -1457,9 +1590,10 @@ public class MainController {
         }
     }
 
-    private void tableShowContent(String nodeName) {
-
-        if (nodeName != prevNode) {
+    private void tableShowContent(String nodeName, boolean isNewRequest) {
+        System.out.println("1: " + nodeName);
+        System.out.println("1prevNode: " + prevNode);
+        if (nodeName != prevNode || isNewRequest) {
 
             if (!nodeName.equals(who)) {
                 prevNode = nodeName;
@@ -1469,7 +1603,24 @@ public class MainController {
                 if (nodeName.equalsIgnoreCase(root)) {
                     sql = "";
                 }
-
+                if (nodeName.equals("Табель") && inDetails.isSelected()) {
+                    holidays.clear();
+                    workdays.clear();
+                    resultSet = getCalendarData();
+                    try {
+                        while (resultSet.next()) {
+                            String type = resultSet.getString(CalendarController.TYPE);
+                            int d = resultSet.getInt(CalendarController.DAY);
+                            if (type.equals("holiday")) {
+                                holidays.add(d);
+                            } else {
+                                workdays.add(d);
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
                 // Проверка выделенного узла
                 switch (nodeName) {
                     case "Менеджмент":
@@ -1703,12 +1854,32 @@ public class MainController {
                         break;
                     case "Табель":
                         if (role.equalsIgnoreCase("Super_user") || role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("АУП")) {
-                            sql = "SELECT u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name FROM public.user u " +
-                                    "join public.user_info ui on ui.user_info_id = u.user_info_id " +
-                                    "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
-                                    "left join public.site s on s.site_id = u.site_id " +
-                                    "WHERE user_fullname != 'super_user' " +
-                                    "ORDER BY user_fullname";
+                            if (!inDetails.isSelected()) {
+                                sql = "SELECT u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name FROM public.user u " +
+                                        "join public.user_info ui on ui.user_info_id = u.user_info_id " +
+                                        "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
+                                        "left join public.site s on s.site_id = u.site_id " +
+                                        "WHERE user_fullname != 'super_user' " +
+                                        "ORDER BY user_fullname";
+                            } else {
+                                sql = "SELECT * FROM crosstab(" +
+                                        "'SELECT u.user_id_number, u.user_fullname, ''percentage'', dw.day_num, sum(dw.daily_intensity) FROM " +
+                                        "public.user u " +
+                                        "left join (select * from public.daily_work " +
+                                        "where to_char(daily_work_date,''yyyy-MM'') = to_char(date_trunc(''month'', ''" + sdf2.format(date.getTime()) +
+                                        "'' - interval ''0'' month),''yyyy-MM'')) as dw on u.user_id = dw.user_id " +
+                                        "where u.user_id_number  != ''1'' " +
+                                        "GROUP BY u.user_id_number, u.user_fullname, dw.daily_work_date, dw.day_num " +
+                                        "ORDER BY u.user_fullname, dw.daily_work_date', " +
+                                        "'SELECT d from generate_series(1,31) d') " +
+                                        "AS (user_id_number text, user_fullname text, percentage text, " +
+                                        "day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric, " +
+                                        "day6 numeric, day7 numeric, day8 numeric, day9 numeric, day10 numeric, " +
+                                        "day11 numeric, day12 numeric, day13 numeric, day14 numeric, day15 numeric, " +
+                                        "day16 numeric, day17 numeric, day18 numeric, day19 numeric, day20 numeric, " +
+                                        "day21 numeric, day22 numeric, day23 numeric, day24 numeric, day25 numeric, " +
+                                        "day26 numeric, day27 numeric, day28 numeric, day29 numeric, day30 numeric, day31 numeric)";
+                            }
                         } else if (role.equalsIgnoreCase("Сотрудник")) {
                             sql = "SELECT u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name FROM public.user u " +
                                     "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
@@ -1718,17 +1889,42 @@ public class MainController {
                                     "WHERE u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who + "') " +
                                     "ORDER BY u.user_fullname";
                         } else {
-                            sql = "SELECT u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name FROM public.user u " +
-                                    "left join public.user_subordination us on us.user_sub_id = u.user_id " +
-                                    "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
-                                    "join public.user_info ui on ui.user_info_id = u.user_info_id " +
-                                    "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
-                                    "left join public.site s on s.site_id = u.site_id " +
-                                    "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
-                                    "') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
-                                    "')) AND (ua.user_activity_name != 'Уволен' OR ua.user_activity_name IS NULL) " +
-                                    "GROUP BY u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name " +
-                                    "ORDER BY u.user_fullname";
+                            if (!inDetails.isSelected()) {
+                                sql = "SELECT u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name FROM public.user u " +
+                                        "left join public.user_subordination us on us.user_sub_id = u.user_id " +
+                                        "left join public.user_activity ua on ua.user_activity_id = u.user_activity_id " +
+                                        "join public.user_info ui on ui.user_info_id = u.user_info_id " +
+                                        "join public.user_role ur on ur.user_role_id = ui.user_role_id " +
+                                        "left join public.site s on s.site_id = u.site_id " +
+                                        "WHERE (us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                                        "') OR u.user_id = (SELECT user_id FROM public.user WHERE user_fullname = '" + who +
+                                        "')) AND (ua.user_activity_name != 'Уволен' OR ua.user_activity_name IS NULL) " +
+                                        "GROUP BY u.user_id_number, u.user_fullname, s.site_name, ur.user_role_name " +
+                                        "ORDER BY u.user_fullname";
+                            } else {
+                                sql =
+                                        "SELECT * FROM crosstab('select u.user_id_number, u.user_fullname, ''percentage'', dw.day_num, sum(dw.daily_intensity) FROM public.user u" +
+                                                " left join public.user_subordination us on us.user_sub_id = u.user_id" +
+                                                " left join public.user_activity ua on ua.user_activity_id = u.user_activity_id" +
+                                                " join public.user_info ui on ui.user_info_id = u.user_info_id" +
+                                                " join public.user_role ur on ur.user_role_id = ui.user_role_id" +
+                                                " left join (select * from public.daily_work" +
+                                                " where to_char(daily_work_date,''yyyy-MM'') = to_char(date_trunc(''month'', ''" + sdf2.format(date.getTime()) +
+                                                "'' - interval ''0'' month),''yyyy-MM''))" +
+                                                " as dw on u.user_id = dw.user_id" +
+                                                " WHERE us.user_id = (SELECT user_id FROM public.user WHERE user_fullname = ''" + who + "'')" +
+                                                " AND (ua.user_activity_name != ''Уволен'' OR ua.user_activity_name IS NULL)" +
+                                                " GROUP BY u.user_id_number, u.user_fullname, dw.day_num, ur.user_role_name" +
+                                                " ORDER BY u.user_fullname'," +
+                                                "'SELECT d from generate_series(1,31) d')" +
+                                                " AS (user_id_number text, user_fullname text, percentage text," +
+                                                " day1 numeric, day2 numeric, day3 numeric, day4 numeric, day5 numeric," +
+                                                " day6 numeric, day7 numeric, day8 numeric, day9 numeric, day10 numeric," +
+                                                " day11 numeric, day12 numeric, day13 numeric, day14 numeric, day15 numeric," +
+                                                " day16 numeric, day17 numeric, day18 numeric, day19 numeric, day20 numeric," +
+                                                " day21 numeric, day22 numeric, day23 numeric, day24 numeric, day25 numeric," +
+                                                " day26 numeric, day27 numeric, day28 numeric, day29 numeric, day30 numeric, day31 numeric)";
+                            }
                         }
                         break;
                     case "Справочники":
@@ -1810,6 +2006,9 @@ public class MainController {
         try {
             for (int i = 0; i < dBconnection.getRs().getMetaData().getColumnCount(); i++) {
                 final int j = i;
+                if (prevNode.equals("Табель") && inDetails.isSelected() && date.getActualMaximum(Calendar.DAY_OF_MONTH) < j - 2) {
+                    break;
+                }
                 tableColName = dBconnection.getRs().getMetaData().getColumnName(i + 1);
                 generateColName(dBconnection.getRs().getMetaData().getColumnName(i + 1));
                 TableColumn tableColumn = new TableColumn(tableColName);
@@ -1817,7 +2016,39 @@ public class MainController {
                 tableColumn.setCellValueFactory(
                         (Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(
                                 (String) param.getValue().get(j)));
-
+                if (inDetails.isSelected() && prevNode.equalsIgnoreCase("Табель")) {
+                    if (i > 2) {
+                        timeSheetController2.date = date;
+                        System.out.println();
+                        int d = i - 2;
+                        if (timeSheetController2.checkDateForCurrent(d)) {
+                            if ((timeSheetController2.checkDate(d) || CalendarCell.createCalendarCell().checkDateForHoliday(date.get(Calendar.MONTH), d)) &&
+                                    !CalendarCell.createCalendarCell().checkDateForWorkday(date.get(Calendar.MONTH), d)) {
+                                tableColumn.setCellFactory(column -> {
+                                    WeekEndCell w = WeekEndCell.createStringEditCell();
+                                    w.setStyle("-fx-alignment: CENTER;  -fx-background-color:#fce4d6;");
+                                    return w;
+                                });
+                            } else {
+                                tableColumn.setCellFactory(column -> CurrentDateCell.createStringCurrentDateCell());
+                            }
+                        } else if (timeSheetController2.checkDate(d) && !CalendarCell.createCalendarCell().checkDateForWorkday(date.get(Calendar.MONTH), d)) {
+                            tableColumn.setCellFactory(column ->
+                            {
+                                WeekEndCell w =  WeekEndCell.createStringEditCell();
+                                return w;
+                            });
+                        } else if (CalendarCell.createCalendarCell().checkDateForHoliday(date.get(Calendar.MONTH), d) &&
+                                !CalendarCell.createCalendarCell().checkDateForWorkday(date.get(Calendar.MONTH), d)) {
+                            tableColumn.setCellFactory(column -> {
+                                WeekEndCell w = WeekEndCell.createStringEditCell();
+                                return w;
+                            });
+                        } else {
+                            tableColumn.setCellFactory(column -> EditCell.createStringEditCell());
+                        }
+                    }
+                }
                 if (prevNode.equals("Мои задачи") || prevNode.equals("В работе") || prevNode.equals("Выполнено") || prevNode.equals("Проверено") ||
                         prevNode.equals("Утверждено") || prevNode.equals("В ожидании")) {
                     if (tableColName.equals("Наименование задачи")) {
@@ -1859,7 +2090,8 @@ public class MainController {
                 } else {
                     if (tableColName.equals("ФИО") || tableColName.equals("Номер контракта") || tableColName.equals("Проект") ||
                             tableColName.equals("Название контракта")
-                            || tableColName.equals("Полное наименование") || tableColName.equals("Номер заявки") || tableColName.equals("Описание заявки")) {
+                            || tableColName.equals("Полное наименование") || tableColName.equals("Номер заявки") ||
+                            tableColName.equals("Описание заявки")) {
 
                     } else {
                         tableColumn.setStyle("-fx-alignment: CENTER;");
@@ -1924,11 +2156,45 @@ public class MainController {
 
                 dataView.getColumns().addAll(tableColumn);
             }
+
             //наполнение observableList данными из базы
             while (dBconnection.getRs().next()) {
+                int passedWorkDays = 0;
+                int filledWorkDays = 0;
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for (int i = 1; i <= dBconnection.getRs().getMetaData().getColumnCount(); i++) {
-                    row.add(dBconnection.getRs().getString(i));
+                    String value = dBconnection.getRs().getString(i);
+                    if (inDetails.isSelected() && prevNode.equalsIgnoreCase("Табель")) {
+                        if (i > 3) {
+                            System.out.println("date.getActualMaximum(Calendar.DAY_OF_MONTH): " + date.getActualMaximum(Calendar.DAY_OF_MONTH));
+                            if (date.getActualMaximum(Calendar.DAY_OF_MONTH) >= (i - 3)) {
+                                date.set(Calendar.DAY_OF_MONTH, i - 3);
+                                System.out.println("date: " + date.getTime().toString());
+                                if (date.before(current)) {
+                                    if (!holidays.contains(i - 3) && date.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&
+                                            date.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                                        passedWorkDays++;
+                                        System.out.println("holidays: "  + holidays);
+                                        if (value != null && !value.equals("")) {
+                                            filledWorkDays++;
+                                        }
+                                    }
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+
+                    row.add(value);
+                }
+                if (inDetails.isSelected() && prevNode.equalsIgnoreCase("Табель")) {
+                    if (filledWorkDays == 0) {
+                        row.set(2, "0 %");
+                    } else {
+                        double percentage = (double) passedWorkDays / filledWorkDays;
+                        row.set(2, df.format(100 / percentage) + " %");
+                    }
                 }
                 data.add(row);
             }
@@ -1936,8 +2202,43 @@ public class MainController {
             dBconnection.closeDB();
             //Добавление данных в TableView
             dataView.setItems(data);
+           // dataView.setSelectionModel(null);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void actionChangeDate(ActionEvent actionEvent) {
+        Object source = actionEvent.getSource();
+        if (!(source instanceof Button)) {
+            return;
+        }
+        Button clickedButton = (Button) source;
+
+        switch (clickedButton.getId()) {
+            case "backBtn":
+                System.out.println("1date2: " + date.getTime());
+                if (date.get(GregorianCalendar.MONTH) == 0) {
+                    date.set(date.get(GregorianCalendar.YEAR) - 1, 11, 1);
+                } else {
+                    date.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH) - 1, 1);
+                }
+                System.out.println("date2: " + date.getTime());
+                monthBox.setValue(months[date.get(Calendar.MONTH)]);
+                yearBox.setValue(String.valueOf(date.get(Calendar.YEAR)));
+                tableShowContent("Табель", true);
+                break;
+            case "forwardBtn":
+                if (date.get(GregorianCalendar.MONTH) == 11) {
+                    date.set(date.get(GregorianCalendar.YEAR) + 1, 0, 1);
+                } else {
+                    date.set(date.get(GregorianCalendar.YEAR), date.get(GregorianCalendar.MONTH) + 1, 1);
+                }
+
+                monthBox.setValue(months[date.get(Calendar.MONTH)]);
+                yearBox.setValue(String.valueOf(date.get(Calendar.YEAR)));
+                tableShowContent("Табель", true);
+                break;
         }
     }
 
@@ -2043,6 +2344,102 @@ public class MainController {
             case "site_code":
                 tableColName = "Код";
                 break;
+            case "percentage":
+                tableColName = "Процент заполн-ти";
+                break;
+            case "day1":
+                tableColName = "01";
+                break;
+            case "day2":
+                tableColName = "02";
+                break;
+            case "day3":
+                tableColName = "03";
+                break;
+            case "day4":
+                tableColName = "04";
+                break;
+            case "day5":
+                tableColName = "05";
+                break;
+            case "day6":
+                tableColName = "06";
+                break;
+            case "day7":
+                tableColName = "07";
+                break;
+            case "day8":
+                tableColName = "08";
+                break;
+            case "day9":
+                tableColName = "09";
+                break;
+            case "day10":
+                tableColName = "10";
+                break;
+            case "day11":
+                tableColName = "11";
+                break;
+            case "day12":
+                tableColName = "12";
+                break;
+            case "day13":
+                tableColName = "13";
+                break;
+            case "day14":
+                tableColName = "14";
+                break;
+            case "day15":
+                tableColName = "15";
+                break;
+            case "day16":
+                tableColName = "16";
+                break;
+            case "day17":
+                tableColName = "17";
+                break;
+            case "day18":
+                tableColName = "18";
+                break;
+            case "day19":
+                tableColName = "19";
+                break;
+            case "day20":
+                tableColName = "20";
+                break;
+            case "day21":
+                tableColName = "21";
+                break;
+            case "day22":
+                tableColName = "22";
+                break;
+            case "day23":
+                tableColName = "23";
+                break;
+            case "day24":
+                tableColName = "24";
+                break;
+            case "day25":
+                tableColName = "25";
+                break;
+            case "day26":
+                tableColName = "26";
+                break;
+            case "day27":
+                tableColName = "27";
+                break;
+            case "day28":
+                tableColName = "28";
+                break;
+            case "day29":
+                tableColName = "29";
+                break;
+            case "day30":
+                tableColName = "30";
+                break;
+            case "day31":
+                tableColName = "31";
+                break;
         }
     }
 
@@ -2062,7 +2459,6 @@ public class MainController {
     }
 
     public void actionFilter() {
-
         backupList.clear();
         filteredBackup.clear();
         tableGenerator(sql);
@@ -2178,7 +2574,8 @@ public class MainController {
                 filteredBackup.clear();
 
                 systemLabel.setText(
-                        systemLabel.getText() + " / " + customerFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                        systemLabel.getText() + " / " +
+                                customerFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
 
             if (!contractFilterBox.getCheckModel().getCheckedItems().isEmpty()) {
@@ -2204,7 +2601,8 @@ public class MainController {
                 filteredBackup.clear();
 
                 systemLabel.setText(
-                        systemLabel.getText() + " / " + contractFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                        systemLabel.getText() + " / " +
+                                contractFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
 
             if (!projectFilterBox.getCheckModel().getCheckedItems().isEmpty()) {
@@ -2230,7 +2628,8 @@ public class MainController {
                 filteredBackup.clear();
 
                 systemLabel.setText(
-                        systemLabel.getText() + " / " + projectFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
+                        systemLabel.getText() + " / " +
+                                projectFilterBox.getCheckModel().getCheckedItems().toString().replace("[", "").replace("]", ""));
             }
         }
 

@@ -38,6 +38,8 @@ public class Works {
     private SimpleStringProperty stage_check = new SimpleStringProperty("");
     private SimpleStringProperty stage_approve = new SimpleStringProperty("");
 
+
+
     public Works(String customer, String contract, String request, String designation, String workName, String intensity, String overtime, String sum_intensity, String workStartDate,
                                   String workEndDatePA, String workEndDate, String stage, String note) {
 

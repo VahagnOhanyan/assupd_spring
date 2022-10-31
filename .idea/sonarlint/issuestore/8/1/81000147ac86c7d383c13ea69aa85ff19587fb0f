@@ -1,0 +1,26 @@
+
+n
+java:S1450"SRemove the "port" field and declare it as a local variable in the relevant methods.(É¾Öâùÿÿÿÿ
+N	java:S106Y"9Replace this use of System.out or System.err by a logger.(®à´
+H
+java:S4925%"-Remove this "Class.forName()", it is useless.(õ†¨Äùÿÿÿÿ
+F
+java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å8›º©å/
+L
+java:S2696!"6Make the enclosing method "static" or remove this set.(Ş½÷
+n
+java:S1450"SRemove the "host" field and declare it as a local variable in the relevant methods.(İÇã›ıÿÿÿÿ
+_
+java:S2095"IUse try-with-resources or close this "InputStream" in a "finally" clause.(±Î€
+Q
+java:S2696""6Make the enclosing method "static" or remove this set.(½¬‚Ïùÿÿÿÿ
+L
+java:S2696#"6Make the enclosing method "static" or remove this set.(Â­Ş
+j
+java:S1450"URemove the "dbName" field and declare it as a local variable in the relevant methods.(›à±
+K
+java:S1068"0Remove this unused "confirmAlert" private field.(™ñ—îüÿÿÿÿ
+B
+java:S1068"-Remove this unused "infoAlert" private field.(î§œ
+Q
+java:S1128"4Remove this unused import 'java.io.FileInputStream'.(˜³ÉÓ8›º©å/

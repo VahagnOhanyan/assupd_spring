@@ -10,5 +10,22 @@
     <orderEntry type="library" name="controlsfx-8.40.14" level="project" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="postgresql-42.2.18" level="project" />
+    <orderEntry type="library" name="org.postgresql:postgresql:42.2.2" level="application" />
+    <orderEntry type="library" name="junit" level="application" />
+    <orderEntry type="library" name="log4j" level="application" />
+    <orderEntry type="library" name="commons.logging" level="application" />
+    <orderEntry type="library" name="commons.codec" level="application" />
+    <orderEntry type="library" name="apache.commons.collections4" level="application" />
+    <orderEntry type="library" name="apache.xmlbeans" level="application" />
+    <orderEntry type="library" name="github.virtuald.curvesapi" level="application" />
+    <orderEntry type="library" name="controlsfx" level="project" />
+    <orderEntry type="library" name="postgresql" level="project" />
+    <orderEntry type="library" name="au.bytecode.opencsv" level="project" />
+    <orderEntry type="library" name="opencsv" level="project" />
+  </component>
+  <component name="copyright">
+    <Base>
+      <setting name="state" value="2" />
+    </Base>
   </component>
 </module>

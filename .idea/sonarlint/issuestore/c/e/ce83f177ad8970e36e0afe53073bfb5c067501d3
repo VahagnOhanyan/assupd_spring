@@ -1,0 +1,77 @@
+
+@
+java:S5411Z"*Use the primitive boolean expression here.(ùÊá
+@
+java:S5411r"*Use the primitive boolean expression here.(¬”Ø‰
+q	java:S116%"WRename this field "txt_uom_plan" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Éääïùÿÿÿÿ
+|
+java:S2178Z"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ùÊá
+E
+java:S5411l"*Use the primitive boolean expression here.(Â¶Ù½şÿÿÿÿ
+|
+java:S2178`"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(òª
+½
+java:S1192Á" Define a constant instead of duplicating this literal "SELECT p.project_id, cr.customer_name, c.contract_number, p.project_name FROM public.project p " 4 times.(öÉªûûÿÿÿÿ
+C
+java:S1602¯",Remove useless curly braces around statement(­¸é‡
+m
+java:S3776@"RRefactor this method to reduce its Cognitive Complexity from 32 to the 15 allowed.(ˆå¶šûÿÿÿÿ
+q
+java:S1192Å"ZDefine a constant instead of duplicating this literal "ORDER BY cr.customer_name" 4 times.(ê§ó€
+o
+java:S1192ï"SDefine a constant instead of duplicating this literal "WHERE task_id = '" 12 times.(ª¨ìëşÿÿÿÿ
+|
+java:S2178f"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ù¥ç
+l	java:S116'"WRename this field "txt_uom_fact" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬‚ş¹
+F
+java:S3740ó"/Provide the parametrized type for this generic.(ß¼±
+}
+java:S2178˜"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(òÇ„
+A
+java:S5411´"*Use the primitive boolean expression here.(ÁƒÏê
+‘
+java:S1192Â"{Define a constant instead of duplicating this literal "join public.customer cr on cr.customer_id = p.customer_id " 4 times.(èç®s
+|
+java:S2178r"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(¬”Ø‰
+Y
+java:S1126´"BReplace this if-then-else statement by a single method invocation.(ÁƒÏê
+@
+java:S5411`"*Use the primitive boolean expression here.(òª
+D
+java:S3740:"/Provide the parametrized type for this generic.(ßø¼
+™
+java:S1192Ã"Define a constant instead of duplicating this literal "join public.contract_project cp on cp.project_id = p.project_id " 4 times.(€Ÿğ€
+L
+java:S3655Ä"5Call "result.isPresent()" before accessing the value.(ÃÇûŞ
+K
+java:S1128"5Remove this unused import 'java.text.ParseException'.(ñ®ï•
+F
+java:S3740‹"/Provide the parametrized type for this generic.(Æì›¢
+E
+java:S3740;"/Provide the parametrized type for this generic.(ÓùøÜ
+@
+java:S5411f"*Use the primitive boolean expression here.(ù¥ç
+@
+java:S1940‘")Use the opposite operator ("!=") instead.(·‘î
+@
+java:S1940—")Use the opposite operator ("!=") instead.(ñòüí
+J
+java:S3740"/Provide the parametrized type for this generic.(­Ê§ùÿÿÿÿ
+X
+java:S1126F"BReplace this if-then-else statement by a single method invocation.(öÏ¹Ş
+
+java:S2178l"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Â¶Ù½şÿÿÿÿ
+}
+java:S2178´"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ÁƒÏê
+M
+java:S1128"7Remove this unused import 'java.text.SimpleDateFormat'.(ú¡ÙÛ
+J
+java:S3740"/Provide the parametrized type for this generic.(¶‰ğ üÿÿÿÿ
+A
+java:S5411˜"*Use the primitive boolean expression here.(òÇ„
+A
+java:S1128"+Remove this unused import 'java.util.Date'.(¸…¼ü
+@
+java:S1940")Use the opposite operator ("!=") instead.(õÍã
+–
+java:S1192Ä"zDefine a constant instead of duplicating this literal "join public.contract c on c.contract_id = cp.contract_id " 4 times.(‘ÇŠÜıÿÿÿÿ

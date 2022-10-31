@@ -1,0 +1,13 @@
+
+h
+java:S3776i"RRefactor this method to reduce its Cognitive Complexity from 37 to the 15 allowed.(ÝÖŽæ
+Q
+java:S2696j"6Make the enclosing method "static" or remove this set.(™Éñ²ûÿÿÿÿ
+L
+java:S2696m"6Make the enclosing method "static" or remove this set.(ñ™ÿš
+S
+java:S3972Ã"7Move this "if" to a new line or add the missing "else".(˜š±ƒøÿÿÿÿ
+e
+java:S2095a"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ñ™ÿš
+e
+java:S2095m"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ñ™ÿš

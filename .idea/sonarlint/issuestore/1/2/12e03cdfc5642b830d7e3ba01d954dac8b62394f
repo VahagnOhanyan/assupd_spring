@@ -1,0 +1,46 @@
+
+E
+java:S3740"/Provide the parametrized type for this generic.(–âÿñ
+E
+java:S3740"/Provide the parametrized type for this generic.(ÓùøÜ
+J
+java:S3740T"/Provide the parametrized type for this generic.(ÔéÖŸıÿÿÿÿ
+J
+java:S3740T"/Provide the parametrized type for this generic.(ÔéÖŸıÿÿÿÿ
+E
+java:S3740V"/Provide the parametrized type for this generic.(²è±
+J
+java:S3740X"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+J
+java:S3740X"/Provide the parametrized type for this generic.(—­‹Âıÿÿÿÿ
+J
+java:S3740\"/Provide the parametrized type for this generic.(Ô¸ÓÆúÿÿÿÿ
+m
+java:S1450"RRemove the "sql" field and declare it as a local variable in the relevant methods.(ş²©ÿÿÿÿÿ
+Q
+java:S26962"6Make the enclosing method "static" or remove this set.(¨ıİ¨ÿÿÿÿÿ
+t
+java:S1171`"YMove the contents of this initializer to a standard constructor or to field initializers.(ÒÌâ–øÿÿÿÿ
+g
+java:S3252i"LUse static access with "javafx.scene.layout.Region" for "USE_COMPUTED_SIZE".(€Á¿ıÿÿÿÿ
+8	java:S131‘""Add a default case to this switch.(ÃØÁĞ
+P
+java:S1128"5Remove this unused import 'javafx.event.ActionEvent'.(î•¯¼ıÿÿÿÿ
+K
+java:S1128"5Remove this unused import 'javafx.scene.paint.Color'.(Ïî£à
+B
+java:S1068"'Remove this unused "sql" private field.(ş²©ÿÿÿÿÿ
+B
+java:S1068 "-Remove this unused "infoAlert" private field.(î§œ
+I
+java:S1068!".Remove this unused "errorAlert" private field.(ÀøİÀúÿÿÿÿ
+K
+java:S1068""0Remove this unused "confirmAlert" private field.(™ñ—îüÿÿÿÿ
+C
+java:S1604X"(Make this anonymous inner class a lambda(—­‹Âıÿÿÿÿ
+b
+java:S1301‘"KReplace this "switch" statement by "if" statements to increase readability.(ÃØÁĞ
+n
+java:S1104"SMake workNum a static final constant or non-public and provide accessors if needed.(öÙç³şÿÿÿÿ
+H
+java:S1444"-Make this "public static workNum" field final(öÙç³şÿÿÿÿ

@@ -1,0 +1,90 @@
+
+h	java:S116"SRename this field "work_num" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘„­á
+o	java:S116"URename this field "work_stage" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿø²õùÿÿÿÿ
+h	java:S116"TRename this field "work_note" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿ Ž&
+o	java:S116"URename this field "start_perc" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹þ÷‘úÿÿÿÿ
+m	java:S1166"SRename this field "end_perc" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùçÊŸûÿÿÿÿ
+—
+java:S1186C"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(”öª£
+D
+java:S19488"/Make "timesheetlist" transient or serializable.(»©æb
+F
+java:S1948:"+Make "infoAlert" transient or serializable.(Ì¯”üúÿÿÿÿ
+C
+java:S1948?"(Make "writer" transient or serializable.(†¦ÈŒÿÿÿÿÿ
+D
+java:S1948A".Make "dBconnection" transient or serializable.(ƒ´è§
+B
+java:S1068",Remove this unused "work_num" private field.(‘„­á
+I
+java:S1068".Remove this unused "work_stage" private field.(Ÿø²õùÿÿÿÿ
+B
+java:S1068"-Remove this unused "work_note" private field.(¿ Ž&
+I
+java:S1068".Remove this unused "start_perc" private field.(¹þ÷‘úÿÿÿÿ
+C
+java:S1068"(Remove this unused "day1" private field.(„´þÖþÿÿÿÿ
+>
+java:S1068"(Remove this unused "day2" private field.(¹£†
+C
+java:S1068"(Remove this unused "day3" private field.(è Ç÷üÿÿÿÿ
+C
+java:S1068"(Remove this unused "day4" private field.(´žÎøþÿÿÿÿ
+>
+java:S1068"(Remove this unused "day5" private field.(¡²„
+C
+java:S1068"(Remove this unused "day6" private field.(âÃ¿îýÿÿÿÿ
+>
+java:S1068"(Remove this unused "day7" private field.(è¬ž”
+=
+java:S1068"(Remove this unused "day8" private field.(Ü‰Æ{
+>
+java:S1068"(Remove this unused "day9" private field.(üäÉ¤
+D
+java:S1068")Remove this unused "day10" private field.(½·Ûåüÿÿÿÿ
+?
+java:S1068 ")Remove this unused "day11" private field.(âÕ†
+?
+java:S1068!")Remove this unused "day12" private field.(øÚéŠ
+?
+java:S1068"")Remove this unused "day13" private field.(¼ÏôÚ
+?
+java:S1068#")Remove this unused "day14" private field.(Îàíø
+D
+java:S1068$")Remove this unused "day15" private field.(±¥„åùÿÿÿÿ
+D
+java:S1068%")Remove this unused "day16" private field.(êÆÓÆýÿÿÿÿ
+?
+java:S1068&")Remove this unused "day17" private field.(ÊœåÆ
+?
+java:S1068'")Remove this unused "day18" private field.(–ñÂš
+D
+java:S1068(")Remove this unused "day19" private field.(¿ßº­ýÿÿÿÿ
+D
+java:S1068)")Remove this unused "day20" private field.(ßÜñõùÿÿÿÿ
+?
+java:S1068*")Remove this unused "day21" private field.(Ã­²
+?
+java:S1068+")Remove this unused "day22" private field.(çÏ«¿
+?
+java:S1068,")Remove this unused "day23" private field.(†‚Ùƒ
+D
+java:S1068-")Remove this unused "day24" private field.(€åËèýÿÿÿÿ
+?
+java:S1068.")Remove this unused "day25" private field.(¹µ²¼
+?
+java:S1068/")Remove this unused "day26" private field.(§¨¸
+D
+java:S10680")Remove this unused "day27" private field.(°âŽºýÿÿÿÿ
+?
+java:S10681")Remove this unused "day28" private field.(çÐ’Æ
+D
+java:S10682")Remove this unused "day29" private field.(çúÖÔûÿÿÿÿ
+>
+java:S10683")Remove this unused "day30" private field.(ÉÕ“h
+?
+java:S10684")Remove this unused "day31" private field.(÷Ñ²³
+G
+java:S10686",Remove this unused "end_perc" private field.(ùçÊŸûÿÿÿÿ
+E
+java:S1068?"*Remove this unused "writer" private field.(†¦ÈŒÿÿÿÿÿ

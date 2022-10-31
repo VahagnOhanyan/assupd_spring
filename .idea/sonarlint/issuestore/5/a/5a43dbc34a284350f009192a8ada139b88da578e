@@ -1,0 +1,61 @@
+
+L
+java:S3740"/Provide the parametrized type for this generic.(ŸÌ¶‡8¸ã×Ñ¢0
+Q
+java:S3740"/Provide the parametrized type for this generic.(ÒÄµ±şÿÿÿÿ8¹ã×Ñ¢0
+L
+java:S3740"/Provide the parametrized type for this generic.(¢¿¼ 8¹ã×Ñ¢0
+K
+java:S37406"/Provide the parametrized type for this generic.(ßø¼8¹ã×Ñ¢0
+L
+java:S37407"/Provide the parametrized type for this generic.(éû¤Ñ8¹ã×Ñ¢0
+M
+java:S3740"/Provide the parametrized type for this generic.(ß¼±8ºã×Ñ¢0
+t
+java:S1450."RRemove the "sql" field and declare it as a local variable in the relevant methods.(‡šß¢ùÿÿÿÿ8Ãã×Ñ¢0
+p
+java:S3776Š"RRefactor this method to reduce its Cognitive Complexity from 36 to the 15 allowed.(¯øò8òã×Ñ¢0
+9
+java:S3626º"Remove this redundant jump.(ûÁİ…8öã×Ñ¢0
+‰
+java:S2178š"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ˆÖôèıÿÿÿÿ8úã×Ñ¢0
+‰
+java:S2178š"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ˆÖôèıÿÿÿÿ8ûã×Ñ¢0
+‰
+java:S2178š"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ˆÖôèıÿÿÿÿ8ûã×Ñ¢0
+‰
+java:S2178š"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ˆÖôèıÿÿÿÿ8ûã×Ñ¢0
+‰
+java:S2178š"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ˆÖôèıÿÿÿÿ8ûã×Ñ¢0
+‰
+java:S2178š"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ˆÖôèıÿÿÿÿ8üã×Ñ¢0
+„
+java:S2178Ã"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(é¾•8ˆä×Ñ¢0
+„
+java:S2178Å"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ä­é¦8‰ä×Ñ¢0
+„
+java:S2178Å"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ä­é¦8Šä×Ñ¢0
+„
+java:S2178Å"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ä­é¦8Šä×Ñ¢0
+„
+java:S2178ó"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ä­é¦8—ä×Ñ¢0
+„
+java:S2178ó"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ä­é¦8—ä×Ñ¢0
+„
+java:S2178ó"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(ä­é¦8˜ä×Ñ¢0
+„
+java:S2178€"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Ñ³à8ä×Ñ¢0
+„
+java:S2178€"fCorrect this "&" to "&&" and extract the right operand to a variable if it should always be evaluated.(Ñ³à8ä×Ñ¢0
+„
+java:S2178€"fCorrect this "|" to "||" and extract the right operand to a variable if it should always be evaluated.(Ñ³à8 ä×Ñ¢0
+R
+java:S10684"0Remove this unused "confirmAlert" private field.(™ñ—îüÿÿÿÿ8µä×Ñ¢0
+Ÿ
+java:S1192¸"|Define a constant instead of duplicating this literal "Ğ—Ğ°Ğ¿Ğ¾Ğ»Ğ½Ğ¸Ñ‚Ğµ Ğ²ÑĞµ Ğ¾Ğ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ñ‹Ğµ Ğ¿Ğ¾Ğ»Ñ" 4 times.(Û¤ú¬úÿÿÿÿ8·ä×Ñ¢0
+f
+java:S1192 "IDefine a constant instead of duplicating this literal "SELECT '" 3 times.(Å®ÉW8·ä×Ñ¢0
+°
+java:S1192®"ŒDefine a constant instead of duplicating this literal "Ğ¢Ğ°Ğ±ĞµĞ»ÑŒĞ½Ñ‹Ğ¹ Ğ½Ğ¾Ğ¼ĞµÑ€ Ğ¸Ğ»Ğ¸ Ğ»Ğ¾Ğ³Ğ¸Ğ½ ÑƒĞ¶Ğµ ÑÑƒÑ‰ĞµÑÑ‚Ğ²ÑƒĞµÑ‚" 3 times.(‰ê–Ìÿÿÿÿÿ8¸ä×Ñ¢0
+j
+java:S1192­"MDefine a constant instead of duplicating this literal "ĞÑˆĞ¸Ğ±ĞºĞ°" 5 times.(é—¨8¸ä×Ñ¢0
