@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="calendarPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1310.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ctp.asupdspring.controllers.CalendarController">
+    <children>
+        <Label fx:id="yearLabel" layoutX="632.0" text="fsd">
+            <font>
+                <Font name="Calibri Bold" size="36.0" />
+            </font></Label>
+
+        <Button fx:id="backBtn" disable="false" layoutX="531.0" layoutY="5.0" mnemonicParsing="false" onAction="#actionChangeYear" prefHeight="31.0" prefWidth="89.0" text="&lt; назад" AnchorPane.leftAnchor="531.0" AnchorPane.topAnchor="5.0" />
+        <Button fx:id="forwardBtn" disable="false" layoutX="715.0" layoutY="5.0" mnemonicParsing="false" onAction="#actionChangeYear" prefHeight="31.0" prefWidth="89.0" text="вперед &gt;" AnchorPane.leftAnchor="715.0" AnchorPane.topAnchor="5.0" />
+        <TableView fx:id="calendarView" editable="true" layoutX="11.0" layoutY="43.0" prefHeight="417.0" prefWidth="1271.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="43.0" />
+    </children>
+</AnchorPane>

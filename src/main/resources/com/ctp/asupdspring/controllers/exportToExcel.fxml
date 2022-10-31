@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="anchorPahe" prefHeight="169.0" prefWidth="297.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ctp.asupdspring.controllers.ExportToExcelController">
+    <ComboBox fx:id="monthYear" layoutX="84.0" layoutY="38.0" prefHeight="26.0" prefWidth="127.0"/>
+    <Button fx:id="exportToExcel" disable="true" layoutX="85.0" layoutY="106.0" mnemonicParsing="false" onAction="#exportToExcel" prefHeight="26.0"
+            prefWidth="127.0" text="Выгрузить в Excel"/>
+</AnchorPane>

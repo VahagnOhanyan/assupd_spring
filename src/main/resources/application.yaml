@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://10.230.5.243:5432/pm_db_alpha
+    username: postgres
+    password: M6k4V@9$rXuih~!Fer
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        generate_statistics: true
+        use_sql_comments: true
+        format_sql: true
+org:
+  hibernate:
+    stat: DEBUG
+    SQL: DEBUG
+    SQL_SLOW: INFO
+    cache: DEBUG
+    type:
+     descriptor:
+      sql: TRACE

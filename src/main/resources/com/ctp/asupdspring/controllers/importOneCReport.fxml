@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="anchorPahe" prefHeight="205.0" prefWidth="296.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.ctp.asupdspring.controllers.ImportOneCReportController">
+    <Button fx:id="browse" layoutX="84.0" layoutY="50.0" mnemonicParsing="false" onAction="#browse" prefHeight="26.0" prefWidth="127.0" text="Открыть"/>
+    <Button fx:id="upload1C" disable="true" layoutX="84.0" layoutY="95.0" mnemonicParsing="false" onAction="#upload1C" prefHeight="26.0" prefWidth="127.0"
+            text="Импорт 1С"/>
+    <Button fx:id="openExportToExcelWindow" disable="true" layoutX="84.0" layoutY="135.0" mnemonicParsing="false" onAction="#openExportToExcelWindow"
+            prefHeight="26.0" prefWidth="127.0" text="Отчёт 1С - АСУ ПД"/>
+    <Label fx:id="alreadyImported" layoutX="14.0" layoutY="14.0" text="Отчёт за данный период уже загружен" visible="false"/>
+    <Label fx:id="noReportImported" layoutX="77.0" layoutY="170.0" text="Нет загруженных отчётов" visible="false"/>
+
+</AnchorPane>
